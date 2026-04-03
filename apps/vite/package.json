@@ -23,7 +23,11 @@
     "clsx": "2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "6.23.0"
+    "react-router-dom": "6.23.0",
+    "@abdokouta/react-config": "workspace:*",
+    "@abdokouta/react-di": "workspace:*",
+    "@abdokouta/react-logger": "workspace:*",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@eslint/compat": "1.2.8",
