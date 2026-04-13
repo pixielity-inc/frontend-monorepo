@@ -14,6 +14,7 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
+import { viteConfigPlugin } from "@abdokouta/react-config/vite-plugin";
 
 /**
  * Vite configuration factory.
@@ -78,6 +79,12 @@ export default defineConfig(({ mode }) => {
        * Replaces the PostCSS-based approach for better HMR performance.
        */
       tailwindcss(),
+
+      /**
+       * Config plugin — injects env vars into window.__APP_CONFIG__ so
+       * ConfigService (EnvDriver) can read them at runtime in the browser.
+       */
+      viteConfigPlugin({ env }),
     ],
 
     // -------------------------------------------------------------------------
