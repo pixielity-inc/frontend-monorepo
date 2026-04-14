@@ -276,7 +276,15 @@ function registerIpcHandlers(): void {
   |
   */
   ipcMain.on("menu:set", (_event, menus: SerializedMenu[]) => {
+    console.log("[Main] ──────────────────────────────────────");
+    console.log("[Main] Received menu:set IPC from renderer");
+    console.log("[Main] Menu sections:", menus.length);
+    for (const menu of menus) {
+      console.log(`[Main]   ${menu.label}: ${menu.items.length} items`);
+    }
     buildMenuFromTemplate(menus);
+    console.log("[Main] ✅ Native menu rebuilt");
+    console.log("[Main] ──────────────────────────────────────");
   });
 
   /*
@@ -332,7 +340,7 @@ function registerIpcHandlers(): void {
 */
 
 app.whenReady().then(() => {
-  createDefaultMenu();
+  // createDefaultMenu();
   registerIpcHandlers();
   createWindow();
 

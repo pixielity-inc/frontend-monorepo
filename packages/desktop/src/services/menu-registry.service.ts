@@ -64,11 +64,18 @@ export class MenuRegistry {
 
     // Read @Menu metadata.
     const menuMeta: MenuMetadata | undefined = Reflect.getMetadata(MENU_METADATA, constructor);
-    if (!menuMeta) return;
+    if (!menuMeta) {
+      console.log(`[MenuRegistry] No @Menu metadata on ${constructor.name} — skipping`);
+      return;
+    }
+
+    console.log(`[MenuRegistry] Registering @Menu('${menuMeta.id}') from ${constructor.name}`);
 
     // Read @MenuItem metadata from methods.
     const itemsMeta: MenuItemMetadata[] =
       Reflect.getMetadata(MENU_ITEM_METADATA, constructor) ?? [];
+
+    console.log(`[MenuRegistry]   Found ${itemsMeta.length} @MenuItem methods`);
 
     // Get or create the menu section.
     let menu = this.menus.get(menuMeta.id);

@@ -90,10 +90,17 @@ export class DesktopModule {
   |
   */
   static forFeature(menuClasses: Array<new (...args: any[]) => any>): DynamicModule {
+    console.log(
+      `[DesktopModule.forFeature] Registering ${menuClasses.length} menu classes:`,
+      menuClasses.map((c) => c.name),
+    );
     for (const MenuClass of menuClasses) {
       const instance = new MenuClass();
       globalMenuRegistry.register(instance);
     }
+    console.log(
+      `[DesktopModule.forFeature] MenuRegistry now has ${globalMenuRegistry.size} sections`,
+    );
     return { module: DesktopModule, providers: [], exports: [] };
   }
 

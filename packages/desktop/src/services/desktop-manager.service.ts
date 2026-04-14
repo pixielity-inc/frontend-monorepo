@@ -40,21 +40,53 @@ export class DesktopManager implements OnModuleInit {
   |--------------------------------------------------------------------------
   | onModuleInit — called after DI container is fully bootstrapped
   |--------------------------------------------------------------------------
-  |
-  | At this point, all forFeature() calls have run and the MenuRegistry
-  | has all @Menu items collected. We send the template to the main process.
-  |
   */
   onModuleInit(): void {
-    if (!this.isDesktop) return;
+    console.log("[DesktopManager] ──────────────────────────────────────");
+    console.log("[DesktopManager] onModuleInit called");
+    console.log("[DesktopManager] Platform:", this.isDesktop ? "Electron" : "Browser");
+    console.log("[DesktopManager] App name:", this.config.appName);
+    console.log("[DesktopManager] MenuRegistry size:", this.menuRegistry.size);
+
+    // Log all collected menus.
+    const template = this.menuRegistry.buildTemplate();
+    console.log(
+      "[DesktopManager] Menu sections:",
+      template.map((m) => `${m.label} (${m.items.length} items)`),
+    );
+
+    if (template.length > 0) {
+      console.log("[DesktopManager] Full menu template:");
+      for (const menu of template) {
+        console.log(`  [${menu.id}] ${menu.label} (order: ${menu.order})`);
+        for (const item of menu.items) {
+          if (item.type === "separator") {
+            console.log("    ── separator ──");
+          } else if (item.role) {
+            console.log(`    [role] ${item.role}`);
+          } else {
+            console.log(
+              `    ${item.label} ${item.accelerator ? `(${item.accelerator})` : ""} → ${item.ipcChannel || "no handler"}`,
+            );
+          }
+        }
+      }
+    } else {
+      console.log("[DesktopManager] ⚠️ No menu items registered");
+    }
+
+    console.log("[DesktopManager] IPC channels:", this.menuRegistry.getChannels());
+
+    if (!this.isDesktop) {
+      console.log("[DesktopManager] Not in Electron — skipping IPC send");
+      console.log("[DesktopManager] ──────────────────────────────────────");
+      return;
+    }
 
     // Send the menu template to the Electron main process.
-    const template = this.menuRegistry.buildTemplate();
     if (template.length > 0) {
       this.bridge.send("menu:set", template);
-      console.log(
-        `[DesktopManager] Sent menu template to main process: ${template.map((m) => m.label).join(", ")}`,
-      );
+      console.log("[DesktopManager] ✅ Sent menu:set IPC to main process");
     }
 
     // Register IPC listeners for menu action callbacks.
@@ -62,8 +94,11 @@ export class DesktopManager implements OnModuleInit {
       const handler = this.menuRegistry.getHandler(channel);
       if (handler) {
         this.bridge.onMenuAction(channel, handler);
+        console.log(`[DesktopManager] ✅ Registered handler: ${channel}`);
       }
     }
+
+    console.log("[DesktopManager] ──────────────────────────────────────");
   }
 
   /** Get the platform bridge. */
