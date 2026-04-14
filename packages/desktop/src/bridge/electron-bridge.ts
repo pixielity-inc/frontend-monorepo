@@ -7,7 +7,7 @@
  * @module @abdokouta/ts-desktop
  */
 
-import type { DesktopBridge } from "@/interfaces";
+import type { DesktopBridge } from '@/interfaces';
 
 /** The shape of window.electronAPI exposed by the preload script. */
 interface ElectronAPI {
@@ -34,7 +34,7 @@ export class ElectronBridge implements DesktopBridge {
   private get api(): ElectronAPI {
     if (!window.electronAPI) {
       throw new Error(
-        "[DesktopBridge] window.electronAPI not available. Is the preload script loaded?",
+        '[DesktopBridge] window.electronAPI not available. Is the preload script loaded?'
       );
     }
     return window.electronAPI;

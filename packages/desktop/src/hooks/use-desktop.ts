@@ -17,9 +17,9 @@
  * ```
  */
 
-import { useInject } from "@abdokouta/ts-container-react";
-import { DesktopManager } from "@/services/desktop-manager.service";
-import type { DesktopBridge } from "@/interfaces";
+import { useInject } from '@abdokouta/ts-container-react';
+import { DesktopManager } from '@/services/desktop-manager.service';
+import type { DesktopBridge } from '@/interfaces';
 
 export function useDesktop(): DesktopBridge {
   const manager = useInject(DesktopManager);

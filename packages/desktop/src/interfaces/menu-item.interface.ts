@@ -11,7 +11,7 @@ export interface MenuItemOptions {
   /** Keyboard shortcut (e.g. 'CmdOrCtrl+N'). */
   accelerator?: string;
   /** Menu item type. */
-  type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+  type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
   /** Electron role (undo, redo, cut, copy, paste, quit, etc.). */
   role?: string;
   /** Whether the item is enabled. @default true */

@@ -18,17 +18,17 @@
  * @module @abdokouta/ts-desktop
  */
 
-import "reflect-metadata";
-import { Injectable } from "@abdokouta/ts-container";
+import 'reflect-metadata';
+import { Injectable } from '@abdokouta/ts-container';
 
-import { MENU_METADATA, MENU_ITEM_METADATA } from "@/constants";
-import type { MenuMetadata, MenuItemMetadata } from "@/interfaces";
+import { MENU_METADATA, MENU_ITEM_METADATA } from '@/constants';
+import type { MenuMetadata, MenuItemMetadata } from '@/interfaces';
 
 /** A serialisable menu item for IPC transport to the main process. */
 export interface SerializedMenuItem {
   label?: string;
   accelerator?: string;
-  type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+  type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
   role?: string;
   enabled?: boolean;
   visible?: boolean;
@@ -49,13 +49,13 @@ export interface SerializedMenu {
  * e.g. 'CmdOrCtrl+N' → ['command', 'N'] on Mac, ['ctrl', 'N'] on Windows
  */
 function acceleratorToKeys(accelerator: string): string[] {
-  return accelerator.split("+").map((key) => {
+  return accelerator.split('+').map((key) => {
     const k = key.trim().toLowerCase();
-    if (k === "cmdorctrl" || k === "commandorcontrol") return "command";
-    if (k === "cmd" || k === "command") return "command";
-    if (k === "ctrl" || k === "control") return "ctrl";
-    if (k === "alt" || k === "option") return "alt";
-    if (k === "shift") return "shift";
+    if (k === 'cmdorctrl' || k === 'commandorcontrol') return 'command';
+    if (k === 'cmd' || k === 'command') return 'command';
+    if (k === 'ctrl' || k === 'control') return 'ctrl';
+    if (k === 'alt' || k === 'option') return 'alt';
+    if (k === 'shift') return 'shift';
     return key.trim().toUpperCase();
   });
 }
@@ -113,11 +113,11 @@ export class MenuRegistry {
       const serialized: SerializedMenuItem = {
         label: itemMeta.options.label,
         accelerator: itemMeta.options.accelerator,
-        type: itemMeta.options.type ?? "normal",
+        type: itemMeta.options.type ?? 'normal',
         role: itemMeta.options.role,
         enabled: itemMeta.options.enabled ?? true,
         visible: itemMeta.options.visible ?? true,
-        ipcChannel: itemMeta.options.type === "separator" ? undefined : ipcChannel,
+        ipcChannel: itemMeta.options.type === 'separator' ? undefined : ipcChannel,
       };
 
       menu.items.push(serialized);
@@ -125,7 +125,7 @@ export class MenuRegistry {
       // Register the handler callback.
       if (serialized.ipcChannel) {
         const handler = (instance as unknown as Record<string, Function>)[itemMeta.method];
-        if (typeof handler === "function") {
+        if (typeof handler === 'function') {
           const boundHandler = handler.bind(instance);
           this.handlers.set(ipcChannel, boundHandler);
 

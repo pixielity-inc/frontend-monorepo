@@ -8,17 +8,17 @@
  * @module @abdokouta/ts-desktop
  */
 
-import type { DesktopBridge } from "@/interfaces";
+import type { DesktopBridge } from '@/interfaces';
 
 export class BrowserBridge implements DesktopBridge {
   readonly isDesktop = false;
 
   getAppVersion(): string {
-    return "0.0.0-web";
+    return '0.0.0-web';
   }
 
   async print(html: string): Promise<void> {
-    const win = window.open("", "_blank", "width=400,height=600");
+    const win = window.open('', '_blank', 'width=400,height=600');
     if (win) {
       win.document.write(html);
       win.document.close();
@@ -29,13 +29,13 @@ export class BrowserBridge implements DesktopBridge {
   }
 
   async openCashDrawer(): Promise<void> {
-    console.warn("[BrowserBridge] Cash drawer not available in browser.");
+    console.warn('[BrowserBridge] Cash drawer not available in browser.');
   }
 
   async exportFile(data: string, filename: string): Promise<string | null> {
-    const blob = new Blob([data], { type: "text/plain" });
+    const blob = new Blob([data], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = filename;
     a.click();
@@ -44,11 +44,11 @@ export class BrowserBridge implements DesktopBridge {
   }
 
   async notify(title: string, body: string): Promise<void> {
-    if ("Notification" in window && Notification.permission === "granted") {
+    if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(title, { body });
-    } else if ("Notification" in window) {
+    } else if ('Notification' in window) {
       const perm = await Notification.requestPermission();
-      if (perm === "granted") new Notification(title, { body });
+      if (perm === 'granted') new Notification(title, { body });
     }
   }
 

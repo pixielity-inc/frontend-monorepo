@@ -20,9 +20,9 @@
  * ```
  */
 
-import "reflect-metadata";
-import { MENU_ITEM_METADATA } from "@/constants";
-import type { MenuItemOptions, MenuItemMetadata } from "@/interfaces";
+import 'reflect-metadata';
+import { MENU_ITEM_METADATA } from '@/constants';
+import type { MenuItemOptions, MenuItemMetadata } from '@/interfaces';
 
 export function MenuItem(options: MenuItemOptions = {}): MethodDecorator {
   return (target: object, propertyKey: string | symbol) => {

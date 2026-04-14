@@ -16,9 +16,9 @@
  * ```
  */
 
-import "reflect-metadata";
-import { MENU_METADATA } from "@/constants";
-import type { MenuMetadata } from "@/interfaces";
+import 'reflect-metadata';
+import { MENU_METADATA } from '@/constants';
+import type { MenuMetadata } from '@/interfaces';
 
 export function Menu(id: string, options?: { label?: string; order?: number }): ClassDecorator {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

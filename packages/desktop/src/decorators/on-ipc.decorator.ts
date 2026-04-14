@@ -15,8 +15,8 @@
  * ```
  */
 
-import "reflect-metadata";
-import { ON_IPC_METADATA } from "@/constants";
+import 'reflect-metadata';
+import { ON_IPC_METADATA } from '@/constants';
 
 export interface OnIpcMetadata {
   channel: string;

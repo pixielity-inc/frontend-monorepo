@@ -15,8 +15,8 @@
  * ```
  */
 
-import { useEffect } from "react";
-import { useDesktop } from "./use-desktop";
+import { useEffect } from 'react';
+import { useDesktop } from './use-desktop';
 
 export function useMenuAction(channel: string, callback: (...args: unknown[]) => void): void {
   const bridge = useDesktop();
