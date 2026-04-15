@@ -8,6 +8,10 @@
  * | Renders nothing — just attaches a global keydown listener that
  * | checks every keystroke against the registered shortcuts.
  * |
+ * | In Electron mode, menu shortcuts (id starting with "menu:") are
+ * | handled by the native menu — we skip them here to prevent
+ * | double execution.
+ * |
  * | Place this once in the app shell (Provider) to enable all shortcuts.
  * |
  * @module @pixielity/vite
@@ -16,9 +20,11 @@
 import { useEffect, useCallback } from "react";
 import { shortcutRegistry } from "@abdokouta/kbd";
 
+/** Whether we're running inside Electron. */
+const isElectron = typeof window !== "undefined" && !!(window as any).electronAPI;
+
 /**
  * Normalizes a key string to match event.key values.
- * e.g. "command" → checks metaKey, "ctrl" → checks ctrlKey
  */
 const MODIFIER_MAP: Record<
   string,
@@ -52,8 +58,15 @@ export function GlobalShortcuts() {
       if (isInput && !shortcut.allowInInput) continue;
       if (shortcut.condition && !shortcut.condition()) continue;
 
-      const keys = shortcutRegistry.resolveKeys(shortcut.keys);
+      /*
+      |--------------------------------------------------------------------------
+      | In Electron, skip menu shortcuts — the native menu handles them.
+      | Menu shortcuts have IDs like "menu:file:newOrder".
+      |--------------------------------------------------------------------------
+      */
+      if (isElectron && shortcut.id.startsWith("menu:")) continue;
 
+      const keys = shortcutRegistry.resolveKeys(shortcut.keys);
       if (!keys || keys.length === 0) continue;
 
       /*
@@ -107,10 +120,8 @@ export function GlobalShortcuts() {
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  /* Renders nothing — this is a behavior-only component. */
   return null;
 }
