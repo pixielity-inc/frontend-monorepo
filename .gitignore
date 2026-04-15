@@ -6,6 +6,11 @@ node_modules
 .pnp.js
 .yarn
 
+# Embedded git repositories (should be submodules or separate repos)
+packages/vite/i18n
+packages/vite/ngrok
+packages/vite/qrcode
+
 # Local env files
 .env
 .env*.local
