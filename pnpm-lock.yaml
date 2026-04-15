@@ -836,6 +836,10 @@ importers:
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
 
   packages/pwa:
+    dependencies:
+      '@abdokouta/ts-container':
+        specifier: workspace:*
+        version: link:../container/container
     devDependencies:
       '@nesvel/eslint-config':
         specifier: ^1.0.5
