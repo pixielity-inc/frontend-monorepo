@@ -6,7 +6,7 @@
  * @module @abdokouta/config
  */
 
-import type { ConfigModuleOptions } from '../interfaces/config-module-options.interface';
+import type { ConfigModuleOptions } from '@/interfaces';
 
 /**
  * Helper function to define config module options with type safety

@@ -15,7 +15,7 @@
  * ```
  */
 
-import type { Seeder } from '../seeder/seeder';
+import type { Seeder } from '@/seeder/seeder';
 
 /** A Seeder class constructor. */
 type SeederClass = new () => Seeder;

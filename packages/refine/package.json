@@ -1,11 +1,40 @@
 {
-  "name": "@repo/refine",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@abdokouta/react-refine",
+  "version": "1.0.2",
+  "description": "Refine Framework integration with dependency injection for React applications",
+  "license": "MIT",
+  "author": {
+    "name": "Abdelrhman Kouta",
+    "email": "abdelrhman@abdokouta.com",
+    "url": "https://github.com/abdokouta"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abdokouta/react-refine.git",
+    "directory": "packages/refine"
+  },
+  "bugs": {
+    "url": "https://github.com/abdokouta/react-refine/issues"
+  },
+  "homepage": "https://github.com/abdokouta/react-refine#readme",
+  "keywords": [
+    "react",
+    "refine",
+    "data-provider",
+    "crud",
+    "admin",
+    "dependency-injection",
+    "di",
+    "hooks"
+  ],
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/index.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,32 +42,77 @@
       "require": "./dist/index.js"
     }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "clean": "rm -rf dist node_modules/.cache",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
-    "check-types": "tsc --noEmit",
-    "clean": "rm -rf dist"
-  },
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "eslint": "^10.1.0",
-    "tsup": "^8.5.1",
-    "typescript": "6.0.2"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
   },
   "dependencies": {
+    "@abdokouta/ts-container": "workspace:*",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
     "@refinedev/core": "^5.0.11",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@tanstack/react-query": "^5.96.0",
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.1.2",
+    "eslint": "10.2.0",
+    "jsdom": "^29.0.1",
+    "prettier": "^3.8.1",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2",
+    "@nesvel/typescript-config": "^1.0.4",
+    "@nesvel/tsup-config": "^1.0.3",
+    "@nesvel/eslint-config": "^1.0.5",
+    "@nesvel/prettier-config": "^1.0.3",
+    "@vitest/ui": "^4.1.2",
+    "typescript-eslint": "^8.58.0"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
-  }
+    "@abdokouta/ts-container": "workspace:*",
+    "@refinedev/core": "^5.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@abdokouta/ts-container": {
+      "optional": false
+    },
+    "@refinedev/core": {
+      "optional": false
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "sideEffects": false
 }

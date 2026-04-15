@@ -1,54 +1,72 @@
 /**
  * @fileoverview Vitest configuration for @abdokouta/kbd package
  *
- * This configuration sets up the testing environment for the kbd package,
+ * This configuration sets up the testing environment for the package,
  * including test globals, jsdom environment, coverage reporting, and path aliases.
  *
  * Configuration Features:
  * - Globals: Enables global test functions (describe, it, expect)
- * - Environment: Uses jsdom for DOM testing
- * - Setup Files: Runs vitest.setup.ts before tests
+ * - Environment: Uses jsdom for React component testing
+ * - Setup Files: Runs vitest.setup.ts before tests for DI mocking
  * - Coverage: Configures v8 coverage provider with HTML/JSON/text reports
  * - Path Aliases: Resolves @ to ./src for consistent imports
+ * - Pass With No Tests: CI won't fail if no tests exist yet
  *
  * @module @abdokouta/kbd
  * @category Configuration
  */
 
-import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { defineConfig } from "vitest/config";
+import path from "path";
 
 export default defineConfig({
   test: {
-    // Enable global test functions (describe, it, expect, etc.)
+    // Enable global test functions (describe, it, expect, vi, etc.)
+    // without requiring explicit imports in every test file.
     globals: true,
 
-    // Use jsdom environment for DOM testing
-    environment: 'jsdom',
+    // Use jsdom to simulate a browser DOM environment.
+    // Required for testing React hooks and components.
+    // Pure logic tests work fine with jsdom too.
+    environment: "jsdom",
 
-    // Run setup file before tests (now in same directory)
-    setupFiles: ['./__tests__/vitest.setup.ts'],
+    // Runs before every test file. Used for:
+    //   - Mocking DI decorators (@Injectable, @Inject, etc.)
+    //   - Setting up global test utilities
+    setupFiles: ["./__tests__/vitest.setup.ts"],
 
-    // Only include __tests__ directory
-    include: ['__tests__/**/*.{test,spec}.{ts,tsx}'],
+    // Only include files in the __tests__/ directory.
+    // Supports .test.ts, .spec.ts, .test.tsx, .spec.tsx extensions.
+    include: ["__tests__/**/*.{test,spec}.{ts,tsx}"],
 
-    // Coverage configuration
+    // Don't fail the test run if no test files are found.
+    // Useful during initial development before tests are written.
+    passWithNoTests: true,
+
+    // Inline specific ESM-only packages that cause issues with Vitest's
+    // module resolution. Required for inversiland (DI container internals).
+    server: {
+      deps: {
+        inline: ["inversiland", "@inversiland/inversify"],
+      },
+    },
+
+    // v8 coverage provider — faster than istanbul, uses V8's built-in
+    // code coverage. Generates text (terminal), JSON, and HTML reports.
     coverage: {
       // Use v8 coverage provider (faster than istanbul)
-      provider: 'v8',
+      provider: "v8",
 
       // Generate multiple report formats
-      reporter: ['text', 'json', 'html'],
+      reporter: ["text", "json", "html"],
 
       // Exclude files from coverage
       exclude: [
-        'node_modules/',
-        'dist/',
-        'test/',
-        '**/*.test.ts',
-        '**/*.test.tsx',
-        '**/*.stories.tsx',
-        '**/*.config.ts',
+        "node_modules/",
+        "dist/",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.config.ts",
       ],
     },
   },
@@ -56,8 +74,9 @@ export default defineConfig({
   // Resolve path aliases
   resolve: {
     alias: {
-      // Map @ to ./src for consistent imports
-      '@': path.resolve(__dirname, './src'),
+      // Map @ to ./src so imports like '@/services/cache.service' resolve
+      // correctly in both source code and test files.
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });

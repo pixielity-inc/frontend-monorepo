@@ -6,8 +6,8 @@
  * across `useFind`, `useQuery`, `usePaginate`, `useCreate`, etc.
  */
 
-import type { Model, ModelStatic } from '../model/model';
-import type { QueryBuilder } from '../query/query.builder';
+import type { Model, ModelStatic } from '@/model/model';
+import type { QueryBuilder } from '@/query/query.builder';
 
 // ---------------------------------------------------------------------------
 // Hook Result Types

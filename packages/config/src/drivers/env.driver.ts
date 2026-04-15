@@ -1,5 +1,5 @@
-import type { ConfigDriver } from '../interfaces/config-driver.interface';
-import { getNestedValue, hasNestedValue } from '../utils/get-nested-value.util';
+import type { ConfigDriver } from '@/interfaces';
+import { getNestedValue, hasNestedValue } from '@/utils';
 
 /**
  * Environment Variable Configuration Driver

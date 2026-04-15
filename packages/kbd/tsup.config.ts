@@ -1,44 +1,28 @@
-import { defineConfig } from 'tsup';
-import { NodeResolvePlugin } from '@esbuild-plugins/node-resolve';
+/**
+ * @fileoverview tsup build configuration for @abdokouta/kbd package
+ *
+ * This configuration extends the @nesvel/tsup-config base preset
+ * with a custom entry point (index.tsx instead of index.ts).
+ *
+ * @module @abdokouta/kbd
+ * @category Configuration
+ * @see https://tsup.egoist.dev/
+ */
 
-export default defineConfig((options) => ({
-  entry: ['src/index.tsx'],
-  splitting: false,
-  sourcemap: true,
-  clean: false,
-  dts: true,
-  minify: false,
-  format: ['cjs', 'esm'],
-  outExtension: ({ format }) => ({ js: format === 'cjs' ? '.cjs' : '.mjs' }),
-  platform: 'browser',
-  esbuildPlugins: [
-    NodeResolvePlugin({
-      extensions: ['.js', 'ts', 'tsx', 'jsx'],
-      onResolved: (resolved) => {
-        if (resolved.includes('node_modules')) {
-          return {
-            external: true,
-          };
-        }
-        return resolved;
-      },
-    }),
-  ],
-  esbuildOptions(options) {
-    options.keepNames = true;
-    options.external = [
-      ...(options.external || []),
-      '@abdokouta/ts-container',
-      '@abdokouta/react-support',
-      '@heroui/react',
-      'lucide-react',
-      'react',
-      'react-dom',
-      'react/jsx-runtime',
-    ];
-    options.banner = {
-      js: '"use client"',
-    };
-  },
-  onSuccess: options.watch ? 'pnpm types' : undefined,
-}));
+// Import the base preset and the package.json loader utility
+import {
+  basePreset,
+  computeExternals,
+  loadPackageJson,
+} from "@nesvel/tsup-config";
+
+// Load package.json to compute externals
+const pkg = loadPackageJson();
+
+export default {
+  ...basePreset,
+  // Override entry point — kbd uses .tsx for JSX components
+  entry: ["src/index.tsx"],
+  // Recompute externals from package.json
+  external: computeExternals(pkg),
+};

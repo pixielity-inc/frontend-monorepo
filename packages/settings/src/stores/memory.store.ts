@@ -7,7 +7,7 @@
  * @module stores/memory
  */
 
-import type { SettingsStore } from '../interfaces/settings-store.interface';
+import type { SettingsStore } from '@/interfaces';
 
 /**
  * In-memory settings store.

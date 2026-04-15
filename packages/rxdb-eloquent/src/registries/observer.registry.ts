@@ -15,8 +15,8 @@
 
 import { Injectable } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/ts-support';
-import { MetadataStorage } from '../metadata/metadata.storage';
-import type { Observer } from '../model/observer';
+import { MetadataStorage } from '@/metadata/metadata.storage';
+import type { Observer } from '@/model/observer';
 
 /** An Observer class constructor. */
 type ObserverClass = new (...args: any[]) => Observer;

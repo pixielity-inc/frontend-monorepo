@@ -1,24 +1,26 @@
 /**
- * Prettier Configuration
+ * @fileoverview Prettier configuration for @abdokouta/react-refine package
  *
- * |--------------------------------------------------------------------------
- * | @abdokouta/ts-cache
- * |--------------------------------------------------------------------------
- * |
- * | Extends the shared @nesvel/prettier-config for consistent formatting
- * | across all packages in the monorepo.
- * |
- * | The shared config provides:
- * |   - Single quotes
- * |   - Trailing commas (ES5)
- * |   - 100 character print width
- * |   - 2 space indentation
- * |   - Semicolons enabled
- * |
+ * Extends the shared @nesvel/prettier-config for consistent code formatting
+ * across all packages in the monorepo.
+ *
+ * Shared Config Provides:
+ * - Single quotes for strings
+ * - Trailing commas (ES5 style)
+ * - 100 character print width
+ * - 2 space indentation
+ * - Semicolons enabled
+ * - LF line endings
+ *
+ * @module @abdokouta/react-refine
+ * @category Configuration
  * @see https://prettier.io/docs/en/configuration
  */
 
+// Extend the shared Nesvel Prettier configuration.
+// All formatting rules are defined in the shared config —
+// no package-specific overrides needed.
 /** @type {string} */
-const config = '@nesvel/prettier-config';
+const config = "@nesvel/prettier-config";
 
 export default config;

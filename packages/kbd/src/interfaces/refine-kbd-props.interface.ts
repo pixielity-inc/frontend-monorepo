@@ -6,8 +6,8 @@
  * @module types/RefineKbdProps
  */
 
-import type { KeyValue } from '../types/key-value.type';
-import type { KbdVariant } from '../types/kbd-variant.type';
+import type { KeyValue } from '@/types';
+import type { KbdVariant } from '@/types';
 
 /**
  * Props for the RefineKbd component.

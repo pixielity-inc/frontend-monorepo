@@ -1,7 +1,7 @@
 {
   "name": "@abdokouta/ts-events",
   "version": "0.2.0",
-  "description": "Laravel-style event dispatcher for TypeScript — pub/sub with wildcard listeners, subscribers, decorators, multiple drivers (memory, redis, null), and RxJS streaming.",
+  "description": "Laravel-style event dispatcher for TypeScript \u2014 pub/sub with wildcard listeners, subscribers, decorators, multiple drivers (memory, redis, null), and RxJS streaming.",
   "license": "MIT",
   "author": {
     "name": "Abdelrhman Kouta",
@@ -50,7 +50,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run --passWithNoTests",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
   },
   "dependencies": {
     "rxjs": "^7.8.1"
@@ -89,10 +92,21 @@
     "@types/node": "^25.5.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.2",
+    "eslint": "10.2.0",
+    "prettier": "^3.8.1",
+    "@nesvel/eslint-config": "^1.0.5",
+    "@nesvel/prettier-config": "^1.0.3",
+    "@vitest/ui": "^4.1.2",
+    "jsdom": "^29.0.1",
+    "typescript-eslint": "^8.58.0"
   },
   "engines": {
     "node": ">=18.0.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -1,46 +1,55 @@
 /**
  * @fileoverview Vitest setup file for @abdokouta/ts-desktop package
  *
- * Configures the testing environment before running tests.
- * Mocks DI decorators and the Electron preload API.
+ * This file configures the testing environment before running tests.
+ * It mocks DI decorators so tests can run without the full IoC container.
  *
  * Setup Features:
- * - Container decorator mocking for DI tests
- * - window.electronAPI mock for bridge tests
+ * - Mocks @Injectable() decorator to pass-through the class unchanged
+ * - Mocks @Inject() decorator to no-op (no actual injection in tests)
+ * - Mocks @Optional() decorator to no-op
+ * - Mocks @Module() decorator to pass-through the class unchanged
+ *
+ * This allows testing service logic in isolation without bootstrapping
+ * the entire DI container.
  *
  * @module @abdokouta/ts-desktop
  * @category Configuration
  */
 
-import { vi } from 'vitest';
+import { vi } from "vitest";
 
 /**
- * Mock @abdokouta/ts-container decorators
+ * Mock @abdokouta/ts-container decorators.
  *
- * Ensures decorator metadata doesn't interfere with tests
+ * Replaces DI decorators with no-op implementations so that:
+ * - Classes decorated with @Injectable() are returned unchanged
+ * - Constructor parameters decorated with @Inject() are ignored
+ * - @Optional() parameters are ignored
+ * - @Module() metadata is ignored
+ *
+ * This ensures decorator metadata doesn't interfere with tests
  * and allows testing module behavior in isolation.
  */
-vi.mock('@abdokouta/ts-container', async () => {
-  const actual = await vi.importActual('@abdokouta/ts-container');
+vi.mock("@abdokouta/ts-container", async () => {
+  // Import the actual module to preserve non-decorator exports
+  const actual = await vi.importActual("@abdokouta/ts-container");
+
   return {
     ...actual,
+
+    // @Injectable() — returns the class unchanged (no container registration)
     Injectable: () => (target: any) => target,
-    Inject: () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
-    Optional: () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
+
+    // @Inject(TOKEN) — no-op (no actual parameter injection)
+    Inject:
+      () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
+
+    // @Optional() — no-op (no optional injection handling)
+    Optional:
+      () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
+
+    // @Module(metadata) — returns the class unchanged (no module registration)
     Module: (_metadata: any) => (target: any) => target,
   };
-});
-
-/**
- * Mock window.electronAPI for Electron bridge tests.
- *
- * Provides a no-op implementation of the preload API
- * so ElectronBridge can be tested without a real Electron environment.
- */
-Object.defineProperty(globalThis, 'window', {
-  value: {
-    ...globalThis.window,
-    electronAPI: undefined, // Set to mock object in individual tests when needed
-  },
-  writable: true,
 });

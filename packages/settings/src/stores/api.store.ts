@@ -8,7 +8,7 @@
  * @module stores/api
  */
 
-import type { SettingsStore } from '../interfaces/settings-store.interface';
+import type { SettingsStore } from '@/interfaces';
 import type { ApiStoreConfig } from '@/interfaces/api-store-config.interface';
 
 /**

@@ -1,7 +1,7 @@
 {
   "name": "@abdokouta/ts-container",
   "version": "1.2.2",
-  "description": "NestJS-style dependency injection for React and client-side applications. Decorators, container, injector, scanner, module system — built from scratch, no Inversify.",
+  "description": "NestJS-style dependency injection for React and client-side applications. Decorators, container, injector, scanner, module system \u2014 built from scratch, no Inversify.",
   "keywords": [
     "dependency-injection",
     "di",
@@ -38,7 +38,15 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
   },
   "dependencies": {
     "reflect-metadata": "^0.2.2"
@@ -48,7 +56,15 @@
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
     "@nesvel/typescript-config": "^1.0.4",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.2",
+    "eslint": "10.2.0",
+    "prettier": "^3.8.1",
+    "@nesvel/tsup-config": "^1.0.3",
+    "@nesvel/eslint-config": "^1.0.5",
+    "@nesvel/prettier-config": "^1.0.3",
+    "@vitest/ui": "^4.1.2",
+    "jsdom": "^29.0.1",
+    "typescript-eslint": "^8.58.0"
   },
   "engines": {
     "node": ">=18"

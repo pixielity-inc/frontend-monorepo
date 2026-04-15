@@ -1,0 +1,100 @@
+{
+  "name": "@abdokouta/react-multitenancy",
+  "version": "1.0.0",
+  "description": "Multi-tenancy support for Refine with dynamic domain resolution",
+  "keywords": [
+    "refine",
+    "multi-tenancy",
+    "multitenancy",
+    "saas",
+    "tenant",
+    "domain",
+    "subdomain"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/multitenancy"
+  },
+  "license": "MIT",
+  "author": "Refine",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --run --coverage",
+    "test:ui": "vitest --ui",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
+    "clean": "rm -rf dist node_modules/.cache",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
+  },
+  "dependencies": {
+    "@abdokouta/react-cache": "workspace:*",
+    "@abdokouta/ts-container": "workspace:*",
+    "@refinedev/core": "^5.0.11"
+  },
+  "peerDependencies": {
+    "@heroui/react": "^3.0.0",
+    "@refinedev/core": "^5.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@heroui/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@heroui/react": "^3.0.1",
+    "@nesvel/eslint-config": "^1.0.5",
+    "@nesvel/prettier-config": "^1.0.3",
+    "@nesvel/tsup-config": "^1.0.3",
+    "@nesvel/typescript-config": "^1.0.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/ui": "^4.1.2",
+    "jsdom": "^29.0.1",
+    "prettier": "^3.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2",
+    "eslint": "10.2.0",
+    "typescript-eslint": "^8.58.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

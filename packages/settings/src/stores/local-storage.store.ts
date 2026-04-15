@@ -7,7 +7,7 @@
  * @module stores/local-storage
  */
 
-import type { SettingsStore } from '../interfaces/settings-store.interface';
+import type { SettingsStore } from '@/interfaces';
 
 /**
  * localStorage-backed settings store.

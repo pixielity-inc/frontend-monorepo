@@ -1,8 +1,17 @@
 /**
  * @fileoverview Type declarations for Vitest test environment
  *
- * @module @abdokouta/ts-ui
+ * This file extends Vitest's type definitions to include global test
+ * functions (describe, it, expect, vi, etc.) without requiring explicit
+ * imports in every test file.
+ *
+ * Required by the `globals: true` setting in vitest.config.ts.
+ *
+ * @module @abdokouta/ts-pwa
  * @category Configuration
  */
 
-import 'vitest/globals';
+// Extend the global scope with Vitest's test functions.
+// This enables TypeScript to recognize describe, it, expect, vi, etc.
+// as global variables without import statements.
+import "vitest/globals";

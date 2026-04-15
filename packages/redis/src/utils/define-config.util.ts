@@ -6,7 +6,7 @@
  * @module @abdokouta/ts-redis
  */
 
-import type { RedisConfig } from '../interfaces/redis-config.interface';
+import type { RedisConfig } from '@/interfaces';
 
 /**
  * Helper function to define Redis configuration with type safety

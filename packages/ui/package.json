@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "description": "Shared UI primitives — slot system, layout components, and composable patterns for @abdokouta packages",
+  "description": "Shared UI primitives \u2014 slot system, layout components, and composable patterns for @abdokouta packages",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -28,7 +28,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest --run --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\"",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
@@ -46,11 +49,23 @@
     "@types/node": "^25.5.0",
     "@types/react": "^19.0.0",
     "@vitest/ui": "^4.1.2",
-    "eslint": "^10.1.0",
+    "eslint": "10.2.0",
     "prettier": "^3.8.1",
     "react": "^19.0.0",
     "tsup": "^8.5.1",
-    "typescript": "6.0.2",
-    "vitest": "^4.1.2"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2",
+    "@nesvel/tsup-config": "^1.0.3",
+    "jsdom": "^29.0.1",
+    "typescript-eslint": "^8.58.0"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

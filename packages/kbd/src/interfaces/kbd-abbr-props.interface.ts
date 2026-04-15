@@ -6,7 +6,7 @@
  * @module types/KbdAbbrProps
  */
 
-import type { KeyValue } from '../types/key-value.type';
+import type { KeyValue } from '@/types';
 
 /**
  * Props for the Kbd.Abbr component.

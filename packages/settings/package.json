@@ -39,7 +39,15 @@
     "dev": "tsup --watch",
     "clean": "rm -rf dist node_modules/.cache",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm publish --access public --no-git-checks"
   },
   "peerDependencies": {
     "@abdokouta/ts-container": "workspace:*",
@@ -71,7 +79,22 @@
     "@types/react": "^19.2.14",
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.2",
+    "eslint": "10.2.0",
+    "prettier": "^3.8.1",
+    "@nesvel/eslint-config": "^1.0.5",
+    "@nesvel/prettier-config": "^1.0.3",
+    "@vitest/ui": "^4.1.2",
+    "jsdom": "^29.0.1",
+    "typescript-eslint": "^8.58.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

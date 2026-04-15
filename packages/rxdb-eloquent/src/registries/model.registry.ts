@@ -26,10 +26,10 @@ import {
   type OnModuleDestroy,
 } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/ts-support';
-import { ConnectionManager } from '../connection/connection.manager';
-import { SchemaResolver } from '../schema/schema.resolver';
-import { MetadataStorage } from '../metadata/metadata.storage';
-import { Model } from '../model/model';
+import { ConnectionManager } from '@/connection/connection.manager';
+import { SchemaResolver } from '@/schema/schema.resolver';
+import { MetadataStorage } from '@/metadata/metadata.storage';
+import { Model } from '@/model/model';
 
 // ---------------------------------------------------------------------------
 // Types

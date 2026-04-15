@@ -23,7 +23,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { Model } from '../model/model';
+import type { Model } from '@/model/model';
 import type { ModelClass, RefetchableHookResult, QueryHookOptions } from './types';
 
 /**

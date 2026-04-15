@@ -1,5 +1,20 @@
-node_modules
-dist
-*.log
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Testing
+coverage/
+
+# IDE
 .DS_Store
-coverage
+.vscode/
+.idea/
+
+# Turbo
+.turbo/
+
+# Logs
+*.log

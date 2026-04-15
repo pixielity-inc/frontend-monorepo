@@ -1,54 +1,53 @@
-import { defineConfig } from 'tsup';
-import path from 'path';
-
 /**
- * tsup Configuration for @abdokouta/ts-ui Package
+ * @fileoverview tsup build configuration for @abdokouta/ts-ui package
  *
- * |--------------------------------------------------------------------------
- * | Builds the UI package with dual format output (ESM + CJS).
- * |--------------------------------------------------------------------------
- * |
- * | Features:
- * |   - Dual format output (ESM and CJS)
- * |   - TypeScript declaration files
- * |   - Source maps for debugging
- * |   - Path alias resolution (@/ → src/)
- * |   - CSS bundling for styles
- * |   - External React, HeroUI, Framer Motion
- * |
+ * Extends the @nesvel/tsup-config base preset with:
+ * - Custom entry points (index.ts + styles.css)
+ * - esbuild alias for @/ path resolution
+ * - Additional externals for React, HeroUI, Framer Motion
+ *
+ * @module @abdokouta/ts-ui
+ * @category Configuration
  * @see https://tsup.egoist.dev/
  */
-export default defineConfig({
-  entry: ['src/index.ts', 'src/styles.css'],
-  format: ['esm', 'cjs'],
-  dts: true,
-  sourcemap: true,
-  clean: true,
-  minify: false,
-  target: 'es2020',
-  splitting: false,
-  skipNodeModulesBundle: true,
+
+import path from "path";
+import {
+  basePreset,
+  computeExternals,
+  loadPackageJson,
+} from "@nesvel/tsup-config";
+
+// Load package.json to compute externals
+const pkg = loadPackageJson();
+
+export default {
+  ...basePreset,
+
+  // Multiple entry points — main index + CSS styles
+  entry: ["src/index.ts", "src/styles.css"],
+
+  // Recompute externals + add UI-specific externals
   external: [
-    'react',
-    'react-dom',
-    '@heroui/react',
-    '@heroui/theme',
-    'framer-motion',
-    'tailwindcss',
+    ...computeExternals(pkg),
+    "react",
+    "react-dom",
+    "@heroui/react",
+    "@heroui/theme",
+    "framer-motion",
+    "tailwindcss",
   ],
+
+  // CSS loader — copy CSS files to dist
   loader: {
-    '.css': 'copy',
+    ".css": "copy" as const,
   },
-  esbuildOptions(options) {
-    options.jsx = 'automatic';
-    /* Resolve @/ path alias to src/ */
+
+  // esbuild options — resolve @/ path alias
+  esbuildOptions(options: any) {
+    options.jsx = "automatic";
     options.alias = {
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(process.cwd(), "src"),
     };
   },
-  outExtension({ format }) {
-    return {
-      js: format === 'esm' ? '.mjs' : '.js',
-    };
-  },
-});
+};

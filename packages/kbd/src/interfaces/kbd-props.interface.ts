@@ -4,7 +4,7 @@
  * @module types/KbdProps
  */
 
-import type { KbdVariant } from '../types/kbd-variant.type';
+import type { KbdVariant } from '@/types';
 
 /**
  * Props for the base Kbd component from HeroUI.

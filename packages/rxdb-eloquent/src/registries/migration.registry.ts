@@ -17,9 +17,9 @@
 
 import { Injectable, Inject, type OnModuleInit } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/ts-support';
-import type { Migration } from '../migration/migration';
-import { MigrationRunner } from '../migration/migration.runner';
-import { ConnectionManager } from '../connection/connection.manager';
+import type { Migration } from '@/migration/migration';
+import { MigrationRunner } from '@/migration/migration.runner';
+import { ConnectionManager } from '@/connection/connection.manager';
 
 // ---------------------------------------------------------------------------
 // MigrationRegistry

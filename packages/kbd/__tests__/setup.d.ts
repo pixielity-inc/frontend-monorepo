@@ -1,19 +1,17 @@
 /**
- * Type declarations for jest-dom matchers in Vitest
- */
-
-import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
-
-/**
- * Extend Vitest's Assertion interface with jest-dom matchers
+ * @fileoverview Type declarations for Vitest test environment
  *
- * This allows TypeScript to recognize custom matchers like:
- * - toBeInTheDocument()
- * - toHaveTextContent()
- * - toHaveAttribute()
- * - And many more...
+ * This file extends Vitest's type definitions to include global test
+ * functions (describe, it, expect, vi, etc.) without requiring explicit
+ * imports in every test file.
+ *
+ * Required by the `globals: true` setting in vitest.config.ts.
+ *
+ * @module @abdokouta/kbd
+ * @category Configuration
  */
-declare module 'vitest' {
-  interface Assertion<T = any> extends TestingLibraryMatchers<typeof expect.stringContaining, T> {}
-  interface AsymmetricMatchersContaining extends TestingLibraryMatchers<any, any> {}
-}
+
+// Extend the global scope with Vitest's test functions.
+// This enables TypeScript to recognize describe, it, expect, vi, etc.
+// as global variables without import statements.
+import "vitest/globals";

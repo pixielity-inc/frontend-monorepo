@@ -2,26 +2,54 @@
  * @fileoverview Vitest setup file for @abdokouta/kbd package
  *
  * This file configures the testing environment before running tests.
- * It extends Vitest's expect with jest-dom matchers and sets up cleanup.
+ * It mocks DI decorators so tests can run without the full IoC container.
  *
  * Setup Features:
- * - Jest-DOM Matchers: Adds custom matchers like toBeInTheDocument()
- * - Automatic Cleanup: Cleans up DOM after each test
+ * - Mocks @Injectable() decorator to pass-through the class unchanged
+ * - Mocks @Inject() decorator to no-op (no actual injection in tests)
+ * - Mocks @Optional() decorator to no-op
+ * - Mocks @Module() decorator to pass-through the class unchanged
+ *
+ * This allows testing service logic in isolation without bootstrapping
+ * the entire DI container.
  *
  * @module @abdokouta/kbd
  * @category Configuration
  */
 
-import { expect, afterEach } from 'vitest';
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+import { vi } from "vitest";
 
 /**
- * Cleanup after each test
+ * Mock @abdokouta/ts-container decorators.
  *
- * This ensures that the DOM is cleaned up after each test,
- * preventing test pollution and ensuring test isolation.
+ * Replaces DI decorators with no-op implementations so that:
+ * - Classes decorated with @Injectable() are returned unchanged
+ * - Constructor parameters decorated with @Inject() are ignored
+ * - @Optional() parameters are ignored
+ * - @Module() metadata is ignored
+ *
+ * This ensures decorator metadata doesn't interfere with tests
+ * and allows testing module behavior in isolation.
  */
-afterEach(() => {
-  cleanup();
+vi.mock("@abdokouta/ts-container", async () => {
+  // Import the actual module to preserve non-decorator exports
+  const actual = await vi.importActual("@abdokouta/ts-container");
+
+  return {
+    ...actual,
+
+    // @Injectable() — returns the class unchanged (no container registration)
+    Injectable: () => (target: any) => target,
+
+    // @Inject(TOKEN) — no-op (no actual parameter injection)
+    Inject:
+      () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
+
+    // @Optional() — no-op (no optional injection handling)
+    Optional:
+      () => (_target: any, _propertyKey: string, _parameterIndex: number) => {},
+
+    // @Module(metadata) — returns the class unchanged (no module registration)
+    Module: (_metadata: any) => (target: any) => target,
+  };
 });

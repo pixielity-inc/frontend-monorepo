@@ -15,7 +15,7 @@
 
 import { Injectable } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/ts-support';
-import type { Seeder } from '../seeder/seeder';
+import type { Seeder } from '@/seeder/seeder';
 
 /** A Seeder class constructor. */
 type SeederClass = new () => Seeder;
