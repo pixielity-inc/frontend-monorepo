@@ -90,6 +90,7 @@
     "@nesvel/tsup-config": "^1.0.3",
     "@nesvel/typescript-config": "^1.0.4",
     "@types/node": "^25.5.0",
+    "@types/react": "^19.0.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2",
