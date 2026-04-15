@@ -126,7 +126,7 @@ export class MangoQueryGrammar extends QueryGrammar {
   compile(
     state: QueryBuilderState,
     softDeleteField?: string | null,
-    onlyTrashed?: boolean,
+    onlyTrashed?: boolean
   ): MangoQuery {
     const query: MangoQuery = {
       selector: this.compileWheres(state.wheres),

@@ -31,7 +31,7 @@ import type { Store, TaggableStore, TaggedCache } from '@/interfaces';
 export class CacheService {
   constructor(
     private readonly _store: Store,
-    private _defaultTtl: number = 300,
+    private _defaultTtl: number = 300
   ) {}
 
   // ── Read ────────────────────────────────────────────────────────────────

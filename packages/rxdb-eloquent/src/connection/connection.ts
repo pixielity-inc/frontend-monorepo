@@ -221,8 +221,13 @@ export class Connection {
 
         return replicationState;
       } catch (err) {
-        console.warn(`[Connection] setupReplication() — FAILED for "${collectionName}":`, (err as Error).message);
-        console.warn('[Connection] Make sure @supabase/supabase-js is installed: pnpm add @supabase/supabase-js');
+        console.warn(
+          `[Connection] setupReplication() — FAILED for "${collectionName}":`,
+          (err as Error).message
+        );
+        console.warn(
+          '[Connection] Make sure @supabase/supabase-js is installed: pnpm add @supabase/supabase-js'
+        );
         // Don't throw — replication failure shouldn't prevent local operations
         return null;
       }

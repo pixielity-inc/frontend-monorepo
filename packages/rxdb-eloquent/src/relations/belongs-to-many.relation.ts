@@ -119,9 +119,11 @@ export class BelongsToManyRelation<TParent = any, TRelated = any> extends Relati
       const conn = await Model.getConnectionManager().connection(connName);
       const pivotCol = conn.getCollection(this.pivotCollection);
 
-      const pivotDocs = await pivotCol.find({
-        selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } }
-      }).exec();
+      const pivotDocs = await pivotCol
+        .find({
+          selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } },
+        })
+        .exec();
 
       if (pivotDocs.length === 0) return [];
 
@@ -164,32 +166,38 @@ export class BelongsToManyRelation<TParent = any, TRelated = any> extends Relati
           );
           const pivotCol = conn.getCollection(this.pivotCollection);
 
-          sub = pivotCol.find({
-            selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } }
-          }).$.subscribe({
-            next: async (pivotDocs: any[]) => {
-              if (pivotDocs.length === 0) {
-                subscriber.next([]);
-                return;
-              }
-              const relatedKeys = pivotDocs.map((doc: any) => {
-                const data = typeof doc.toJSON === 'function' ? doc.toJSON() : doc;
-                return data[this.relatedPivotKey];
-              });
-              const RelatedModel = this.related;
-              const relatedPK = RelatedModel.primaryKey ?? 'id';
-              const results = await RelatedModel.query().where(relatedPK, 'in', relatedKeys).get();
-              subscriber.next(results);
-            },
-            error: (err: any) => subscriber.error(err),
-            complete: () => subscriber.complete(),
-          });
+          sub = pivotCol
+            .find({
+              selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } },
+            })
+            .$.subscribe({
+              next: async (pivotDocs: any[]) => {
+                if (pivotDocs.length === 0) {
+                  subscriber.next([]);
+                  return;
+                }
+                const relatedKeys = pivotDocs.map((doc: any) => {
+                  const data = typeof doc.toJSON === 'function' ? doc.toJSON() : doc;
+                  return data[this.relatedPivotKey];
+                });
+                const RelatedModel = this.related;
+                const relatedPK = RelatedModel.primaryKey ?? 'id';
+                const results = await RelatedModel.query()
+                  .where(relatedPK, 'in', relatedKeys)
+                  .get();
+                subscriber.next(results);
+              },
+              error: (err: any) => subscriber.error(err),
+              complete: () => subscriber.complete(),
+            });
         } catch (err) {
           subscriber.error(err);
         }
       })();
 
-      return () => { if (sub) sub.unsubscribe(); };
+      return () => {
+        if (sub) sub.unsubscribe();
+      };
     });
   }
 
@@ -297,9 +305,11 @@ export class BelongsToManyRelation<TParent = any, TRelated = any> extends Relati
     );
     const pivotCol = conn.getCollection(this.pivotCollection);
 
-    const currentDocs = await pivotCol.find({
-      selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } }
-    }).exec();
+    const currentDocs = await pivotCol
+      .find({
+        selector: { [this.foreignPivotKey]: { $eq: parentKeyValue } },
+      })
+      .exec();
 
     const currentIds = new Set(
       currentDocs.map((doc: any) => {

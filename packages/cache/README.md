@@ -59,7 +59,8 @@
   (Redis)
 - **React Hooks** — `useCache()` and `useCachedQuery()` for component-level
   caching
-- **Dependency Injection** — First-class DI support via `@abdokouta/ts-container`
+- **Dependency Injection** — First-class DI support via
+  `@abdokouta/ts-container`
 - **Type-Safe Configuration** — `defineConfig()` helper with full autocomplete
 - **TTL Support** — Per-operation and per-store default TTL
 - **Key Prefixing** — Global and per-store prefixes to avoid collisions

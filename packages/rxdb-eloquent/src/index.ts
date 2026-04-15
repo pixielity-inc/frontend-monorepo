@@ -222,7 +222,10 @@ export { ObserverRegistry } from './registries/observer.registry';
 // ---------------------------------------------------------------------------
 // 15. Replication Helpers
 // ---------------------------------------------------------------------------
-export { generateTableSQL, generateSupabaseMigrationSQL } from './replication/supabase-migration.helper';
+export {
+  generateTableSQL,
+  generateSupabaseMigrationSQL,
+} from './replication/supabase-migration.helper';
 
 // ---------------------------------------------------------------------------
 // 16. DI Tokens

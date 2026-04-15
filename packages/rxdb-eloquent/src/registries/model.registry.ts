@@ -19,7 +19,12 @@
  * ```
  */
 
-import { Injectable, Inject, type OnModuleInit, type OnModuleDestroy } from '@abdokouta/ts-container';
+import {
+  Injectable,
+  Inject,
+  type OnModuleInit,
+  type OnModuleDestroy,
+} from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/ts-support';
 import { ConnectionManager } from '../connection/connection.manager';
 import { SchemaResolver } from '../schema/schema.resolver';
@@ -67,7 +72,7 @@ export class ModelRegistry
 
   constructor(
     @Inject(ConnectionManager) private readonly connectionManager: ConnectionManager,
-    @Inject(SchemaResolver) private readonly schemaResolver: SchemaResolver,
+    @Inject(SchemaResolver) private readonly schemaResolver: SchemaResolver
   ) {
     super();
   }
@@ -139,7 +144,6 @@ export class ModelRegistry
 
       EloquentModule.pendingSeeders.length = 0;
     }
-
   }
 
   /**
@@ -214,7 +218,10 @@ export class ModelRegistry
         await connection.setupReplication(collectionName, definition.replication);
       }
     } catch (err) {
-      console.warn(`[ModelRegistry] bootSingle() failed for "${collectionName}":`, (err as Error).message);
+      console.warn(
+        `[ModelRegistry] bootSingle() failed for "${collectionName}":`,
+        (err as Error).message
+      );
     }
   }
 
@@ -256,10 +263,7 @@ export class ModelRegistry
           await connection.setupReplication(collectionName, definition.replication);
         }
       } catch (err) {
-        console.warn(
-          `[ModelRegistry] Failed to boot "${collectionName}":`,
-          (err as Error).message,
-        );
+        console.warn(`[ModelRegistry] Failed to boot "${collectionName}":`, (err as Error).message);
       }
     }
 

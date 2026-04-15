@@ -160,14 +160,22 @@ function applyCastSet(castType: CastType, value: any): any {
       // RxDB stores objects natively — no need to stringify.
       // Just ensure the value is a proper object (parse if string).
       if (typeof value === 'string') {
-        try { return JSON.parse(value); } catch { return value; }
+        try {
+          return JSON.parse(value);
+        } catch {
+          return value;
+        }
       }
       return value;
 
     case 'array':
       // Same as json — RxDB stores arrays natively.
       if (typeof value === 'string') {
-        try { return JSON.parse(value); } catch { return value; }
+        try {
+          return JSON.parse(value);
+        } catch {
+          return value;
+        }
       }
       return value;
 

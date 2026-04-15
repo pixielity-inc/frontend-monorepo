@@ -22,11 +22,7 @@
  * - `'localstorage'`   — Browser localStorage adapter (~5 MB limit)
  * - `'sessionstorage'` — Browser sessionStorage adapter (cleared on tab close)
  */
-export type DriverType =
-  | 'indexeddb'
-  | 'memory'
-  | 'localstorage'
-  | 'sessionstorage';
+export type DriverType = 'indexeddb' | 'memory' | 'localstorage' | 'sessionstorage';
 
 // ---------------------------------------------------------------------------
 // Replication Types

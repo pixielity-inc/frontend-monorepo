@@ -18,9 +18,9 @@
  * @see https://vitest.dev/config/
  */
 
-import { fileURLToPath } from "url";
-import { resolve, dirname } from "path";
-import { defineConfig } from "vitest/config";
+import { fileURLToPath } from 'url';
+import { resolve, dirname } from 'path';
+import { defineConfig } from 'vitest/config';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -43,21 +43,21 @@ export default defineConfig({
     | check window.electronAPI, navigator.onLine, document.addEventListener.
     |
     */
-    environment: "jsdom",
+    environment: 'jsdom',
 
     /*
     |--------------------------------------------------------------------------
     | Setup Files
     |--------------------------------------------------------------------------
     */
-    setupFiles: ["./__tests__/vitest.setup.ts"],
+    setupFiles: ['./__tests__/vitest.setup.ts'],
 
     /*
     |--------------------------------------------------------------------------
     | Test File Pattern
     |--------------------------------------------------------------------------
     */
-    include: ["__tests__/**/*.{test,spec}.{ts,tsx}"],
+    include: ['__tests__/**/*.{test,spec}.{ts,tsx}'],
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +73,7 @@ export default defineConfig({
     */
     server: {
       deps: {
-        inline: ["inversiland", "@inversiland/inversify"],
+        inline: ['inversiland', '@inversiland/inversify'],
       },
     },
 
@@ -83,15 +83,15 @@ export default defineConfig({
     |--------------------------------------------------------------------------
     */
     coverage: {
-      provider: "v8",
-      reporter: ["text", "json", "html"],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
       exclude: [
-        "node_modules/",
-        "dist/",
-        "test/",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "**/*.config.ts",
+        'node_modules/',
+        'dist/',
+        'test/',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.config.ts',
       ],
     },
   },
@@ -103,7 +103,7 @@ export default defineConfig({
   */
   resolve: {
     alias: {
-      "@": resolve(__dirname, "./src"),
+      '@': resolve(__dirname, './src'),
     },
   },
 });

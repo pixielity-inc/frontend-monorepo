@@ -3,7 +3,4 @@
  * @description Barrel export for the replication layer.
  */
 
-export {
-  generateTableSQL,
-  generateSupabaseMigrationSQL,
-} from './supabase-migration.helper';
+export { generateTableSQL, generateSupabaseMigrationSQL } from './supabase-migration.helper';

@@ -619,7 +619,9 @@ export class QueryBuilder<T = any> {
         });
       })().catch((err) => subscriber.error(err));
 
-      return () => { if (sub) sub.unsubscribe(); };
+      return () => {
+        if (sub) sub.unsubscribe();
+      };
     });
   }
 

@@ -38,7 +38,7 @@ import type { ModelClass, RefetchableHookResult, QueryHookOptions } from './type
 export function useFind<T extends Model>(
   model: ModelClass<T>,
   id: string | null | undefined,
-  options: QueryHookOptions = {},
+  options: QueryHookOptions = {}
 ): RefetchableHookResult<T> {
   const { live = false, enabled = true } = options;
 

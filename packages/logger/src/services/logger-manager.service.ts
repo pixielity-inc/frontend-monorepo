@@ -70,9 +70,7 @@ export class LoggerManager
    */
   private readonly services: Map<string, LoggerService> = new Map();
 
-  constructor(
-    @Inject(LOGGER_CONFIG) private readonly config: LoggerModuleOptions,
-  ) {
+  constructor(@Inject(LOGGER_CONFIG) private readonly config: LoggerModuleOptions) {
     super();
   }
 
@@ -88,7 +86,7 @@ export class LoggerManager
     } catch (err) {
       console.warn(
         `[LoggerManager] Failed to create default channel '${this.config.default}':`,
-        (err as Error).message,
+        (err as Error).message
       );
     }
   }
@@ -201,10 +199,10 @@ export class LoggerManager
    * Forces re-creation on next `channel()` call.
    */
   forgetChannel(name?: string | string[]): this {
-    const names = name
-      ? (Array.isArray(name) ? name : [name])
-      : [this.config.default];
-    for (const n of names) { this.services.delete(n); }
+    const names = name ? (Array.isArray(name) ? name : [name]) : [this.config.default];
+    for (const n of names) {
+      this.services.delete(n);
+    }
     return this.forgetInstance(name);
   }
 

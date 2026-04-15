@@ -1,4 +1,4 @@
-import { defineConfig } from "tsup";
+import { defineConfig } from 'tsup';
 
 /**
  * tsup Build Configuration
@@ -27,7 +27,7 @@ export default defineConfig({
   | All exports must go through src/index.ts.
   |
   */
-  entry: ["src/index.ts"],
+  entry: ['src/index.ts'],
 
   /*
   |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export default defineConfig({
   |   - CJS (.js):  CommonJS for Node.js and legacy bundlers
   |
   */
-  format: ["esm", "cjs"],
+  format: ['esm', 'cjs'],
 
   /*
   |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ export default defineConfig({
   | Supports Node.js 14+ and all modern browsers.
   |
   */
-  target: "es2020",
+  target: 'es2020',
 
   /*
   |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ export default defineConfig({
   | Does not inject Node.js polyfills or browser shims.
   |
   */
-  platform: "neutral",
+  platform: 'neutral',
 
   /*
   |--------------------------------------------------------------------------
@@ -118,7 +118,7 @@ export default defineConfig({
   | Includes all peer dependencies and optional dependencies.
   |
   */
-  external: ["@abdokouta/ts-container"],
+  external: ['@abdokouta/ts-container'],
 
   /*
   |--------------------------------------------------------------------------
@@ -155,6 +155,6 @@ export default defineConfig({
   |
   */
   outExtension({ format }) {
-    return { js: format === "esm" ? ".mjs" : ".js" };
+    return { js: format === 'esm' ? '.mjs' : '.js' };
   },
 });

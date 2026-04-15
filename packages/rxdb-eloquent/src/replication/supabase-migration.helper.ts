@@ -79,9 +79,10 @@ function mapPropertyToPostgresType(prop: Record<string, any>): string {
  * @returns A SQL string ready to run in Supabase SQL Editor
  */
 export function generateTableSQL(tableName: string, schema: RxJsonSchema<any>): string {
-  const primaryKey = typeof schema.primaryKey === 'string'
-    ? schema.primaryKey
-    : (schema.primaryKey as any)?.key ?? 'id';
+  const primaryKey =
+    typeof schema.primaryKey === 'string'
+      ? schema.primaryKey
+      : ((schema.primaryKey as any)?.key ?? 'id');
 
   const requiredSet = new Set<string>(schema.required ?? []);
   const lines: string[] = [];

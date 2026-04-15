@@ -50,7 +50,7 @@ export class ConfigService implements ConfigServiceInterface {
    */
   constructor(
     @Inject(CONFIG_DRIVER)
-    driver: ConfigDriver,
+    driver: ConfigDriver
   ) {
     this._driver = driver;
   }

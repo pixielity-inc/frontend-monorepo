@@ -107,7 +107,7 @@ export interface ModelStatic<T extends Model = Model> {
   casts: Record<string, string>;
 
   /** Check if the ConnectionManager has been set. */
-  isConnected: (() => boolean);
+  isConnected: () => boolean;
 
   // Static finders — typed via ModelStatic<T>
   find<U extends Model>(this: ModelStatic<U>, id: string): Promise<U | null>;
@@ -640,7 +640,9 @@ export class Model extends ModelBase {
     } else {
       // UPDATE — call RxDocument.incrementalPatch()
       if (!this._rxDocument) {
-        throw new Error('Cannot update: RxDocument reference is missing. Was this model hydrated from a query?');
+        throw new Error(
+          'Cannot update: RxDocument reference is missing. Was this model hydrated from a query?'
+        );
       }
       const dirty = this.getDirtyAttributes();
       if (Object.keys(dirty).length > 0) {
@@ -712,7 +714,9 @@ export class Model extends ModelBase {
     } else {
       // Hard delete: remove the RxDocument
       if (!this._rxDocument) {
-        throw new Error('Cannot delete: RxDocument reference is missing. Was this model hydrated from a query?');
+        throw new Error(
+          'Cannot delete: RxDocument reference is missing. Was this model hydrated from a query?'
+        );
       }
       await this._rxDocument.remove();
       this._exists = false;

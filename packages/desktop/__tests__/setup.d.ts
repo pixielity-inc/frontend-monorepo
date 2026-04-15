@@ -8,4 +8,4 @@
  * @category Configuration
  */
 
-import "vitest/globals";
+import 'vitest/globals';

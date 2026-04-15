@@ -186,7 +186,7 @@ describe('RxDB Integration Edge Cases', () => {
       Model.setConnectionManager(null as any);
 
       await expect(TestItem.find('x')).rejects.toThrow(
-        'ConnectionManager not set. Did you call EloquentModule.forRoot()?',
+        'ConnectionManager not set. Did you call EloquentModule.forRoot()?'
       );
 
       /** Restore the original manager for cleanup. */
@@ -224,7 +224,7 @@ describe('RxDB Integration Edge Cases', () => {
        * on the bare database. This should throw with a descriptive message.
        */
       await expect(TestItem.find('x')).rejects.toThrow(
-        'Collection "test_items" does not exist on database "default".',
+        'Collection "test_items" does not exist on database "default".'
       );
 
       /** Clean up the bare database. */
@@ -254,7 +254,7 @@ describe('RxDB Integration Edge Cases', () => {
       item.setAttribute('name', 'Updated');
 
       await expect(item.save()).rejects.toThrow(
-        'Cannot update: RxDocument reference is missing. Was this model hydrated from a query?',
+        'Cannot update: RxDocument reference is missing. Was this model hydrated from a query?'
       );
     });
   });
@@ -273,7 +273,7 @@ describe('RxDB Integration Edge Cases', () => {
       (item as any)._rxDocument = null;
 
       await expect(item.delete()).rejects.toThrow(
-        'Cannot delete: RxDocument reference is missing. Was this model hydrated from a query?',
+        'Cannot delete: RxDocument reference is missing. Was this model hydrated from a query?'
       );
     });
   });
@@ -292,7 +292,7 @@ describe('RxDB Integration Edge Cases', () => {
       (item as any)._rxDocument = null;
 
       await expect(item.forceDelete()).rejects.toThrow(
-        'Cannot forceDelete: RxDocument reference is missing.',
+        'Cannot forceDelete: RxDocument reference is missing.'
       );
     });
   });

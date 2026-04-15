@@ -77,7 +77,7 @@ export class CacheManager
    */
   constructor(
     @Inject(CACHE_CONFIG) private readonly config: CacheModuleOptions,
-    @Optional() @Inject(REDIS_MANAGER) private readonly redisService?: IRedisService,
+    @Optional() @Inject(REDIS_MANAGER) private readonly redisService?: IRedisService
   ) {
     super();
   }
@@ -96,7 +96,7 @@ export class CacheManager
     } catch (err) {
       console.warn(
         `[CacheManager] Failed to create default store '${this.config.default}':`,
-        (err as Error).message,
+        (err as Error).message
       );
     }
   }
@@ -108,7 +108,11 @@ export class CacheManager
    */
   async onModuleDestroy(): Promise<void> {
     for (const [, service] of this.services) {
-      try { await service.flush(); } catch { /* ignore */ }
+      try {
+        await service.flush();
+      } catch {
+        /* ignore */
+      }
     }
     this.services.clear();
     this.purge();
@@ -222,10 +226,10 @@ export class CacheManager
    * @param name - Store name(s). Uses default if omitted.
    */
   forgetStore(name?: string | string[]): this {
-    const names = name
-      ? (Array.isArray(name) ? name : [name])
-      : [this.config.default];
-    for (const n of names) { this.services.delete(n); }
+    const names = name ? (Array.isArray(name) ? name : [name]) : [this.config.default];
+    for (const n of names) {
+      this.services.delete(n);
+    }
     return this.forgetInstance(name);
   }
 
@@ -249,14 +253,10 @@ export class CacheManager
     if (!this.redisService) {
       throw new Error(
         'Redis cache driver requires @abdokouta/ts-redis.\n' +
-        'Import RedisModule.forRoot() before CacheModule.forRoot().',
+          'Import RedisModule.forRoot() before CacheModule.forRoot().'
       );
     }
-    return new RedisStore(
-      this.redisService,
-      prefix,
-      (config as any).connection ?? 'default',
-    );
+    return new RedisStore(this.redisService, prefix, (config as any).connection ?? 'default');
   }
 
   /**

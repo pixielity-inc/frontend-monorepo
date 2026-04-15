@@ -35,7 +35,7 @@ export function useCache(storeName?: string): CacheService {
   if (!manager) {
     throw new Error(
       'CacheManager not found in DI container. ' +
-      'Make sure CacheModule.forRoot() is imported in your application.',
+        'Make sure CacheModule.forRoot() is imported in your application.'
     );
   }
 

@@ -34,19 +34,14 @@ import { ConnectionManager } from '../connection/connection.manager';
  * triggered by calling `migrate()` explicitly or enabling autoMigrate.
  */
 @Injectable()
-export class MigrationRegistry
-  extends BaseRegistry<Migration>
-  implements OnModuleInit
-{
+export class MigrationRegistry extends BaseRegistry<Migration> implements OnModuleInit {
   /** Ordered list preserving registration order. */
   private readonly ordered: Migration[] = [];
 
   /** Whether to auto-run migrations on boot. */
   private autoMigrate = false;
 
-  constructor(
-    @Inject(ConnectionManager) private readonly connectionManager: ConnectionManager,
-  ) {
+  constructor(@Inject(ConnectionManager) private readonly connectionManager: ConnectionManager) {
     super();
   }
 
@@ -70,10 +65,7 @@ export class MigrationRegistry
       try {
         await this.migrate();
       } catch (err) {
-        console.warn(
-          '[MigrationRegistry] Auto-migration failed:',
-          (err as Error).message,
-        );
+        console.warn('[MigrationRegistry] Auto-migration failed:', (err as Error).message);
       }
     }
   }

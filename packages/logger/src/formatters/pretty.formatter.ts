@@ -87,5 +87,4 @@ export class PrettyFormatter implements FormatterInterface {
       return timestamp;
     }
   }
-
 }

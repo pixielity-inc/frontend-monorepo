@@ -18,19 +18,15 @@ export class RedisStore implements TaggableStore {
   private readonly connectionName: string;
   private _connection?: RedisConnection;
 
-  constructor(
-    redisService: IRedisService,
-    prefix: string = '',
-    connection: string = 'default',
-  ) {
+  constructor(redisService: IRedisService, prefix: string = '', connection: string = 'default') {
     this.redisService = redisService;
     this.prefix = prefix;
     this.connectionName = connection;
   }
 
-  /** 
- * Resolve connection lazily and cache it. 
- */
+  /**
+   * Resolve connection lazily and cache it.
+   */
   private async conn(): Promise<RedisConnection> {
     if (!this._connection) {
       this._connection = await this.redisService.connection(this.connectionName);
@@ -77,7 +73,7 @@ export class RedisStore implements TaggableStore {
       Object.keys(values).map((k) => {
         const sv = serialized[this.prefix + k];
         return sv !== undefined ? c.set(this.prefix + k, sv, { ex: seconds }) : Promise.resolve();
-      }),
+      })
     );
     return true;
   }
@@ -123,7 +119,10 @@ export class RedisStore implements TaggableStore {
   }
 
   private deserialize(value: string): any {
-    try { return JSON.parse(value); }
-    catch { return value; }
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
   }
 }

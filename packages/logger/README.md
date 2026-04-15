@@ -1,6 +1,7 @@
 # @abdokouta/ts-logger
 
-Multi-channel logging system for React with DI integration. Built on `MultipleInstanceManager` from `@abdokouta/ts-support`.
+Multi-channel logging system for React with DI integration. Built on
+`MultipleInstanceManager` from `@abdokouta/ts-support`.
 
 ## Install
 
@@ -79,7 +80,8 @@ LoggerService wraps channel transporters
 
 ## Transporters
 
-- `ConsoleTransporter` — browser console with colors, emoji, expandable context objects
+- `ConsoleTransporter` — browser console with colors, emoji, expandable context
+  objects
 - `StorageTransporter` — localStorage with max entry limit
 - `SilentTransporter` — no-op for testing
 
@@ -92,7 +94,8 @@ LoggerService wraps channel transporters
 ## React Hooks
 
 - `useLogger(channelName?)` — get a LoggerService
-- `useLoggerContext(context, channelName?)` — auto-attach context on mount/unmount
+- `useLoggerContext(context, channelName?)` — auto-attach context on
+  mount/unmount
 
 ## DI Tokens
 

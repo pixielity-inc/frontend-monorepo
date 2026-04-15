@@ -144,7 +144,7 @@ export class ConfigModule {
    */
   private static mergeCustomConfig(
     driver: ConfigDriver,
-    load: Record<string, any> | (() => Record<string, any> | Promise<Record<string, any>>),
+    load: Record<string, any> | (() => Record<string, any> | Promise<Record<string, any>>)
   ): void {
     const customConfig = typeof load === 'function' ? load() : load;
 

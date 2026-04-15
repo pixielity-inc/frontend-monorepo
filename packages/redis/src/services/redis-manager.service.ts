@@ -20,16 +20,11 @@ import {
   Inject,
   type OnModuleInit,
   type OnModuleDestroy,
-} from "@abdokouta/ts-container";
-import { MultipleInstanceManager } from "@abdokouta/ts-support";
+} from '@abdokouta/ts-container';
+import { MultipleInstanceManager } from '@abdokouta/ts-support';
 
-import type {
-  RedisConnection,
-  RedisConnector,
-  RedisConfig,
-  IRedisService,
-} from "@/interfaces";
-import { REDIS_CONFIG, REDIS_CONNECTOR } from "@/constants/tokens.constant";
+import type { RedisConnection, RedisConnector, RedisConfig, IRedisService } from '@/interfaces';
+import { REDIS_CONFIG, REDIS_CONNECTOR } from '@/constants/tokens.constant';
 
 /**
  * RedisManager — the single entry point for Redis in your app.
@@ -55,7 +50,7 @@ export class RedisManager
 {
   constructor(
     @Inject(REDIS_CONFIG) private readonly config: RedisConfig,
-    @Inject(REDIS_CONNECTOR) private readonly connector: RedisConnector,
+    @Inject(REDIS_CONNECTOR) private readonly connector: RedisConnector
   ) {
     super();
   }
@@ -77,7 +72,7 @@ export class RedisManager
       } catch (err) {
         console.warn(
           `[RedisManager] Failed to warm default connection '${defaultName}':`,
-          (err as Error).message,
+          (err as Error).message
         );
       }
     }
@@ -109,18 +104,15 @@ export class RedisManager
     // Add a synthetic 'driver' field so the base class's
     // resolveAsync() can find it. Redis always uses the
     // injected connector — the driver name is informational only.
-    return { driver: "upstash", ...connectionConfig };
+    return { driver: 'upstash', ...connectionConfig };
   }
 
   /**
    * Sync driver creation — not used for Redis.
    * Redis always uses the async path via `createDriverAsync()`.
    */
-  protected createDriver(
-    _driver: string,
-    _config: Record<string, any>,
-  ): RedisConnection {
-    throw new Error("RedisManager: use connection() for async resolution.");
+  protected createDriver(_driver: string, _config: Record<string, any>): RedisConnection {
+    throw new Error('RedisManager: use connection() for async resolution.');
   }
 
   /**
@@ -132,7 +124,7 @@ export class RedisManager
    */
   protected async createDriverAsync(
     _driver: string,
-    config: Record<string, any>,
+    config: Record<string, any>
   ): Promise<RedisConnection> {
     return this.connector.connect(config as any);
   }

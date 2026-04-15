@@ -194,11 +194,13 @@ function uid(prefix: string): string {
 }
 
 /** Generates TestItem attributes with a guaranteed unique ID. */
-const testItemAttrsArb = fc.record({
-  name: safeNameArb,
-  email: safeEmailArb,
-  age: safeAgeArb,
-}).map((a) => ({ ...a, id: uid('ti') }));
+const testItemAttrsArb = fc
+  .record({
+    name: safeNameArb,
+    email: safeEmailArb,
+    age: safeAgeArb,
+  })
+  .map((a) => ({ ...a, id: uid('ti') }));
 
 // ---------------------------------------------------------------------------
 // Test environment helpers
@@ -254,11 +256,14 @@ async function createTestEnv() {
 
 /** Tears down the test environment. */
 async function teardownTestEnv(env: { database: RxDatabase; manager: ConnectionManager }) {
-  try { await env.database.close(); } catch { /* already closed */ }
+  try {
+    await env.database.close();
+  } catch {
+    /* already closed */
+  }
   Model.setConnectionManager(null as any);
   MetadataStorage.getInstance().clear();
 }
-
 
 // ===========================================================================
 // Property Tests
@@ -295,7 +300,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(found!.getAttribute('created_at')).toBeTruthy();
           expect(found!.getAttribute('updated_at')).toBeTruthy();
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -311,13 +316,17 @@ describe('RxDB Integration Property Tests', () => {
         fc.asyncProperty(testItemAttrsArb, async (attrs) => {
           const events: string[] = [];
           const item = new TestItem(attrs);
-          item.registerHook('creating', () => { events.push('creating'); });
-          item.registerHook('created', () => { events.push('created'); });
+          item.registerHook('creating', () => {
+            events.push('creating');
+          });
+          item.registerHook('created', () => {
+            events.push('created');
+          });
 
           await item.save();
           expect(events).toEqual(['creating', 'created']);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
 
@@ -332,7 +341,7 @@ describe('RxDB Integration Property Tests', () => {
           const found = await TestItem.find(attrs.id);
           expect(found).toBeNull();
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -363,7 +372,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(item.getAttribute('created_at')).toBe(createdAt);
           expect(item.getAttribute('updated_at')).not.toBe(updatedAt);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -388,7 +397,7 @@ describe('RxDB Integration Property Tests', () => {
             expect(dirty).toHaveProperty('name', newName);
           }
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -405,9 +414,9 @@ describe('RxDB Integration Property Tests', () => {
           async (randomId) => {
             const found = await TestItem.find(randomId);
             expect(found).toBeNull();
-          },
+          }
         ),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -429,7 +438,7 @@ describe('RxDB Integration Property Tests', () => {
           expect((item as any)._exists).toBe(false);
           expect(await TestItem.find(attrs.id)).toBeNull();
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -454,7 +463,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(item.getAttribute('deleted_at')).toBeNull();
           expect(item.trashed()).toBe(false);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -474,7 +483,7 @@ describe('RxDB Integration Property Tests', () => {
           expect((item as any)._exists).toBe(false);
           expect(await SoftItem.find(attrs.id)).toBeNull();
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -516,9 +525,9 @@ describe('RxDB Integration Property Tests', () => {
             /** count() with filter should match the batch size. */
             const count = await TestItem.query().where('email', batchMarker).count();
             expect(count).toBe(taggedAttrs.length);
-          },
+          }
         ),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -541,7 +550,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(emitted).toBeTruthy();
           expect(emitted.getAttribute('id')).toBe(attrs.id);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -583,7 +592,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(foundUser).not.toBeNull();
           expect((foundUser as any).getAttribute('id')).toBe(userId);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -595,45 +604,46 @@ describe('RxDB Integration Property Tests', () => {
   describe('Property 17-19: BelongsToMany attach/detach/sync', () => {
     it('attach/detach/sync manage pivot entries correctly', async () => {
       await fc.assert(
-        fc.asyncProperty(
-          fc.integer({ min: 1, max: 3 }),
-          async (roleCount) => {
-            const userId = uid('usr');
-            const roleIds = Array.from({ length: roleCount }, () => uid('role'));
+        fc.asyncProperty(fc.integer({ min: 1, max: 3 }), async (roleCount) => {
+          const userId = uid('usr');
+          const roleIds = Array.from({ length: roleCount }, () => uid('role'));
 
-            const user = new TestItem({ id: userId, name: 'User' });
-            await user.save();
+          const user = new TestItem({ id: userId, name: 'User' });
+          await user.save();
 
-            for (const roleId of roleIds) {
-              const role = new RoleModel({ id: roleId, name: `R_${roleId}` });
-              await role.save();
-            }
+          for (const roleId of roleIds) {
+            const role = new RoleModel({ id: roleId, name: `R_${roleId}` });
+            await role.save();
+          }
 
-            const relation = new BelongsToManyRelation(
-              user, RoleModel, 'user_roles', 'user_id', 'role_id',
-            );
+          const relation = new BelongsToManyRelation(
+            user,
+            RoleModel,
+            'user_roles',
+            'user_id',
+            'role_id'
+          );
 
-            /** Attach all roles. */
-            await relation.attach(roleIds);
-            const attached = await relation.get();
-            expect(attached.length).toBe(roleIds.length);
+          /** Attach all roles. */
+          await relation.attach(roleIds);
+          const attached = await relation.get();
+          expect(attached.length).toBe(roleIds.length);
 
-            /** Detach the first role if multiple. */
-            if (roleIds.length > 1) {
-              await relation.detach(roleIds[0]!);
-              const afterDetach = await relation.get();
-              expect(afterDetach.length).toBe(roleIds.length - 1);
-            }
+          /** Detach the first role if multiple. */
+          if (roleIds.length > 1) {
+            await relation.detach(roleIds[0]!);
+            const afterDetach = await relation.get();
+            expect(afterDetach.length).toBe(roleIds.length - 1);
+          }
 
-            /** Sync to only the last role. */
-            const syncTarget = [roleIds[roleIds.length - 1]!];
-            await relation.sync(syncTarget);
-            const afterSync = await relation.get();
-            expect(afterSync.length).toBe(1);
-            expect((afterSync[0] as any).getAttribute('id')).toBe(syncTarget[0]);
-          },
-        ),
-        { numRuns: 100 },
+          /** Sync to only the last role. */
+          const syncTarget = [roleIds[roleIds.length - 1]!];
+          await relation.sync(syncTarget);
+          const afterSync = await relation.get();
+          expect(afterSync.length).toBe(1);
+          expect((afterSync[0] as any).getAttribute('id')).toBe(syncTarget[0]);
+        }),
+        { numRuns: 100 }
       );
     });
   });
@@ -645,15 +655,18 @@ describe('RxDB Integration Property Tests', () => {
   describe('Property 20: Error propagation', () => {
     it('operations throw when ConnectionManager is not set', async () => {
       await fc.assert(
-        fc.asyncProperty(fc.constant(null).map(() => uid('err')), async (id) => {
-          const savedManager = (Model as any)._connectionManager;
-          Model.setConnectionManager(null as any);
+        fc.asyncProperty(
+          fc.constant(null).map(() => uid('err')),
+          async (id) => {
+            const savedManager = (Model as any)._connectionManager;
+            Model.setConnectionManager(null as any);
 
-          await expect(TestItem.find(id)).rejects.toThrow();
+            await expect(TestItem.find(id)).rejects.toThrow();
 
-          Model.setConnectionManager(savedManager);
-        }),
-        { numRuns: 100 },
+            Model.setConnectionManager(savedManager);
+          }
+        ),
+        { numRuns: 100 }
       );
     });
   });
@@ -675,7 +688,7 @@ describe('RxDB Integration Property Tests', () => {
             Model.setConnectionManager(env.manager);
           }
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -690,9 +703,14 @@ describe('RxDB Integration Property Tests', () => {
         fc.property(fc.constant(null), () => {
           const grammar = new MangoQueryGrammar();
           const baseState = {
-            wheres: [], orders: [], limitValue: null, skipValue: null,
-            withTrashedFlag: false, onlyTrashedFlag: false,
-            withoutGlobalScopeNames: [], eagerLoads: [],
+            wheres: [],
+            orders: [],
+            limitValue: null,
+            skipValue: null,
+            withTrashedFlag: false,
+            onlyTrashedFlag: false,
+            withoutGlobalScopeNames: [],
+            eagerLoads: [],
           };
 
           const defaultQ = grammar.compile(baseState, 'deleted_at', false);
@@ -704,7 +722,7 @@ describe('RxDB Integration Property Tests', () => {
           const onlyTrashedQ = grammar.compile(baseState, 'deleted_at', true);
           expect(onlyTrashedQ.selector['deleted_at']).toEqual({ $ne: null });
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });
@@ -731,7 +749,7 @@ describe('RxDB Integration Property Tests', () => {
           expect(hydrated.getAttribute('name')).toBe(attrs.name);
           expect(Object.keys(hydrated.getDirtyAttributes()).length).toBe(0);
         }),
-        { numRuns: 100 },
+        { numRuns: 100 }
       );
     });
   });

@@ -12,7 +12,8 @@
 ### Core
 
 - **DesktopModule** — forRoot() / forFeature() DI registration
-- **DesktopManager** — platform detection, bridge auto-selection, menu orchestration
+- **DesktopManager** — platform detection, bridge auto-selection, menu
+  orchestration
 - **ElectronBridge** — real IPC via window.electronAPI
 - **BrowserBridge** — graceful fallbacks (window.print, Notification API, etc.)
 - **MenuRegistry** — collects @Menu/@MenuItem decorated classes
@@ -20,7 +21,8 @@
 ### POS Hardware (6 services)
 
 - **PrinterService** — ESC/POS thermal receipt printing
-- **EscPosFormatter** — injectable receipt formatter (swappable for Star/Citizen)
+- **EscPosFormatter** — injectable receipt formatter (swappable for
+  Star/Citizen)
 - **CashDrawerService** — serial/printer-kick drawer control with 5s timeout
 - **ScannerService** — HID barcode scanner detection via DOM keydown events
 - **ScaleService** — serial weight scale reading with 3s timeout
@@ -28,8 +30,10 @@
 
 ### Offline & Sync (2 services)
 
-- **OfflineService** — online/offline detection, operation queuing to localStorage
-- **SyncService** — FIFO queue processing with retry backoff, auto-sync on reconnect
+- **OfflineService** — online/offline detection, operation queuing to
+  localStorage
+- **SyncService** — FIFO queue processing with retry backoff, auto-sync on
+  reconnect
 
 ### Window & Shell (3 services)
 
@@ -49,7 +53,8 @@
 - **FileSystemService** — native file dialogs and drag-and-drop
 - **ProtocolService** — custom URL protocol registration and deep linking
 - **PowerService** — sleep prevention with Wake Lock API fallback
-- **NotificationService** — rich OS notifications with action buttons and queuing
+- **NotificationService** — rich OS notifications with action buttons and
+  queuing
 
 ### Updates & Diagnostics (3 services)
 
@@ -59,9 +64,11 @@
 
 ### Other
 
-- **PermissionService** — USB, Bluetooth, Serial, Camera, Microphone permission management
+- **PermissionService** — USB, Bluetooth, Serial, Camera, Microphone permission
+  management
 - **@Menu()**, **@MenuItem()**, **@OnIpc()** decorators
 - **useDesktop()**, **useMenuAction()** React hooks
-- Error types: DesktopServiceError, HardwareTimeoutError, HardwareNotConfiguredError
+- Error types: DesktopServiceError, HardwareTimeoutError,
+  HardwareNotConfiguredError
 - 21 DI tokens for all services
 - Kbd integration via @Inject(SHORTCUT_REGISTRY)

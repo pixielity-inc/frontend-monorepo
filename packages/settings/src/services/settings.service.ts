@@ -31,7 +31,7 @@ export class SettingsService {
 
   constructor(
     @Inject(SETTINGS_REGISTRY) private readonly registry: SettingsRegistry,
-    @Inject(SETTINGS_MANAGER) private readonly manager: SettingsStoreManager,
+    @Inject(SETTINGS_MANAGER) private readonly manager: SettingsStoreManager
   ) {}
 
   // ═══════════════════════════════════════════════════════════════════
@@ -155,11 +155,15 @@ export class SettingsService {
   subscribe(groupKey: string, callback: () => void): () => void {
     if (!this.listeners.has(groupKey)) this.listeners.set(groupKey, new Set());
     this.listeners.get(groupKey)!.add(callback);
-    return () => { this.listeners.get(groupKey)?.delete(callback); };
+    return () => {
+      this.listeners.get(groupKey)?.delete(callback);
+    };
   }
 
   /** Get the store manager */
-  getManager(): SettingsStoreManager { return this.manager; }
+  getManager(): SettingsStoreManager {
+    return this.manager;
+  }
 
   // ═══════════════════════════════════════════════════════════════════
   // PRIVATE
@@ -168,7 +172,9 @@ export class SettingsService {
   private resolveGroup<T>(dto: SettingDtoConstructor<T>): ResolvedSettingGroup {
     const group = this.registry.findByDto(dto);
     if (!group) {
-      throw new Error(`[SettingsService] "${dto.name}" not registered. Call SettingsModule.forFeature().`);
+      throw new Error(
+        `[SettingsService] "${dto.name}" not registered. Call SettingsModule.forFeature().`
+      );
     }
     return group;
   }
@@ -226,6 +232,12 @@ export class SettingsService {
   private notifyListeners(groupKey: string): void {
     const cbs = this.listeners.get(groupKey);
     if (!cbs) return;
-    for (const cb of cbs) { try { cb(); } catch { /* don't break others */ } }
+    for (const cb of cbs) {
+      try {
+        cb();
+      } catch {
+        /* don't break others */
+      }
+    }
   }
 }
