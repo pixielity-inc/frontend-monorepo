@@ -23,7 +23,7 @@ import type {
 export type UseDeleteProps<
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  _TVariables = {},
+  TVariables = {},
 > = UseDeletePropsOriginal<TData, TError, TVariables>;
 
 /**
