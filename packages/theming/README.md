@@ -1,6 +1,7 @@
 # @abdokouta/react-theming
 
-Theme management with registry pattern, dark/light mode, customizer panels, and DI integration.
+Theme management with registry pattern, dark/light mode, customizer panels, and
+DI integration.
 
 ## Installation
 
@@ -32,14 +33,14 @@ pnpm add @abdokouta/react-theming
  * | Register ThemeModule in your root AppModule.
  * |-------------------------------------------------------------------
  */
-import { Module } from "@abdokouta/ts-container";
-import { ThemeModule } from "@abdokouta/react-theming";
+import { Module } from '@abdokouta/ts-container';
+import { ThemeModule } from '@abdokouta/react-theming';
 
 @Module({
   imports: [
     ThemeModule.forRoot({
-      defaultTheme: "ocean",
-      defaultMode: "dark",
+      defaultTheme: 'ocean',
+      defaultMode: 'dark',
     }),
   ],
 })
@@ -54,7 +55,7 @@ export class AppModule {}
  * | Wrap your app with ThemeProvider for context access.
  * |-------------------------------------------------------------------
  */
-import { ThemeProvider } from "@abdokouta/react-theming";
+import { ThemeProvider } from '@abdokouta/react-theming';
 
 function Root() {
   return (
@@ -73,7 +74,7 @@ function Root() {
  * | Access and control the active theme.
  * |-------------------------------------------------------------------
  */
-import { useTheme } from "@abdokouta/react-theming";
+import { useTheme } from '@abdokouta/react-theming';
 
 function ThemePicker() {
   const { theme, setTheme, themes } = useTheme();
@@ -99,12 +100,12 @@ function ThemePicker() {
  * | Control dark/light/system color mode.
  * |-------------------------------------------------------------------
  */
-import { useColorMode } from "@abdokouta/react-theming";
+import { useColorMode } from '@abdokouta/react-theming';
 
 function ModeToggle() {
   const { isDark, toggle, setMode } = useColorMode();
 
-  return <button onClick={toggle}>{isDark ? "☀️ Light" : "🌙 Dark"}</button>;
+  return <button onClick={toggle}>{isDark ? '☀️ Light' : '🌙 Dark'}</button>;
 }
 ```
 
@@ -118,7 +119,7 @@ function ModeToggle() {
  */
 @Module({
   imports: [
-    ThemeModule.forFeature([{ id: "brand", label: "Brand", color: "#ff6600" }]),
+    ThemeModule.forFeature([{ id: 'brand', label: 'Brand', color: '#ff6600' }]),
   ],
 })
 export class BrandModule {}

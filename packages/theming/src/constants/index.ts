@@ -7,11 +7,7 @@
  * @category Constants
  */
 
-export {
-  THEME_CONFIG,
-  THEME_REGISTRY,
-  CUSTOMIZER_REGISTRY,
-} from "./tokens.constant";
+export { THEME_CONFIG, THEME_REGISTRY, CUSTOMIZER_REGISTRY } from './tokens.constant';
 export {
   BUILT_IN_THEMES,
   THEME_DEFAULT,
@@ -21,4 +17,4 @@ export {
   THEME_FOREST,
   THEME_AMBER,
   THEME_VIOLET,
-} from "./themes.constant";
+} from './themes.constant';

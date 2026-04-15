@@ -7,10 +7,10 @@
  * @category Contexts
  */
 
-"use client";
+'use client';
 
-import { createContext, useContext } from "react";
-import type { ColorMode, ThemeConfig } from "@/types/theme.types";
+import { createContext, useContext } from 'react';
+import type { ColorMode, ThemeConfig } from '@/types/theme.types';
 
 export interface ThemeContextValue {
   /** Currently active theme id */
@@ -22,7 +22,7 @@ export interface ThemeContextValue {
   /** Set the color mode */
   setMode: (mode: ColorMode) => void;
   /** Resolved mode — never "system", always "light" or "dark" */
-  resolvedMode: "light" | "dark";
+  resolvedMode: 'light' | 'dark';
   /** All registered themes */
   themes: ThemeConfig[];
 }
@@ -31,6 +31,6 @@ export const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function useThemeContext(): ThemeContextValue {
   const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("useThemeContext must be used inside <ThemeProvider>");
+  if (!ctx) throw new Error('useThemeContext must be used inside <ThemeProvider>');
   return ctx;
 }

@@ -1,2 +1,2 @@
-export { ModeSwitcher } from "./mode-switcher";
-export type { ModeSwitcherProps } from "./mode-switcher";
+export { ModeSwitcher } from './mode-switcher';
+export type { ModeSwitcherProps } from './mode-switcher';

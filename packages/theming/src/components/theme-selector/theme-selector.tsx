@@ -7,11 +7,11 @@
  * @category Components
  */
 
-"use client";
+'use client';
 
-import React, { createElement } from "react";
-import { Select, Label, ListBox } from "@heroui/react";
-import { useTheme } from "@/hooks/use-theme";
+import React, { createElement } from 'react';
+import { Select, Label, ListBox } from '@heroui/react';
+import { useTheme } from '@/hooks/use-theme';
 
 export interface ThemeSelectorProps {
   showLabel?: boolean;
@@ -31,11 +31,11 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ showLabel = true, 
     {
       value: theme,
       onChange: (v) => setTheme(v as string),
-      variant: "secondary",
+      variant: 'secondary',
       className,
-      "aria-label": "Theme",
+      'aria-label': 'Theme',
     },
-    showLabel ? createElement(Label, null, "Theme") : null,
+    showLabel ? createElement(Label, null, 'Theme') : null,
     createElement(
       Select.Trigger,
       null,
@@ -53,11 +53,11 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ showLabel = true, 
             ListBox.Item,
             { key: t.id, id: t.id, textValue: t.label },
             createElement(
-              "span",
-              { className: "flex items-center gap-2" },
-              createElement("span", {
-                className: "size-3 rounded-full inline-block",
-                style: { backgroundColor: t.color ?? "#6366f1" },
+              'span',
+              { className: 'flex items-center gap-2' },
+              createElement('span', {
+                className: 'size-3 rounded-full inline-block',
+                style: { backgroundColor: t.color ?? '#6366f1' },
               }),
               t.label
             ),
@@ -69,4 +69,4 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ showLabel = true, 
   );
 };
 
-ThemeSelector.displayName = "ThemeSelector";
+ThemeSelector.displayName = 'ThemeSelector';

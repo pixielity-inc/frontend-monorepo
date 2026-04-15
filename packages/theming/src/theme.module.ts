@@ -30,22 +30,18 @@
  * @module @abdokouta/react-theming
  */
 
-import "reflect-metadata";
-import { Module, type DynamicModule } from "@abdokouta/ts-container";
+import 'reflect-metadata';
+import { Module, type DynamicModule } from '@abdokouta/ts-container';
 
-import type { ThemeConfig, ThemeModuleOptions } from "@/types/theme.types";
-import { ThemeRegistry, themeRegistry } from "@/registries/theme.registry";
+import type { ThemeConfig, ThemeModuleOptions } from '@/types/theme.types';
+import { ThemeRegistry, themeRegistry } from '@/registries/theme.registry';
 import {
   CustomizerRegistry,
   customizerRegistry,
   type CustomizerPanel,
-} from "@/registries/customizer.registry";
-import {
-  THEME_CONFIG,
-  THEME_REGISTRY,
-  CUSTOMIZER_REGISTRY,
-} from "@/constants/tokens.constant";
-import { BUILT_IN_THEMES } from "@/constants/themes.constant";
+} from '@/registries/customizer.registry';
+import { THEME_CONFIG, THEME_REGISTRY, CUSTOMIZER_REGISTRY } from '@/constants/tokens.constant';
+import { BUILT_IN_THEMES } from '@/constants/themes.constant';
 
 @Module({})
 // biome-ignore lint/complexity/noStaticOnlyClass: Module pattern

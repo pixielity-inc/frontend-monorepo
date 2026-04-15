@@ -12,10 +12,10 @@
  * ```
  */
 
-"use client";
+'use client';
 
-import { useThemeContext } from "@/contexts/theme.context";
-import type { ThemeConfig } from "@/types/theme.types";
+import { useThemeContext } from '@/contexts/theme.context';
+import type { ThemeConfig } from '@/types/theme.types';
 
 export interface UseThemeReturn {
   /** Currently active theme id */

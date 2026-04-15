@@ -7,12 +7,12 @@
  * @category Components
  */
 
-"use client";
+'use client';
 
-import React, { createElement } from "react";
-import { Button } from "@heroui/react";
-import { useColorMode } from "@/hooks/use-color-mode";
-import type { ColorMode } from "@/types/theme.types";
+import React, { createElement } from 'react';
+import { Button } from '@heroui/react';
+import { useColorMode } from '@/hooks/use-color-mode';
+import type { ColorMode } from '@/types/theme.types';
 
 export interface ModeSwitcherProps {
   /** Show label next to icon. @default false */
@@ -20,18 +20,18 @@ export interface ModeSwitcherProps {
   className?: string;
 }
 
-const MODE_CYCLE: ColorMode[] = ["light", "dark", "system"];
+const MODE_CYCLE: ColorMode[] = ['light', 'dark', 'system'];
 
 const MODE_ICONS: Record<ColorMode, string> = {
-  light: "☀️",
-  dark: "🌙",
-  system: "💻",
+  light: '☀️',
+  dark: '🌙',
+  system: '💻',
 };
 
 const MODE_LABELS: Record<ColorMode, string> = {
-  light: "Light",
-  dark: "Dark",
-  system: "System",
+  light: 'Light',
+  dark: 'Dark',
+  system: 'System',
 };
 
 /**
@@ -51,10 +51,10 @@ export const ModeSwitcher: React.FC<ModeSwitcherProps> = ({ showLabel = false, c
   return createElement(
     Button,
     {
-      variant: "ghost",
-      size: "sm",
+      variant: 'ghost',
+      size: 'sm',
       onPress: next,
-      "aria-label": `Switch color mode (current: ${mode})`,
+      'aria-label': `Switch color mode (current: ${mode})`,
       className,
     },
     MODE_ICONS[mode],
@@ -62,4 +62,4 @@ export const ModeSwitcher: React.FC<ModeSwitcherProps> = ({ showLabel = false, c
   );
 };
 
-ModeSwitcher.displayName = "ModeSwitcher";
+ModeSwitcher.displayName = 'ModeSwitcher';

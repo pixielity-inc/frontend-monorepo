@@ -16,9 +16,9 @@
  * @category Registries
  */
 
-import { Injectable } from "@abdokouta/ts-container";
-import { BaseRegistry } from "@abdokouta/react-support";
-import type { ThemeConfig } from "@/types/theme.types";
+import { Injectable } from '@abdokouta/ts-container';
+import { BaseRegistry } from '@abdokouta/react-support';
+import type { ThemeConfig } from '@/types/theme.types';
 
 @Injectable()
 export class ThemeRegistry extends BaseRegistry<ThemeConfig> {

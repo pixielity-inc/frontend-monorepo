@@ -5,7 +5,7 @@
  */
 
 /** Color mode — maps to next-themes values */
-export type ColorMode = "light" | "dark" | "system";
+export type ColorMode = 'light' | 'dark' | 'system';
 
 /**
  * Full set of HeroUI CSS variable overrides for one mode.

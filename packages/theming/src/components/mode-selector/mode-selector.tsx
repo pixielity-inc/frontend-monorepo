@@ -7,12 +7,12 @@
  * @category Components
  */
 
-"use client";
+'use client';
 
-import React, { createElement } from "react";
-import { Select, Label, ListBox } from "@heroui/react";
-import { useColorMode } from "@/hooks/use-color-mode";
-import type { ColorMode } from "@/types/theme.types";
+import React, { createElement } from 'react';
+import { Select, Label, ListBox } from '@heroui/react';
+import { useColorMode } from '@/hooks/use-color-mode';
+import type { ColorMode } from '@/types/theme.types';
 
 export interface ModeSelectorProps {
   showLabel?: boolean;
@@ -20,9 +20,9 @@ export interface ModeSelectorProps {
 }
 
 const MODES: { id: ColorMode; label: string; icon: string }[] = [
-  { id: "light", label: "Light", icon: "☀️" },
-  { id: "dark", label: "Dark", icon: "🌙" },
-  { id: "system", label: "System", icon: "💻" },
+  { id: 'light', label: 'Light', icon: '☀️' },
+  { id: 'dark', label: 'Dark', icon: '🌙' },
+  { id: 'system', label: 'System', icon: '💻' },
 ];
 
 /**
@@ -38,11 +38,11 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({ showLabel = true, cl
     {
       value: mode,
       onChange: (v) => setMode(v as ColorMode),
-      variant: "secondary",
+      variant: 'secondary',
       className,
-      "aria-label": "Color mode",
+      'aria-label': 'Color mode',
     },
-    showLabel ? createElement(Label, null, "Color mode") : null,
+    showLabel ? createElement(Label, null, 'Color mode') : null,
     createElement(
       Select.Trigger,
       null,
@@ -68,4 +68,4 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({ showLabel = true, cl
   );
 };
 
-ModeSelector.displayName = "ModeSelector";
+ModeSelector.displayName = 'ModeSelector';

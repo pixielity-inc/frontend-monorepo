@@ -12,9 +12,9 @@
  * @category Registries
  */
 
-import { Injectable } from "@abdokouta/ts-container";
-import { BaseRegistry } from "@abdokouta/react-support";
-import type React from "react";
+import { Injectable } from '@abdokouta/ts-container';
+import { BaseRegistry } from '@abdokouta/react-support';
+import type React from 'react';
 
 /*
 |--------------------------------------------------------------------------
