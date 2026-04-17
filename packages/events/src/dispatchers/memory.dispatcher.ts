@@ -34,25 +34,12 @@ import { Subject } from 'rxjs';
 import { ON_EVENT_METADATA } from '@/constants';
 import { isWildcard, matchesWildcard } from '@/utils/wildcard.util';
 import type { Dispatcher, EventListener, EventSubscriber } from '@/interfaces';
+import type { RegisteredListener } from '@/interfaces/registered-listener.interface';
 import type { OnEventMetadata } from '@/types';
 import type { MemoryDispatcherConfig } from '@/interfaces';
 import { EventPriority } from '@/enums';
 
 // ── Internal types ──────────────────────────────────────────────────────────
-
-/**
- * A registered listener with its priority, once flag, and source info.
- */
-export interface RegisteredListener {
-  /** The listener callback. */
-  handler: EventListener;
-  /** Execution priority (higher = earlier). */
-  priority: number;
-  /** If true, remove after first invocation. */
-  once: boolean;
-  /** Whether this listener was registered via a wildcard pattern. */
-  isWildcard: boolean;
-}
 
 /**
  * In-memory event dispatcher.

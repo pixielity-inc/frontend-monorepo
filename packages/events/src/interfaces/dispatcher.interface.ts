@@ -1,5 +1,5 @@
 /**
- * Dispatcher Interface
+ * @fileoverview Dispatcher interface.
  *
  * Contract that all event dispatchers must implement.
  * Equivalent to the `Store` interface in the cache package.
@@ -12,6 +12,8 @@
 
 import type { Observable } from 'rxjs';
 
+import type { EventSubscriber } from './event-subscriber.interface';
+
 /**
  * An event listener callback.
  *
@@ -19,13 +21,6 @@ import type { Observable } from 'rxjs';
  * For wildcard events: `(eventName, payload) => void`
  */
 export type EventListener = (...args: unknown[]) => unknown;
-
-/**
- * An event subscriber — a class that subscribes to multiple events.
- */
-export interface EventSubscriber {
-  subscribe(dispatcher: Dispatcher): Record<string, EventListener> | void;
-}
 
 /**
  * Dispatcher — the low-level event dispatcher contract.
