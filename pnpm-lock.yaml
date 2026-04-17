@@ -199,8 +199,8 @@ importers:
         specifier: 4.1.4
         version: 4.1.4(@typescript-eslint/eslint-plugin@8.31.1(@typescript-eslint/parser@8.31.1(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.2.0(jiti@2.6.1))
       globals:
-        specifier: 16.0.0
-        version: 16.0.0
+        specifier: 17.5.0
+        version: 17.5.0
       postcss:
         specifier: 8.5.6
         version: 8.5.6
@@ -448,71 +448,6 @@ importers:
       vitest:
         specifier: ^4.1.2
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
-
-  packages/abcd/vite/ngrok:
-    dependencies:
-      '@ngrok/ngrok':
-        specifier: ^1.7.0
-        version: 1.7.0
-    devDependencies:
-      '@nesvel/eslint-config':
-        specifier: ^1.0.5
-        version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
-      '@nesvel/tsup-config':
-        specifier: ^1.0.3
-        version: 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
-      '@nesvel/typescript-config':
-        specifier: ^1.0.4
-        version: 1.0.4(typescript@6.0.3)
-      '@types/node':
-        specifier: ^25.5.2
-        version: 25.6.0
-      eslint:
-        specifier: ^10.1.0
-        version: 10.2.0(jiti@2.6.1)
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)
-      typescript:
-        specifier: ^6.0.2
-        version: 6.0.3
-      vite:
-        specifier: ^8.0.4
-        version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)
-
-  packages/abcd/vite/qrcode:
-    dependencies:
-      qrcode-terminal:
-        specifier: ^0.12.0
-        version: 0.12.0
-    devDependencies:
-      '@nesvel/eslint-config':
-        specifier: ^1.0.5
-        version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
-      '@nesvel/tsup-config':
-        specifier: ^1.0.3
-        version: 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
-      '@nesvel/typescript-config':
-        specifier: ^1.0.4
-        version: 1.0.4(typescript@6.0.3)
-      '@types/node':
-        specifier: ^25.5.2
-        version: 25.6.0
-      '@types/qrcode-terminal':
-        specifier: ^0.12.2
-        version: 0.12.2
-      eslint:
-        specifier: ^10.1.0
-        version: 10.2.0(jiti@2.6.1)
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)
-      typescript:
-        specifier: ^6.0.2
-        version: 6.0.3
-      vite:
-        specifier: ^8.0.4
-        version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)
 
   packages/config:
     dependencies:
@@ -3139,91 +3074,6 @@ packages:
     peerDependencies:
       typescript: ^6.0.2
 
-  '@ngrok/ngrok-android-arm64@1.7.0':
-    resolution: {integrity: sha512-8tco3ID6noSaNy+CMS7ewqPoIkIM6XO5COCzsUp3Wv3XEbMSyn65RN6cflX2JdqLfUCHcMyD0ahr9IEiHwqmbQ==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [android]
-
-  '@ngrok/ngrok-darwin-arm64@1.7.0':
-    resolution: {integrity: sha512-+dmJSOzSO+MNDVrPOca2yYDP1W3KfP4qOlAkarIeFRIfqonQwq3QCBmcR7HAlZocLsSqEwyG6KP4RRvAuT0WGQ==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@ngrok/ngrok-darwin-universal@1.7.0':
-    resolution: {integrity: sha512-fDEfewyE2pWGFBhOSwQZObeHUkc65U1l+3HIgSOe094TMHsqmyJD0KTCgW9KSn0VP4OvDZbAISi1T3nvqgZYhQ==}
-    engines: {node: '>= 10'}
-    os: [darwin]
-
-  '@ngrok/ngrok-darwin-x64@1.7.0':
-    resolution: {integrity: sha512-+fwMi5uHd9G8BS42MMa9ye6exI5lwTcjUO6Ut497Vu0qgLONdVRenRqnEePV+Q3KtQR7NjqkMnomVfkr9MBjtw==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@ngrok/ngrok-freebsd-x64@1.7.0':
-    resolution: {integrity: sha512-2OGgbrjy3yLRrqAz5N6hlUKIWIXSpR5RjQa2chtZMsSbszQ6c9dI+uVQfOKAeo05tHMUgrYAZ7FocC+ig0dzdQ==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [freebsd]
-
-  '@ngrok/ngrok-linux-arm-gnueabihf@1.7.0':
-    resolution: {integrity: sha512-SN9YIfEQiR9xN90QVNvdgvAemqMLoFVSeTWZs779145hQMhvF9Qd9rnWi6J+2uNNK10OczdV1oc/nq1es7u/3g==}
-    engines: {node: '>= 10'}
-    cpu: [arm]
-    os: [linux]
-
-  '@ngrok/ngrok-linux-arm64-gnu@1.7.0':
-    resolution: {integrity: sha512-KDMgzPKFU2kbpVSaA2RZBBia5IPdJEe063YlyVFnSMJmPYWCUnMwdybBsucXfV9u1Lw/ZjKTKotIlbTWGn3HGw==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
-
-  '@ngrok/ngrok-linux-arm64-musl@1.7.0':
-    resolution: {integrity: sha512-e66vUdVrBlQ0lT9ZdamB4U604zt5Gualt8/WVcUGzbu8s5LajWd6g/mzZCUjK4UepjvMpfgmCp1/+rX7Rk8d5A==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
-
-  '@ngrok/ngrok-linux-x64-gnu@1.7.0':
-    resolution: {integrity: sha512-M6gF0DyOEFqXLfWxObfL3bxYZ4+PnKBHuyLVaqNfFN9Y5utY2mdPOn5422Ppbk4XoIK5/YkuhRqPJl/9FivKEw==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
-
-  '@ngrok/ngrok-linux-x64-musl@1.7.0':
-    resolution: {integrity: sha512-4Ijm0dKeoyzZTMaYxR2EiNjtlK81ebflg/WYIO1XtleFrVy4UJEGnxtxEidYoT4BfCqi4uvXiK2Mx216xXKvog==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
-  '@ngrok/ngrok-win32-arm64-msvc@1.7.0':
-    resolution: {integrity: sha512-u7qyWIJI2/YG1HTBnHwUR1+Z2tyGfAsUAItJK/+N1G0FeWJhIWQvSIFJHlaPy4oW1Dc8mSDBX9qvVsiQgLaRFg==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@ngrok/ngrok-win32-ia32-msvc@1.7.0':
-    resolution: {integrity: sha512-/UdYUsLNv/Q8j9YJsyIfq/jLCoD8WP+NidouucTUzSoDtmOsXBBT3itLrmPiZTEdEgKiFYLuC1Zon8XQQvbVLA==}
-    engines: {node: '>= 10'}
-    cpu: [ia32]
-    os: [win32]
-
-  '@ngrok/ngrok-win32-x64-msvc@1.7.0':
-    resolution: {integrity: sha512-UFJg/duEWzZlLkEs61Gz6/5nYhGaKI62I8dvUGdBR3NCtIMagehnFaFxmnXZldyHmCM8U0aCIFNpWRaKcrQkoA==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [win32]
-
-  '@ngrok/ngrok@1.7.0':
-    resolution: {integrity: sha512-P06o9TpxrJbiRbHQkiwy/rUrlXRupc+Z8KT4MiJfmcdWxvIdzjCaJOdnNkcOTs6DMyzIOefG5tvk/HLdtjqr0g==}
-    engines: {node: '>= 10'}
-
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -4417,9 +4267,6 @@ packages:
 
   '@types/plist@3.0.5':
     resolution: {integrity: sha512-E6OCaRmAe4WDmWNsL/9RMqdkkzDCY1etutkflWk4c+AcjDU07Pcz1fQwTX0TQz+Pxqn9i4L1TU3UFpjnrcDgxA==}
-
-  '@types/qrcode-terminal@0.12.2':
-    resolution: {integrity: sha512-v+RcIEJ+Uhd6ygSQ0u5YYY7ZM+la7GgPbs0V/7l/kFs2uO4S8BcIUEMoP7za4DNIqNnUD5npf0A/7kBhrCKG5Q==}
 
   '@types/qs@6.15.0':
     resolution: {integrity: sha512-JawvT8iBVWpzTrz3EGw9BTQFg3BQNmwERdKE22vlTxawwtbyUSlMppvZYKLZzB5zgACXdXxbD3m1bXaMqP/9ow==}
@@ -6127,8 +5974,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@16.0.0:
-    resolution: {integrity: sha512-iInW14XItCXET01CQFqudPOWP2jYMl7T+QRQT+UNcR/iQncN/F0UNpgd76iFkBPgNQb4+X3LV9tLJYzwh+Gl3A==}
+  globals@17.5.0:
+    resolution: {integrity: sha512-qoV+HK2yFl/366t2/Cb3+xxPUo5BuMynomoDmiaZBIdbs+0pYbjfZU+twLhGKp4uCZ/+NbtpVepH5bGCxRyy2g==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -7658,10 +7505,6 @@ packages:
 
   pure-rand@8.4.0:
     resolution: {integrity: sha512-IoM8YF/jY0hiugFo/wOWqfmarlE6J0wc6fDK1PhftMk7MGhVZl88sZimmqBBFomLOCSmcCCpsfj7wXASCpvK9A==}
-
-  qrcode-terminal@0.12.0:
-    resolution: {integrity: sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==}
-    hasBin: true
 
   qs@6.15.1:
     resolution: {integrity: sha512-6YHEFRL9mfgcAvql/XhwTvf5jKcOiiupt2FiJxHkiX1z4j7WL8J/jRHYLluORvc1XxB5rV20KoeK00gVJamspg==}
@@ -10945,61 +10788,6 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@ngrok/ngrok-android-arm64@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-darwin-arm64@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-darwin-universal@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-darwin-x64@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-freebsd-x64@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-linux-arm-gnueabihf@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-linux-arm64-gnu@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-linux-arm64-musl@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-linux-x64-gnu@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-linux-x64-musl@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-win32-arm64-msvc@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-win32-ia32-msvc@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok-win32-x64-msvc@1.7.0':
-    optional: true
-
-  '@ngrok/ngrok@1.7.0':
-    optionalDependencies:
-      '@ngrok/ngrok-android-arm64': 1.7.0
-      '@ngrok/ngrok-darwin-arm64': 1.7.0
-      '@ngrok/ngrok-darwin-universal': 1.7.0
-      '@ngrok/ngrok-darwin-x64': 1.7.0
-      '@ngrok/ngrok-freebsd-x64': 1.7.0
-      '@ngrok/ngrok-linux-arm-gnueabihf': 1.7.0
-      '@ngrok/ngrok-linux-arm64-gnu': 1.7.0
-      '@ngrok/ngrok-linux-arm64-musl': 1.7.0
-      '@ngrok/ngrok-linux-x64-gnu': 1.7.0
-      '@ngrok/ngrok-linux-x64-musl': 1.7.0
-      '@ngrok/ngrok-win32-arm64-msvc': 1.7.0
-      '@ngrok/ngrok-win32-ia32-msvc': 1.7.0
-      '@ngrok/ngrok-win32-x64-msvc': 1.7.0
-
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -12128,8 +11916,6 @@ snapshots:
       '@types/node': 25.6.0
       xmlbuilder: 15.1.1
     optional: true
-
-  '@types/qrcode-terminal@0.12.2': {}
 
   '@types/qs@6.15.0': {}
 
@@ -14195,7 +13981,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@16.0.0: {}
+  globals@17.5.0: {}
 
   globalthis@1.0.4:
     dependencies:
@@ -15787,8 +15573,6 @@ snapshots:
   pure-rand@7.0.1: {}
 
   pure-rand@8.4.0: {}
-
-  qrcode-terminal@0.12.0: {}
 
   qs@6.15.1:
     dependencies:
