@@ -15,16 +15,9 @@
 'use client';
 
 import { useThemeContext } from '@/contexts/theme.context';
-import type { ThemeConfig } from '@/types/theme.types';
+import type { UseThemeReturn } from '@/interfaces/use-theme-return.interface';
 
-export interface UseThemeReturn {
-  /** Currently active theme id */
-  theme: string;
-  /** Set the active theme by id */
-  setTheme: (id: string) => void;
-  /** All registered themes */
-  themes: ThemeConfig[];
-}
+export type { UseThemeReturn } from '@/interfaces/use-theme-return.interface';
 
 export function useTheme(): UseThemeReturn {
   const { theme, setTheme, themes } = useThemeContext();

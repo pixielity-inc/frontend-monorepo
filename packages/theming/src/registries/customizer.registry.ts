@@ -14,25 +14,7 @@
 
 import { Injectable } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/react-support';
-import type React from 'react';
-
-/*
-|--------------------------------------------------------------------------
-| CustomizerPanel Interface
-|--------------------------------------------------------------------------
-*/
-
-/** A customizer panel registered with the ThemeModule. */
-export interface CustomizerPanel {
-  /** Unique ID for this panel (e.g. "auth", "multitenancy"). */
-  id: string;
-  /** Section heading shown in the drawer. */
-  title: string;
-  /** The React component that renders the customizer controls. */
-  component: React.ComponentType;
-  /** Display order — lower = shown first. @default 99 */
-  order?: number;
-}
+import type { CustomizerPanel } from '@/interfaces/customizer-panel.interface';
 
 /*
 |--------------------------------------------------------------------------

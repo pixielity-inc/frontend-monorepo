@@ -18,7 +18,7 @@
 
 import { Injectable } from '@abdokouta/ts-container';
 import { BaseRegistry } from '@abdokouta/react-support';
-import type { ThemeConfig } from '@/types/theme.types';
+import type { ThemeConfig } from '@/interfaces/theme-config.interface';
 
 @Injectable()
 export class ThemeRegistry extends BaseRegistry<ThemeConfig> {
