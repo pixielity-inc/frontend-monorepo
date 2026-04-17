@@ -6,7 +6,7 @@
  * @module hooks/use-redis
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { RedisManager } from '@/services/redis-manager.service';
 
 /**

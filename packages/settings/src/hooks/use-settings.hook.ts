@@ -8,7 +8,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import type {
   SettingDtoConstructor,
   ResolvedSettingGroup,

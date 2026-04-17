@@ -16,24 +16,24 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { EnvDriver } from '@/drivers/env.driver';
 
 describe('EnvDriver', () => {
-  const originalEnv = process.env;
+  const originalEnv = import.meta.env;
 
   beforeEach(() => {
     // Arrange: Reset environment
-    process.env = { ...originalEnv };
+    import.meta.env = { ...originalEnv };
   });
 
   afterEach(() => {
     // Cleanup: Restore environment
-    process.env = originalEnv;
+    import.meta.env = originalEnv;
   });
 
   describe('load', () => {
     it('should load environment variables', () => {
       // Arrange: Set env vars
-      process.env.APP_NAME = 'Test App';
-      process.env.APP_PORT = '3000';
-      process.env.APP_DEBUG = 'true';
+      import.meta.env.APP_NAME = 'Test App';
+      import.meta.env.APP_PORT = '3000';
+      import.meta.env.APP_DEBUG = 'true';
 
       const driver = new EnvDriver();
 
@@ -47,7 +47,7 @@ describe('EnvDriver', () => {
 
     it('should handle empty environment', () => {
       // Arrange: Clear env
-      process.env = {};
+      import.meta.env = {};
 
       const driver = new EnvDriver();
 
@@ -63,10 +63,10 @@ describe('EnvDriver', () => {
   describe('get', () => {
     beforeEach(() => {
       // Arrange: Set test env vars
-      process.env.APP_NAME = 'Test App';
-      process.env.APP_PORT = '3000';
-      process.env.DATABASE_HOST = 'localhost';
-      process.env.DATABASE_PORT = '5432';
+      import.meta.env.APP_NAME = 'Test App';
+      import.meta.env.APP_PORT = '3000';
+      import.meta.env.DATABASE_HOST = 'localhost';
+      import.meta.env.DATABASE_PORT = '5432';
     });
 
     it('should get environment variable', () => {
@@ -121,8 +121,8 @@ describe('EnvDriver', () => {
   describe('has', () => {
     beforeEach(() => {
       // Arrange: Set test env vars
-      process.env.APP_NAME = 'Test App';
-      process.env.EMPTY_VAR = '';
+      import.meta.env.APP_NAME = 'Test App';
+      import.meta.env.EMPTY_VAR = '';
     });
 
     it('should return true for existing key', () => {
@@ -165,9 +165,9 @@ describe('EnvDriver', () => {
   describe('all', () => {
     beforeEach(() => {
       // Arrange: Set test env vars
-      process.env.APP_NAME = 'Test App';
-      process.env.APP_PORT = '3000';
-      process.env.DATABASE_HOST = 'localhost';
+      import.meta.env.APP_NAME = 'Test App';
+      import.meta.env.APP_PORT = '3000';
+      import.meta.env.DATABASE_HOST = 'localhost';
     });
 
     it('should return all configuration', () => {
@@ -199,8 +199,8 @@ describe('EnvDriver', () => {
   describe('Variable Expansion', () => {
     it('should expand variables when enabled', () => {
       // Arrange: Set vars with references
-      process.env.BASE_URL = 'http://localhost';
-      process.env.API_URL = '${BASE_URL}/api';
+      import.meta.env.BASE_URL = 'http://localhost';
+      import.meta.env.API_URL = '${BASE_URL}/api';
 
       const driver = new EnvDriver({ expandVariables: true });
       driver.load();
@@ -216,7 +216,7 @@ describe('EnvDriver', () => {
   describe('Edge Cases', () => {
     it('should handle special characters in values', () => {
       // Arrange: Set var with special chars
-      process.env.SPECIAL = 'value with spaces & symbols!@#';
+      import.meta.env.SPECIAL = 'value with spaces & symbols!@#';
 
       const driver = new EnvDriver();
       driver.load();
@@ -230,7 +230,7 @@ describe('EnvDriver', () => {
 
     it('should handle multiline values', () => {
       // Arrange: Set multiline var
-      process.env.MULTILINE = 'line1\\nline2\\nline3';
+      import.meta.env.MULTILINE = 'line1\\nline2\\nline3';
 
       const driver = new EnvDriver();
       driver.load();
@@ -244,7 +244,7 @@ describe('EnvDriver', () => {
 
     it('should handle empty environment', () => {
       // Arrange: Clear all env vars
-      process.env = {};
+      import.meta.env = {};
 
       const driver = new EnvDriver();
 

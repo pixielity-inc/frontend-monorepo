@@ -1,74 +1,26 @@
-/**
- * @fileoverview useShow Hook
- *
- * Enhanced useShow hook that wraps the original Refine useShow
- * and exposes isLoading directly for better DX.
- *
- * @module @abdokouta/react-refine
- * @category Hooks
- */
+/** @fileoverview useShow hook — fetch a single record for display. @module @abdokouta/react-refine @category Hooks */
+import { useQuery } from '@tanstack/react-query';
+import { resolveService } from '../use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { UseShowProps } from '@/interfaces/use-show-props.interface';
+import type { UseShowReturnType } from '@/types/use-show-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
-import { useShow as useShowOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseShowProps, UseShowReturnType } from './use-show.types';
-
-/**
- * useShow Hook
- *
- * Enhanced version of Refine's useShow hook that exposes loading states directly.
- * Fetches a single record for show/detail pages.
- *
- * @param props - Hook configuration options
- * @returns Enhanced return object with direct access to loading states
- *
- * @example
- * ```typescript
- * const { data, isLoading, showId, setShowId } = useShow({
- *   resource: 'posts',
- * });
- *
- * if (isLoading) return <Spinner />;
- * return <div>{data?.title}</div>;
- * ```
- *
- * @example With explicit ID
- * ```typescript
- * const { data, isLoading } = useShow({
- *   resource: 'posts',
- *   id: 1,
- * });
- * ```
- *
- * @example Dynamic ID change
- * ```typescript
- * const { data, isLoading, setShowId } = useShow({
- *   resource: 'posts',
- * });
- *
- * // Change the ID dynamically
- * setShowId(newId);
- * ```
- */
-export const useShow = <
-  TQueryFnData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  TData extends BaseRecord = TQueryFnData,
->(
-  props?: UseShowProps<TQueryFnData, TError, TData>
-): UseShowReturnType<TData, TError> => {
-  const result = useShowOriginal<TQueryFnData, TError, TData>(props);
-
+export function useShow<TData = any>(props: UseShowProps): UseShowReturnType<TData> {
+  const { resource, id, enabled = true } = props;
+  const query = useQuery({
+    queryKey: QueryKeyFactory.one(resource, id),
+    queryFn: () => resolveService(resource).getOne(id),
+    enabled,
+  });
   return {
-    data: result.result,
-    isLoading: result.query.isLoading,
-    isFetching: result.query.isFetching,
-    isError: result.query.isError,
-    isSuccess: result.query.isSuccess,
-    error: result.query.error,
-    showId: result.showId,
-    setShowId: result.setShowId,
-    refetch: result.query.refetch,
-    query: result.query,
-    overtime: result.overtime,
+    data: query.data as TData | undefined,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    isSuccess: query.isSuccess,
+    error: query.error as unknown as HttpError | null,
+    refetch: query.refetch,
+    query,
   };
-};
+}

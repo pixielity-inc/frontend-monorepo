@@ -1,27 +1,34 @@
-import { useUpdateMany as useUpdateManyOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseUpdateManyProps, UseUpdateManyReturnType } from './use-update-many.types';
+/** @fileoverview useUpdateMany hook. @module @abdokouta/react-refine @category Hooks */
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { resolveService } from '@/hooks/use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { UseUpdateManyProps } from '@/interfaces/use-update-many-props.interface';
+import type { UpdateManyMutationVariables } from '@/interfaces/update-many-mutation-variables.interface';
+import type { UseUpdateManyReturnType } from '@/types/use-update-many-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
-export const useUpdateMany = <
-  TData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  _TVariables = {},
->(
-  props?: UseUpdateManyProps<TData, TError, _TVariables>
-): UseUpdateManyReturnType<TData, TError, _TVariables> => {
-  const result = useUpdateManyOriginal<TData, TError, _TVariables>(props ?? {});
-
+export function useUpdateMany<TData = any>(
+  props: UseUpdateManyProps
+): UseUpdateManyReturnType<TData> {
+  const { resource } = props;
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (variables: UpdateManyMutationVariables<TData>) =>
+      resolveService(resource).updateMany(variables.ids, variables.values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QueryKeyFactory.invalidate(resource) });
+    },
+  });
   return {
-    mutate: result.mutate,
-    mutateAsync: result.mutateAsync,
-    isLoading: result.mutation.isPending,
-    isError: result.mutation.isError,
-    isSuccess: result.mutation.isSuccess,
-    isIdle: result.mutation.isIdle,
-    error: result.mutation.error,
-    data: result.mutation.data,
-    reset: result.mutation.reset,
-    mutation: result.mutation as any,
-    overtime: { elapsedTime: result.overtime?.elapsedTime },
+    mutate: mutation.mutate,
+    mutateAsync: mutation.mutateAsync as any,
+    isLoading: mutation.isPending,
+    isError: mutation.isError,
+    isSuccess: mutation.isSuccess,
+    isIdle: mutation.isIdle,
+    error: mutation.error as unknown as HttpError | null,
+    data: mutation.data as TData[] | undefined,
+    reset: mutation.reset,
+    mutation,
   };
-};
+}

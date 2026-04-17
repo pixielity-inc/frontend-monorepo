@@ -1,11 +1,6 @@
 /**
- * @fileoverview useOne Hook
- *
- * Re-exports the useOne hook and types.
- *
+ * @fileoverview Barrel export for the useOne hook.
  * @module @abdokouta/react-refine
  * @category Hooks
  */
-
 export { useOne } from './use-one.hook';
-export type { UseOneProps, UseOneReturnType } from './use-one.types';

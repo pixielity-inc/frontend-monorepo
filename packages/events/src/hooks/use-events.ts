@@ -20,7 +20,7 @@
  * ```
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { EventManager } from '@/services/event-manager.service';
 import type { EventService } from '@/services/event.service';
 

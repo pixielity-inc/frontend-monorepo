@@ -7,7 +7,7 @@
  * @module hooks/use-logger
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { LoggerManager } from '@/services/logger-manager.service';
 import type { LoggerService } from '@/services/logger.service';
 

@@ -6,6 +6,8 @@
  * Implements `OnModuleInit` — automatically runs pending migrations when
  * the DI container boots (if `autoMigrate` is enabled on the config).
  *
+ * @category Registries
+ *
  * @example
  * ```ts
  * // Migrations run automatically on boot via onModuleInit()

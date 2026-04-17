@@ -1,27 +1,32 @@
-import { useDeleteMany as useDeleteManyOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseDeleteManyProps, UseDeleteManyReturnType } from './use-delete-many.types';
+/** @fileoverview useDeleteMany hook. @module @abdokouta/react-refine @category Hooks */
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { resolveService } from '@/hooks/use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { UseDeleteManyProps } from '@/interfaces/use-delete-many-props.interface';
+import type { DeleteManyMutationVariables } from '@/interfaces/delete-many-mutation-variables.interface';
+import type { UseDeleteManyReturnType } from '@/types/use-delete-many-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
-export const useDeleteMany = <
-  TData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  _TVariables = {},
->(
-  props?: UseDeleteManyProps<TData, TError, _TVariables>
-): UseDeleteManyReturnType<TData, TError, _TVariables> => {
-  const result = useDeleteManyOriginal<TData, TError, _TVariables>(props ?? {});
-
+export function useDeleteMany(props: UseDeleteManyProps): UseDeleteManyReturnType {
+  const { resource } = props;
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (variables: DeleteManyMutationVariables) =>
+      resolveService(resource).deleteMany(variables.ids),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QueryKeyFactory.invalidate(resource) });
+    },
+  });
   return {
-    mutate: result.mutate,
-    mutateAsync: result.mutateAsync,
-    isLoading: result.mutation.isPending,
-    isError: result.mutation.isError,
-    isSuccess: result.mutation.isSuccess,
-    isIdle: result.mutation.isIdle,
-    error: result.mutation.error,
-    data: result.mutation.data,
-    reset: result.mutation.reset,
-    mutation: result.mutation as any,
-    overtime: { elapsedTime: result.overtime?.elapsedTime },
+    mutate: mutation.mutate,
+    mutateAsync: mutation.mutateAsync as any,
+    isLoading: mutation.isPending,
+    isError: mutation.isError,
+    isSuccess: mutation.isSuccess,
+    isIdle: mutation.isIdle,
+    error: mutation.error as unknown as HttpError | null,
+    data: mutation.data,
+    reset: mutation.reset,
+    mutation,
   };
-};
+}

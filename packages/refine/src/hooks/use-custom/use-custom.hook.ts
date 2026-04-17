@@ -1,27 +1,26 @@
-import { useCustom as useCustomOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseCustomProps, UseCustomReturnType } from './use-custom.types';
+/** @fileoverview useCustom hook — execute a custom query. @module @abdokouta/react-refine @category Hooks */
+import { useQuery } from '@tanstack/react-query';
+import { resolveService } from '../use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { UseCustomProps } from '@/interfaces/use-custom-props.interface';
+import type { UseCustomReturnType } from '@/types/use-custom-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
-export const useCustom = <
-  TQueryFnData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  TQuery = unknown,
-  TPayload = unknown,
-  TData extends BaseRecord = TQueryFnData,
->(
-  props: UseCustomProps<TQueryFnData, TError, TQuery, TPayload, TData>
-): UseCustomReturnType<TData, TError> => {
-  const result = useCustomOriginal<TQueryFnData, TError, TQuery, TPayload, TData>(props);
-
+export function useCustom<TData = any>(props: UseCustomProps): UseCustomReturnType<TData> {
+  const { resource, params, enabled = true } = props;
+  const query = useQuery({
+    queryKey: QueryKeyFactory.custom(resource, params),
+    queryFn: () => resolveService(resource).custom(params),
+    enabled,
+  });
   return {
-    data: result.result.data,
-    isLoading: result.query.isLoading,
-    isFetching: result.query.isFetching,
-    isError: result.query.isError,
-    isSuccess: result.query.isSuccess,
-    error: result.query.error ?? null,
-    refetch: result.query.refetch,
-    query: result.query,
-    overtime: { elapsedTime: result.overtime?.elapsedTime },
+    data: query.data as TData | undefined,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    isSuccess: query.isSuccess,
+    error: query.error as unknown as HttpError | null,
+    refetch: query.refetch,
+    query,
   };
-};
+}

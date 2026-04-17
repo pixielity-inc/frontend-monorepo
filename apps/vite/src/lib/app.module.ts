@@ -56,7 +56,7 @@ import { FileMenu, EditMenu, ViewMenu } from '@/menus';
     | Config — environment-aware configuration
     |--------------------------------------------------------------------------
     |
-    | Reads from import.meta.env (Vite) or process.env (Node.js).
+    | Reads from import.meta.env (Vite) or import.meta.env (Node.js).
     | Auto-strips VITE_ / NEXT_PUBLIC_ prefix.
     | Global — available to all modules without re-importing.
     |

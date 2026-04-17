@@ -51,7 +51,6 @@
   },
   "peerDependencies": {
     "@abdokouta/ts-container": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
     "@abdokouta/ts-cache": "workspace:*",
     "react": "^18.0.0 || ^19.0.0"
@@ -62,9 +61,6 @@
     },
     "@abdokouta/ts-support": {
       "optional": false
-    },
-    "@abdokouta/ts-container-react": {
-      "optional": true
     },
     "@abdokouta/ts-cache": {
       "optional": true

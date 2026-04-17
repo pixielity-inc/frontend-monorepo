@@ -417,7 +417,7 @@ export interface RedisConnection {
    *
    * @example
    * ```typescript
-   * if (process.env.NODE_ENV === 'test') {
+   * if (import.meta.env.NODE_ENV === 'test') {
    *   await connection.flushdb();
    * }
    * ```

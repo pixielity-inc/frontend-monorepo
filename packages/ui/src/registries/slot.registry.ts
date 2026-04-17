@@ -11,6 +11,9 @@
  * | No React context or provider needed — the registry is a global singleton.
  * | Entries are registered imperatively and read at render time.
  * |
+ * | Extends BaseRegistry from @abdokouta/react-support for consistent
+ * | registry API. Each slot name maps to a SlotEntriesMap.
+ * |
  * | Usage:
  * |   slotRegistry.registerEntry("login.after.header", {
  * |     id: "multitenancy:tenant-badge",
@@ -20,8 +23,11 @@
  * |   });
  * |
  * @module registries/slot
+ * @category Registries
  */
 
+import { Injectable } from '@abdokouta/ts-container';
+import { BaseRegistry } from '@abdokouta/react-support';
 import type { SlotEntry, SlotEntryOptions } from '@/interfaces/slot-entry.interface';
 
 /**
@@ -38,10 +44,8 @@ type SlotEntriesMap = Map<string, SlotEntry>;
  * Any module can inject content into named slots without modifying
  * the consuming component — true decoupled extensibility.
  */
-export class SlotRegistry {
-  /** Internal storage: slot name → entries map. */
-  private slots = new Map<string, SlotEntriesMap>();
-
+@Injectable()
+export class SlotRegistry extends BaseRegistry<SlotEntriesMap> {
   /** Auto-increment counter for generating unique IDs. */
   private idCounter = 0;
 
@@ -65,10 +69,10 @@ export class SlotRegistry {
       ...entry,
     };
 
-    let entriesMap = this.slots.get(slotName);
+    let entriesMap = this.get(slotName);
     if (!entriesMap) {
       entriesMap = new Map();
-      this.slots.set(slotName, entriesMap);
+      super.register(slotName, entriesMap);
     }
 
     entriesMap.set(id, fullEntry);
@@ -97,7 +101,7 @@ export class SlotRegistry {
   |
   */
   unregisterEntry(slotName: string, entryId: string): boolean {
-    const entriesMap = this.slots.get(slotName);
+    const entriesMap = this.get(slotName);
     const removed = entriesMap?.delete(entryId) ?? false;
     if (removed) this.notify();
     return removed;
@@ -112,7 +116,7 @@ export class SlotRegistry {
   |
   */
   hasEntries(slotName: string): boolean {
-    const entriesMap = this.slots.get(slotName);
+    const entriesMap = this.get(slotName);
     return entriesMap !== undefined && entriesMap.size > 0;
   }
 
@@ -125,7 +129,7 @@ export class SlotRegistry {
   |
   */
   hasEntry(slotName: string, entryId: string): boolean {
-    return this.slots.get(slotName)?.has(entryId) ?? false;
+    return this.get(slotName)?.has(entryId) ?? false;
   }
 
   /*
@@ -137,7 +141,7 @@ export class SlotRegistry {
   |
   */
   getEntry(slotName: string, entryId: string): SlotEntry | undefined {
-    return this.slots.get(slotName)?.get(entryId);
+    return this.get(slotName)?.get(entryId);
   }
 
   /*
@@ -150,7 +154,7 @@ export class SlotRegistry {
   |
   */
   getEntries(slotName: string): SlotEntry[] {
-    const entriesMap = this.slots.get(slotName);
+    const entriesMap = this.get(slotName);
     if (!entriesMap) return [];
 
     return Array.from(entriesMap.values())
@@ -164,7 +168,7 @@ export class SlotRegistry {
   |--------------------------------------------------------------------------
   */
   countEntries(slotName: string): number {
-    return this.slots.get(slotName)?.size ?? 0;
+    return this.get(slotName)?.size ?? 0;
   }
 
   /*
@@ -176,7 +180,7 @@ export class SlotRegistry {
   |
   */
   clearSlot(slotName: string): void {
-    const entriesMap = this.slots.get(slotName);
+    const entriesMap = this.get(slotName);
     if (entriesMap) {
       entriesMap.clear();
       this.notify();
@@ -192,7 +196,7 @@ export class SlotRegistry {
   |
   */
   clearAll(): void {
-    this.slots.clear();
+    this.clear();
     this.notify();
   }
 
@@ -208,7 +212,7 @@ export class SlotRegistry {
     const entry = this.getEntry(slotName, entryId);
     if (!entry) return false;
 
-    this.slots.get(slotName)!.set(entryId, { ...entry, ...updates });
+    this.get(slotName)!.set(entryId, { ...entry, ...updates });
     this.notify();
     return true;
   }
@@ -222,7 +226,7 @@ export class SlotRegistry {
   |
   */
   getSlotNames(): string[] {
-    return Array.from(this.slots.keys()).filter((name) => this.hasEntries(name));
+    return this.getKeys().filter((name) => this.hasEntries(name));
   }
 
   /*

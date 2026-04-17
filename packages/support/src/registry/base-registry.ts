@@ -9,7 +9,7 @@
  */
 
 import { MapCollection } from '@/collections/map.collection';
-import type { BaseRegistryOptions, ValidationResult, Collection } from '@/types';
+import type { BaseRegistryOptions, ValidationResult, Collection } from '@/interfaces';
 
 /**
  * Base registry class

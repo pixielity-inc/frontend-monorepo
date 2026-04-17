@@ -9,7 +9,7 @@
  *   - Live env var display
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { ConfigService } from '@abdokouta/ts-config';
 import { Card, Chip, Separator } from '@heroui/react';
 

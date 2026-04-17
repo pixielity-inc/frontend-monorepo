@@ -1,2 +1,2 @@
+/** @fileoverview Barrel export for useCreateMany. @module @abdokouta/react-refine @category Hooks */
 export { useCreateMany } from './use-create-many.hook';
-export type { UseCreateManyProps, UseCreateManyReturnType } from './use-create-many.types';

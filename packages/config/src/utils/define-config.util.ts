@@ -2,14 +2,16 @@
  * Define Config Utility
  *
  * Helper function to define config module options with type safety.
+ * Follows the `defineConfig()` pattern popularized by Vite, Vitest,
+ * and similar tools.
  *
- * @module @abdokouta/config
+ * @module utils/define-config
  */
 
 import type { ConfigModuleOptions } from '@/interfaces';
 
 /**
- * Helper function to define config module options with type safety
+ * Helper function to define config module options with type safety.
  *
  * Provides IDE autocomplete and type checking for configuration objects.
  * This pattern is consistent with modern tooling (Vite, Vitest, etc.).
@@ -23,10 +25,14 @@ import type { ConfigModuleOptions } from '@/interfaces';
  * import { defineConfig } from '@abdokouta/config';
  *
  * export default defineConfig({
- *   driver: 'env',
- *   ignoreEnvFile: true,
- *   isGlobal: true,
- *   envPrefix: 'auto',
+ *   default: 'env',
+ *   sources: {
+ *     env: {
+ *       driver: 'env',
+ *       ignoreEnvFile: true,
+ *       envPrefix: 'auto',
+ *     },
+ *   },
  * });
  * ```
  */

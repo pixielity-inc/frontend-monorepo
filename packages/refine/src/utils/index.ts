@@ -1,7 +1,9 @@
 /**
- * Utils
+ * @fileoverview Barrel export for all utilities in the refine package.
  *
  * @module @abdokouta/react-refine
+ * @category Utils
  */
 
-export { defineConfig } from './define-config.util';
+export { QueryKeyFactory } from './query-key-factory.util';
+export { QueryBuilder } from './query-builder.util';

@@ -7,7 +7,7 @@
  * @module hooks/use-redis-connection
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { RedisManager } from '@/services/redis-manager.service';
 import type { RedisConnection } from '@/interfaces';
 

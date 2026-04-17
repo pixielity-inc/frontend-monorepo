@@ -4,6 +4,8 @@
  * Seeder classes keyed by class name. Provides `seed()` to run all
  * registered seeders in order, or `seedOne()` for a specific seeder.
  *
+ * @category Registries
+ *
  * @example
  * ```ts
  * const registry = new SeederRegistry();
@@ -80,3 +82,6 @@ export class SeederRegistry extends BaseRegistry<SeederClass> {
     return [...this.ordered];
   }
 }
+
+/** Global singleton SeederRegistry. */
+export const seederRegistry = new SeederRegistry();

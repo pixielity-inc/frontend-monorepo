@@ -65,7 +65,6 @@
   "peerDependencies": {
     "@abdokouta/ts-container": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
     "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
@@ -74,9 +73,6 @@
     },
     "@abdokouta/ts-support": {
       "optional": false
-    },
-    "@abdokouta/ts-container-react": {
-      "optional": true
     },
     "react": {
       "optional": true

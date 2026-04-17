@@ -1,21 +1,28 @@
 /**
  * @abdokouta/ts-config
  *
- * NestJS-inspired configuration management with multiple drivers for loading
- * configuration from various sources (environment variables, files, etc.).
- * Provides type-safe access to configuration values with support for nested
- * properties and default values.
+ * Multi-source configuration management with multiple drivers for loading
+ * configuration from various sources (environment variables, files, HTTP
+ * endpoints, etc.). Provides type-safe access to configuration values
+ * with support for nested properties and default values.
+ *
+ * Follows the manager pattern used by cache, logger, and redis packages:
+ * - `ConfigManager` orchestrates multiple named config sources
+ * - `ConfigService` wraps a single source with typed getters
  *
  * @example
  * ```typescript
- * import { ConfigModule, ConfigService } from '@abdokouta/ts-config';
+ * import { ConfigModule, ConfigManager, CONFIG_SERVICE } from '@abdokouta/ts-config';
  * import { Module, Injectable, Inject } from '@abdokouta/ts-container';
+ * import type { ConfigService } from '@abdokouta/ts-config';
  *
  * @Module({
  *   imports: [
  *     ConfigModule.forRoot({
- *       driver: 'env',
- *       isGlobal: true,
+ *       default: 'env',
+ *       sources: {
+ *         env: { driver: 'env', envPrefix: 'auto', ignoreEnvFile: true },
+ *       },
  *     }),
  *   ],
  * })
@@ -23,7 +30,7 @@
  *
  * @Injectable()
  * class DatabaseService {
- *   constructor(@Inject(ConfigService) private config: ConfigService) {}
+ *   constructor(@Inject(CONFIG_SERVICE) private config: ConfigService) {}
  *
  *   connect() {
  *     const host = this.config.getString('DB_HOST', 'localhost');
@@ -41,8 +48,9 @@
 export { ConfigModule } from './config.module';
 
 // ============================================================================
-// Core Service
+// Core Services
 // ============================================================================
+export { ConfigManager } from './services/config-manager.service';
 export { ConfigService } from './services/config.service';
 
 // ============================================================================
@@ -50,19 +58,24 @@ export { ConfigService } from './services/config.service';
 // ============================================================================
 export { EnvDriver } from './drivers/env.driver';
 export { FileDriver } from './drivers/file.driver';
+export { HttpDriver } from './drivers/http.driver';
 
 // ============================================================================
 // Interfaces
 // ============================================================================
 export type { ConfigDriver } from './interfaces/config-driver.interface';
-export type { ConfigModuleOptions } from './interfaces/config-module-options.interface';
+export type {
+  ConfigModuleOptions,
+  ConfigSourceOptions,
+} from './interfaces/config-module-options.interface';
 export type { ConfigServiceInterface } from './interfaces/config-service.interface';
+export type { HttpDriverOptions } from './interfaces/http-driver-options.interface';
 export type { ViteConfigPluginOptions } from './interfaces/vite-config-plugin-options.interface';
 
 // ============================================================================
 // Constants / Tokens
 // ============================================================================
-export { CONFIG_OPTIONS, CONFIG_DRIVER, CONFIG_SERVICE } from './constants/tokens.constant';
+export { CONFIG_OPTIONS, CONFIG_MANAGER, CONFIG_SERVICE } from './constants/tokens.constant';
 
 // ============================================================================
 // Utilities

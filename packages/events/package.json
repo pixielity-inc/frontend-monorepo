@@ -60,7 +60,6 @@
   },
   "peerDependencies": {
     "@abdokouta/ts-container": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
     "@abdokouta/ts-redis": "workspace:*",
     "reflect-metadata": "^0.2.2",
@@ -75,9 +74,6 @@
     },
     "reflect-metadata": {
       "optional": false
-    },
-    "@abdokouta/ts-container-react": {
-      "optional": true
     },
     "@abdokouta/ts-redis": {
       "optional": true

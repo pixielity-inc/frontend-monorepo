@@ -5,6 +5,7 @@
  * Handles registration, lookup, conflict detection, and platform-specific keys.
  *
  * @module registries/ShortcutRegistry
+ * @category Registries
  */
 
 import { Injectable } from '@abdokouta/ts-container';

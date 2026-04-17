@@ -243,7 +243,7 @@ export class AppModule {}
 
 // ── App.tsx ─────────────────────────────────────────────────────────────
 
-import { ModuleProvider } from '@abdokouta/ts-container-react';
+import { ModuleProvider } from '@abdokouta/ts-container';
 import { AppModule } from './app.module';
 
 function App() {

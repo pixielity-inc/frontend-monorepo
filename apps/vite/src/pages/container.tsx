@@ -12,8 +12,8 @@
 
 import { useState, useEffect } from 'react';
 import { Injectable, Module, Inject } from '@abdokouta/ts-container';
-import { useInject, ContainerProvider } from '@abdokouta/ts-container-react';
-import { ApplicationContext } from '@abdokouta/ts-application';
+import { useInject, ContainerProvider } from '@abdokouta/ts-container';
+import { ApplicationContext } from '@abdokouta/ts-container';
 
 import { title, subtitle } from '@/components/primitives';
 

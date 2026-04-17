@@ -18,7 +18,7 @@
  */
 
 import { useEffect } from 'react';
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { EventManager } from '@/services/event-manager.service';
 import type { EventListener } from '@/interfaces';
 

@@ -1,118 +1,202 @@
 /**
  * Vite Plugin for Config Package
  *
- * Simple plugin that receives env from Vite's loadEnv and injects it into the browser.
- * Does NOT apply any business logic - that's handled by ConfigService.
+ * Serves configuration via a virtual module (`virtual:@abdokouta/ts-config`)
+ * with full HMR support. Merges Vite's `loadEnv()` output with scanned
+ * `.config.ts` files and exposes the result as an importable module.
  *
- * Responsibilities:
- * 1. Receive environment variables from Vite's loadEnv (passed via options)
- * 2. Inject them into window.__APP_CONFIG__ (or custom global name)
- * 3. Optionally scan and collect .config.ts files
+ * This plugin is a thin adapter — it wires Vite lifecycle hooks to
+ * utility functions that handle validation, scanning, building, and
+ * virtual module generation.
  *
- * ConfigService will then query from window.__APP_CONFIG__ and apply:
- * - Prefix stripping
- * - Type conversion
- * - Validation
- * - Defaults
+ * ## How It Works
  *
- * Usage:
- * ```ts
- * import { defineConfig, loadEnv } from 'vite'
- * import { viteConfigPlugin } from '@abdokouta/config/vite-plugin'
- *
- * export default defineConfig(({ mode }) => {
- *   const env = loadEnv(mode, 'environments', '')
- *
- *   return {
- *     plugins: [
- *       viteConfigPlugin({ env })
- *     ]
- *   }
- * })
  * ```
+ * vite.config.ts
+ *   └── viteConfigPlugin({ env: loadEnv(...) })
+ *         ├── configResolved → validatePluginConfig + buildPluginConfig
+ *         ├── resolveId/load → serves virtual module
+ *         ├── transformIndexHtml → injects window.__APP_CONFIG__ fallback
+ *         └── handleHotUpdate → re-builds + invalidates virtual module
+ * ```
+ *
+ * @module plugins/vite
  */
 
 import path from 'path';
 import type { Plugin } from 'vite';
+
+import { validatePluginConfig } from '@/utils/validate-plugin-config.util';
+import { generateVirtualModule } from '@/utils/generate-virtual-module.util';
+import { buildPluginConfig, type BuildResult } from '@/utils/build-plugin-config.util';
 import type { ViteConfigPluginOptions } from '@/interfaces/vite-config-plugin-options.interface';
-import { scanConfigFiles } from '@/utils/scan-config-files.util';
-import { loadConfigFile } from '@/utils/load-config-file.util';
 
 /**
- * Vite plugin that injects environment variables into the browser
+ * Virtual module ID that consumers import from.
  *
- * This plugin is DUMB - it just receives env and injects it.
- * ConfigService is SMART - it queries and applies business logic.
+ * @example
+ * ```typescript
+ * import { config, get, has } from 'virtual:@abdokouta/ts-config';
+ * ```
  */
-export function viteConfigPlugin(options: ViteConfigPluginOptions = {}): Plugin {
-  const {
-    env = {},
-    includeAll = true,
-    include = [],
-    scanConfigFiles: shouldScanConfigFiles = false,
-    globalName = '__APP_CONFIG__',
-  } = options;
+const VIRTUAL_MODULE_ID = 'virtual:@abdokouta/ts-config';
 
-  let collectedConfig: Record<string, any> = {};
+/**
+ * Vite-internal resolved ID (prefixed with `\0` to mark as virtual).
+ */
+const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`;
+
+/**
+ * Create a Vite plugin that serves configuration via a virtual module.
+ *
+ * Validates options, scans for config files, builds the merged config,
+ * and exposes it through a virtual module. Also injects a
+ * `window.__APP_CONFIG__` fallback in the HTML for `EnvDriver`
+ * compatibility. Supports HMR for config file changes during dev.
+ *
+ * @param options - Partial plugin configuration (merged with defaults)
+ * @returns Configured Vite {@link Plugin} instance
+ *
+ * @example
+ * ```typescript
+ * import { defineConfig, loadEnv } from 'vite';
+ * import { viteConfigPlugin } from '@abdokouta/ts-config/vite-plugin';
+ *
+ * export default defineConfig(({ mode }) => {
+ *   const env = loadEnv(mode, 'environments', '');
+ *
+ *   return {
+ *     plugins: [
+ *       viteConfigPlugin({
+ *         env,
+ *         scanConfigFiles: true,
+ *       }),
+ *     ],
+ *   };
+ * });
+ * ```
+ */
+export function viteConfigPlugin(options?: Partial<ViteConfigPluginOptions>): Plugin {
+  const config = validatePluginConfig(options);
+
+  /**
+   * Cached build artifacts — prevents re-scanning on every module request.
+   */
+  let buildResult: BuildResult | null = null;
+  let virtualModuleCode: string | null = null;
 
   return {
     name: 'vite-plugin-config',
+    enforce: 'pre',
 
-    async configResolved(config) {
-      // Scan and collect config files (optional, disabled by default)
-      if (shouldScanConfigFiles) {
-        const configFiles = await scanConfigFiles({
-          ...options,
-          root: config.root,
-        });
+    /**
+     * Scan config files and build the virtual module at startup.
+     */
+    async configResolved(resolvedConfig) {
+      buildResult = await buildPluginConfig(config, resolvedConfig.root);
+      virtualModuleCode = generateVirtualModule(buildResult.config, config.globalName);
 
-        console.log('[vite-plugin-config] Found config files:', configFiles.length);
-
-        // Load all config files and merge them
-        for (const file of configFiles) {
-          const fileConfig = await loadConfigFile(file);
-          collectedConfig = { ...collectedConfig, ...fileConfig };
-          console.log('[vite-plugin-config] Loaded config from:', path.relative(config.root, file));
-        }
+      if (config.debug) {
+        console.debug('[vite-plugin-config] Build complete');
       }
     },
 
-    transformIndexHtml(html) {
-      // Build the config object from provided env
-      const processEnv: Record<string, any> = {};
+    /**
+     * Resolve the virtual module ID so Vite knows it is ours.
+     *
+     * @param id - Module specifier requested by an import statement
+     * @returns Resolved virtual ID, or `null` for unrelated modules
+     */
+    resolveId(id: string): string | null {
+      if (id === VIRTUAL_MODULE_ID) {
+        return RESOLVED_VIRTUAL_MODULE_ID;
+      }
+      return null;
+    },
 
-      for (const [key, value] of Object.entries(env)) {
-        // Filter by include list if not including all
-        if (!includeAll && !include.includes(key)) {
-          continue;
+    /**
+     * Serve the generated virtual module code.
+     *
+     * @param id - Resolved module ID
+     * @returns Generated source, or `null` for unrelated modules
+     * @throws Error if the virtual module has not been initialized yet
+     */
+    load(id: string): string | null {
+      if (id === RESOLVED_VIRTUAL_MODULE_ID) {
+        if (!virtualModuleCode) {
+          throw new Error(
+            '[vite-plugin-config] Virtual module not initialized. ' +
+              'Make sure configResolved was called.'
+          );
         }
+        return virtualModuleCode;
+      }
+      return null;
+    },
 
-        // Just copy the value as-is (NO prefix stripping here)
-        processEnv[key] = value;
+    /**
+     * Inject `window.__APP_CONFIG__` into HTML as a fallback.
+     *
+     * Ensures `EnvDriver` works even if the consumer doesn't
+     * import the virtual module directly.
+     */
+    transformIndexHtml() {
+      if (!buildResult) return [];
+
+      return [
+        {
+          tag: 'script',
+          attrs: { type: 'application/javascript' },
+          children: `window.${config.globalName} = ${JSON.stringify(buildResult.config)};`,
+          injectTo: 'head-prepend' as const,
+        },
+      ];
+    },
+
+    /**
+     * Handle HMR for config file changes.
+     *
+     * When a scanned config file is edited during dev, re-scans all
+     * files, regenerates the virtual module, invalidates Vite's
+     * module graph, and triggers a full page reload.
+     */
+    async handleHotUpdate({ file, server }) {
+      if (!config.enableHMR || !buildResult) return;
+
+      // Check if the changed file is a known config file or matches the pattern
+      const isKnownFile = buildResult.scannedFiles.has(file);
+      const isConfigFile =
+        file.endsWith('.config.ts') ||
+        file.endsWith('.config.js') ||
+        file.endsWith('.config.mts') ||
+        file.endsWith('.config.mjs');
+
+      if (!isKnownFile && !isConfigFile) return;
+
+      if (config.debug) {
+        console.debug(`[vite-plugin-config] HMR: ${path.basename(file)} changed`);
       }
 
-      // Merge with collected config from .config.ts files
-      const finalConfig = { ...processEnv, ...collectedConfig };
+      try {
+        // Re-scan and rebuild
+        buildResult = await buildPluginConfig(config, server.config.root);
+        virtualModuleCode = generateVirtualModule(buildResult.config, config.globalName);
 
-      console.log('[vite-plugin-config] Injecting environment variables into HTML');
-      console.log('[vite-plugin-config] Total variables:', Object.keys(finalConfig).length);
-      console.log(
-        '[vite-plugin-config] Sample keys:',
-        Object.keys(finalConfig).filter((k) => k.includes('APP') || k.includes('VITE'))
-      );
-      console.log('[vite-plugin-config] Global name:', globalName);
+        // Invalidate the virtual module in Vite's module graph
+        const mod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_MODULE_ID);
+        if (mod) {
+          server.moduleGraph.invalidateModule(mod);
+        }
 
-      // Inject script into HTML head
-      const script = `
-        <script>
-          window.${globalName} = ${JSON.stringify(finalConfig)};
-          // Also set process.env for backward compatibility
-          window.process = window.process || {};
-          window.process.env = window.${globalName};
-        </script>
-      `;
+        // Config changes are global — trigger full reload
+        server.ws.send({ type: 'full-reload' });
 
-      return html.replace('<head>', `<head>${script}`);
+        if (config.debug) {
+          console.debug('[vite-plugin-config] HMR: Rebuild complete, full reload triggered');
+        }
+      } catch (error) {
+        console.error('[vite-plugin-config] HMR error:', error);
+      }
     },
   };
 }

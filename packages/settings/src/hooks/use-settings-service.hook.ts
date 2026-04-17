@@ -7,7 +7,7 @@
  * @module hooks/use-settings-service
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { SettingsService } from '@/services/settings.service';
 
 /**

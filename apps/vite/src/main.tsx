@@ -17,8 +17,8 @@
 import 'reflect-metadata';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { bootstrapApp } from '@abdokouta/ts-application';
-import { ContainerProvider } from '@abdokouta/ts-container-react';
+import { bootstrapApp } from '@abdokouta/ts-container';
+import { ContainerProvider } from '@abdokouta/ts-container/react';
 
 import { Provider } from './provider';
 import App from './App';

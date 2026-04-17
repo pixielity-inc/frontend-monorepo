@@ -17,7 +17,7 @@
  * ```
  */
 
-import { useInject } from '@abdokouta/ts-container-react';
+import { useInject } from '@abdokouta/ts-container';
 import { DesktopManager } from '@/services/desktop-manager.service';
 import type { DesktopBridge } from '@/interfaces';
 

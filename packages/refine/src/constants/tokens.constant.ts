@@ -1,152 +1,59 @@
 /**
- * Refine DI Tokens
+ * @fileoverview DI tokens and metadata keys for the refine package.
  *
- * Dependency injection tokens for the Refine module.
- * These symbols are used to inject Refine providers and configuration
- * throughout the application.
+ * All Symbol tokens used for dependency injection and decorator metadata
+ * are centralized here. Route and SDUI tokens live in their own packages.
  *
  * @module @abdokouta/react-refine
- *
- * @example
- * ```typescript
- * import { Inject } from '@abdokouta/ts-container';
- * import { REFINE_DATA_PROVIDER } from '@abdokouta/react-refine';
- * import type { DataProvider } from '@refinedev/core';
- *
- * class MyService {
- *   constructor(
- *     @Inject(REFINE_DATA_PROVIDER) private dataProvider: DataProvider
- *   ) {}
- * }
- * ```
+ * @category Constants
  */
 
-/**
- * Token for injecting the complete Refine configuration
- *
- * @example
- * ```typescript
- * @Inject(REFINE_CONFIG) config: RefineConfig
- * ```
- */
-export const REFINE_CONFIG = Symbol.for('REFINE_CONFIG');
+// ─── Core Tokens ─────────────────────────────────────────────────────
 
-/**
- * Token for injecting the data provider
- *
- * The data provider handles all API interactions including
- * CRUD operations, custom queries, and data fetching.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/data-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_DATA_PROVIDER) dataProvider: DataProvider
- * ```
- */
-export const REFINE_DATA_PROVIDER = Symbol.for('REFINE_DATA_PROVIDER');
+/** DI token for the global {@link ServiceRegistry} singleton. */
+export const SERVICE_REGISTRY = Symbol.for('SERVICE_REGISTRY');
 
-/**
- * Token for injecting the authentication provider
- *
- * The auth provider handles login, logout, user identity,
- * and authentication state management.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/auth-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_AUTH_PROVIDER) authProvider: AuthProvider
- * ```
- */
-export const REFINE_AUTH_PROVIDER = Symbol.for('REFINE_AUTH_PROVIDER');
+/** DI token for the TanStack QueryClient instance. */
+export const QUERY_CLIENT = Symbol.for('QUERY_CLIENT');
 
-/**
- * Token for injecting the access control provider
- *
- * The access control provider handles authorization,
- * permissions, and role-based access control.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/accessControl-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_ACCESS_CONTROL_PROVIDER) accessControlProvider: AccessControlProvider
- * ```
- */
-export const REFINE_ACCESS_CONTROL_PROVIDER = Symbol.for('REFINE_ACCESS_CONTROL_PROVIDER');
-
-/**
- * Token for injecting the live provider
- *
- * The live provider enables real-time updates and
- * subscriptions to data changes.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/live-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_LIVE_PROVIDER) liveProvider: LiveProvider
- * ```
- */
-export const REFINE_LIVE_PROVIDER = Symbol.for('REFINE_LIVE_PROVIDER');
-
-/**
- * Token for injecting the notification provider
- *
- * The notification provider handles displaying
- * success, error, and info notifications to users.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/notification-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_NOTIFICATION_PROVIDER) notificationProvider: NotificationProvider
- * ```
- */
-export const REFINE_NOTIFICATION_PROVIDER = Symbol.for('REFINE_NOTIFICATION_PROVIDER');
-
-/**
- * Token for injecting the i18n provider
- *
- * The i18n provider handles internationalization,
- * translations, and locale management.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/i18n-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_I18N_PROVIDER) i18nProvider: I18nProvider
- * ```
- */
-export const REFINE_I18N_PROVIDER = Symbol.for('REFINE_I18N_PROVIDER');
-
-/**
- * Token for injecting the audit log provider
- *
- * The audit log provider tracks changes to data
- * and maintains an audit trail of operations.
- *
- * @see https://refine.dev/docs/api-reference/core/providers/audit-log-provider/
- *
- * @example
- * ```typescript
- * @Inject(REFINE_AUDIT_LOG_PROVIDER) auditLogProvider: AuditLogProvider
- * ```
- */
-export const REFINE_AUDIT_LOG_PROVIDER = Symbol.for('REFINE_AUDIT_LOG_PROVIDER');
-
-/**
- * Token for injecting Refine options
- *
- * The options object contains global configuration
- * for Refine behavior like mutation mode, sync with location, etc.
- *
- * @see https://refine.dev/docs/api-reference/core/components/refine-config/#options
- *
- * @example
- * ```typescript
- * @Inject(REFINE_OPTIONS) options: IRefineOptions
- * ```
- */
+/** DI token for the global {@link RefineRootOptions} configuration. */
 export const REFINE_OPTIONS = Symbol.for('REFINE_OPTIONS');
+
+// ─── Decorator Metadata Keys ─────────────────────────────────────────
+
+/** Metadata key used by the `@Resource` decorator. */
+export const RESOURCE_METADATA_KEY = Symbol.for('RESOURCE_METADATA');
+
+/** Metadata key used by the `@Model` decorator. */
+export const MODEL_METADATA_KEY = Symbol.for('MODEL_METADATA');
+
+// ─── Provider Service Tokens ─────────────────────────────────────────
+
+/** DI token for the {@link IAuthService} implementation. */
+export const AUTH_SERVICE = Symbol.for('AUTH_SERVICE');
+
+/** DI token for the {@link IAccessControlService} implementation. */
+export const ACCESS_CONTROL_SERVICE = Symbol.for('ACCESS_CONTROL_SERVICE');
+
+/** DI token for the {@link IRealtimeService} implementation. */
+export const REALTIME_SERVICE = Symbol.for('REALTIME_SERVICE');
+
+/** DI token for the {@link INotificationService} implementation. */
+export const NOTIFICATION_SERVICE = Symbol.for('NOTIFICATION_SERVICE');
+
+/** DI token for the {@link IAuditLogService} implementation. */
+export const AUDIT_LOG_SERVICE = Symbol.for('AUDIT_LOG_SERVICE');
+
+// ─── Repository Tokens ───────────────────────────────────────────────
+
+/** DI token for the HTTP client (fetch/axios wrapper). */
+export const HTTP_CLIENT = Symbol.for('HTTP_CLIENT');
+
+/** DI token for {@link HttpRepositoryConfig}. */
+export const HTTP_REPOSITORY_CONFIG = Symbol.for('HTTP_REPOSITORY_CONFIG');
+
+/** DI token for the base repository in constructor injection. */
+export const BASE_REPOSITORY = Symbol.for('BASE_REPOSITORY');
+
+/** DI token for the global {@link QueryStringSerializer}. */
+export const QUERY_STRING_SERIALIZER = Symbol.for('QUERY_STRING_SERIALIZER');

@@ -1,370 +1,221 @@
 /**
  * @fileoverview Tests for LoggerService
  *
- * This test suite validates the LoggerService functionality including:
- * - Channel management and caching
- * - Multiple named channels
- * - Logging at different levels (debug, info, warn, error, fatal)
- * - Context management (withContext, withoutContext)
- * - Channel lifecycle and configuration
- *
- * The LoggerService is the main entry point for logging operations in the
- * application. It manages multiple named channels internally and provides
- * a unified API for logging throughout the application.
- *
- * @module @abdokouta/ts-logger
- * @category Tests
+ * Covers both operating modes:
+ * - Config mode (backward compatibility): constructed with LoggerConfig
+ * - Facade mode: constructed with a context string or no args, delegates to
+ *   the static LoggerManager reference (or a fallback ConsoleTransporter).
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { LoggerService } from '@/services/logger.service';
-import type { LoggerModuleOptions } from '@/interfaces/logger-module-options.interface';
-import type { LoggerInterface } from '@/interfaces/logger.interface';
+import { ConsoleTransporter } from '@/transporters/console.transporter';
+import { SilentTransporter } from '@/transporters/silent.transporter';
 
-/**
- * Test suite for LoggerService
- *
- * This suite tests the service's ability to manage logging channels,
- * handle multiple named channels, and provide a consistent API for
- * logging operations throughout the application.
- */
 describe('LoggerService', () => {
-  /** Service instance used across tests */
-  let loggerService: LoggerService;
-
-  /** Mock logger instance returned by channels */
-  let mockLogger: LoggerInterface;
-
-  /** Configuration object for the service */
-  let config: LoggerModuleOptions;
-
-  /**
-   * Setup: Create fresh instances before each test
-   *
-   * This ensures each test starts with a clean state:
-   * - Fresh mock logger with spy functions
-   * - Fresh configuration with multiple channels
-   * - Fresh service instance
-   */
   beforeEach(() => {
-    // Create mock logger with all logging methods
-    mockLogger = {
-      debug: vi.fn(),
-      info: vi.fn(),
-      warn: vi.fn(),
-      error: vi.fn(),
-      fatal: vi.fn(),
-      withContext: vi.fn().mockReturnThis(),
-      withoutContext: vi.fn().mockReturnThis(),
-      getTransporters: vi.fn().mockReturnValue([]),
-    } as any;
-
-    // Create configuration with multiple channels
-    config = {
-      default: 'app', // Default channel name
-      channels: {
-        app: {
-          level: 'info',
-          transporters: [],
-        },
-        audit: {
-          level: 'info',
-          transporters: [],
-        },
-        error: {
-          level: 'error',
-          transporters: [],
-        },
-      },
-    };
-
-    // Create service instance with config
-    loggerService = new LoggerService(config);
+    LoggerService.staticManagerRef = undefined;
+    (LoggerService as any)._fallbackLoggerInstance = undefined;
   });
 
-  /**
-   * Test suite for channel retrieval
-   *
-   * Validates that the service can retrieve channels by name,
-   * use the default channel when no name is provided, and
-   * properly cache channels for reuse.
-   */
-  describe('channel', () => {
-    /**
-     * Test: Default channel retrieval
-     *
-     * This test ensures that when no channel name is provided,
-     * the service returns the default channel as specified in
-     * the configuration.
-     *
-     * Expected behavior:
-     * - Returns a logger instance
-     * - Uses the default channel from config
-     */
-    it('should return default channel when no name provided', () => {
-      // Act: Get channel without specifying name
-      const channel = loggerService.channel();
+  // ── Config Mode (backward compatibility) ──────────────────────────────
 
-      // Assert: Channel is defined
-      expect(channel).toBeDefined();
-      // Assert: Channel has logging methods
-      expect(typeof channel.info).toBe('function');
+  describe('config mode', () => {
+    it('should create a config-mode instance when given a LoggerConfig', () => {
+      const transporter = new SilentTransporter();
+      const logger = new LoggerService({ transporters: [transporter] });
+
+      expect((logger as any)._mode).toBe('config');
     });
 
-    /**
-     * Test: Named channel retrieval
-     *
-     * This test ensures that the service can retrieve a specific
-     * named channel when requested.
-     *
-     * Expected behavior:
-     * - Returns a logger instance for the named channel
-     * - Channel is configured according to its settings
-     */
-    it('should return named channel', () => {
-      // Act: Get specific named channel
-      const channel = loggerService.channel('audit');
+    it('should dispatch log calls to transporters in config mode', () => {
+      const transporter = new SilentTransporter();
+      const spy = vi.spyOn(transporter, 'transport');
+      const logger = new LoggerService({ transporters: [transporter] });
 
-      // Assert: Channel is defined
-      expect(channel).toBeDefined();
-      // Assert: Channel has logging methods
-      expect(typeof channel.info).toBe('function');
+      logger.debug('d');
+      logger.info('i');
+      logger.warn('w');
+      logger.error('e');
+      logger.fatal('f');
+
+      expect(spy).toHaveBeenCalledTimes(5);
     });
 
-    /**
-     * Test: Channel caching
-     *
-     * This test ensures that channels are cached and reused
-     * instead of creating new channels for each request.
-     *
-     * Expected behavior:
-     * - First call creates a new channel
-     * - Second call returns the cached channel
-     * - Both calls return the same channel instance
-     */
-    it('should cache channels', () => {
-      // Act: Get the same channel twice
-      const channel1 = loggerService.channel('app');
-      const channel2 = loggerService.channel('app');
+    it('should return config transporters from getTransporters', () => {
+      const transporter = new SilentTransporter();
+      const logger = new LoggerService({ transporters: [transporter] });
 
-      // Assert: Both calls returned the same instance
-      expect(channel1).toBe(channel2);
+      expect(logger.getTransporters()).toEqual([transporter]);
     });
 
-    /**
-     * Test: Error handling for unconfigured channels
-     *
-     * This test ensures that the service throws a helpful error
-     * when attempting to access a channel that hasn't been
-     * configured.
-     *
-     * Expected behavior:
-     * - Error is thrown with descriptive message
-     * - Error message includes the invalid channel name
-     * - Error message lists available channels
-     */
-    it('should throw error for unconfigured channel', () => {
-      // Act & Assert: Attempting to get invalid channel should throw
-      expect(() => loggerService.channel('invalid')).toThrow(
-        'Logger channel [invalid] is not configured'
-      );
+    it('should return the config from getConfig', () => {
+      const config = { transporters: [new SilentTransporter()], context: { app: 'test' } };
+      const logger = new LoggerService(config);
+
+      expect(logger.getConfig()).toBe(config);
+    });
+
+    describe('context management', () => {
+      it('should add context with withContext and return this', () => {
+        const logger = new LoggerService({ transporters: [] });
+        const result = logger.withContext({ requestId: 'abc-123' });
+        expect(result).toBe(logger);
+      });
+
+      it('should remove context with withoutContext and return this', () => {
+        const logger = new LoggerService({ transporters: [] });
+        const result = logger.withoutContext(['requestId']);
+        expect(result).toBe(logger);
+      });
+
+      it('should support method chaining', () => {
+        const logger = new LoggerService({ transporters: [] });
+        const result = logger.withContext({ requestId: 'abc' }).withContext({ userId: 123 });
+        expect(result).toBe(logger);
+      });
     });
   });
 
-  /**
-   * Test suite for logging methods
-   *
-   * Validates that the service provides convenient methods for
-   * logging at different levels using the default channel.
-   */
-  describe('logging methods', () => {
-    it('should log debug messages', () => {
-      // Spy on the underlying channel's debug method
-      const channelInstance = loggerService.channel();
-      const debugSpy = vi.spyOn(channelInstance, 'debug');
+  // ── Facade Mode ───────────────────────────────────────────────────────
 
-      loggerService.debug('Debug message', { key: 'value' });
-
-      expect(debugSpy).toHaveBeenCalledWith('Debug message', { key: 'value' });
+  describe('facade mode', () => {
+    it('should create a facade-mode instance when no args are passed', () => {
+      const logger = new LoggerService();
+      expect((logger as any)._mode).toBe('facade');
+      expect((logger as any)._contextString).toBeUndefined();
     });
 
-    it('should log info messages', () => {
-      const channelInstance = loggerService.channel();
-      const infoSpy = vi.spyOn(channelInstance, 'info');
-
-      loggerService.info('Info message', { userId: 123 });
-
-      expect(infoSpy).toHaveBeenCalledWith('Info message', { userId: 123 });
+    it('should create a facade-mode instance when a string is passed', () => {
+      const logger = new LoggerService('MyService');
+      expect((logger as any)._mode).toBe('facade');
+      expect((logger as any)._contextString).toBe('MyService');
     });
 
-    it('should log warn messages', () => {
-      const channelInstance = loggerService.channel();
-      const warnSpy = vi.spyOn(channelInstance, 'warn');
-
-      loggerService.warn('Warning message', { remaining: 10 });
-
-      expect(warnSpy).toHaveBeenCalledWith('Warning message', { remaining: 10 });
+    it('should have staticManagerRef initially undefined', () => {
+      expect(LoggerService.staticManagerRef).toBeUndefined();
     });
 
-    it('should log error messages', () => {
-      const channelInstance = loggerService.channel();
-      const errorSpy = vi.spyOn(channelInstance, 'error');
+    it('should use ConsoleTransporter as fallback when no manager is set', () => {
+      const logger = new LoggerService();
+      const transporters = logger.getTransporters();
 
-      loggerService.error('Error message', { error: 'details' });
-
-      expect(errorSpy).toHaveBeenCalledWith('Error message', { error: 'details' });
+      expect(transporters).toHaveLength(1);
+      expect(transporters[0]).toBeInstanceOf(ConsoleTransporter);
     });
 
-    it('should log fatal messages', () => {
-      const channelInstance = loggerService.channel();
-      const fatalSpy = vi.spyOn(channelInstance, 'fatal');
+    describe('lazy resolution', () => {
+      it('should use fallback before manager is set, then manager after', () => {
+        const logger = new LoggerService('Lazy');
 
-      loggerService.fatal('Fatal error', { stack: 'trace' });
+        // Before manager — uses fallback (ConsoleTransporter)
+        const fallbackTransporters = logger.getTransporters();
+        expect(fallbackTransporters[0]).toBeInstanceOf(ConsoleTransporter);
 
-      expect(fatalSpy).toHaveBeenCalledWith('Fatal error', { stack: 'trace' });
-    });
-  });
+        // Set up a mock manager
+        const channelTransporter = new SilentTransporter();
+        const channelLogger = new LoggerService({ transporters: [channelTransporter] });
+        const mockManager = { channel: vi.fn().mockReturnValue(channelLogger) } as any;
+        LoggerService.staticManagerRef = mockManager;
 
-  /**
-   * Test suite for context management
-   *
-   * Validates that the service can manage persistent context
-   * that is included with all log entries.
-   */
-  describe('context management', () => {
-    /**
-     * Test: Adding context
-     *
-     * This test ensures that context can be added to the
-     * default channel and is included with subsequent logs.
-     *
-     * Expected behavior:
-     * - Context is added to default channel
-     * - Method returns service instance for chaining
-     */
-    it('should add context to default channel', () => {
-      // Act: Add context
-      const result = loggerService.withContext({ requestId: 'abc-123' });
-
-      // Assert: Returns service instance for chaining
-      expect(result).toBe(loggerService);
+        // After manager — delegates to manager's channel
+        const managerTransporters = logger.getTransporters();
+        expect(managerTransporters).toEqual([channelTransporter]);
+        expect(mockManager.channel).toHaveBeenCalled();
+      });
     });
 
-    /**
-     * Test: Removing context
-     *
-     * This test ensures that context can be removed from the
-     * default channel.
-     *
-     * Expected behavior:
-     * - Specified context keys are removed
-     * - Method returns service instance for chaining
-     */
-    it('should remove context from default channel', () => {
-      // Act: Remove context
-      const result = loggerService.withoutContext(['requestId']);
+    describe('delegation with context', () => {
+      let mockChannelLogger: LoggerService;
+      let mockManager: any;
 
-      // Assert: Returns service instance for chaining
-      expect(result).toBe(loggerService);
+      beforeEach(() => {
+        const transporter = new SilentTransporter();
+        mockChannelLogger = new LoggerService({ transporters: [transporter] });
+        mockManager = { channel: vi.fn().mockReturnValue(mockChannelLogger) };
+        LoggerService.staticManagerRef = mockManager;
+      });
+
+      it('should merge context string into delegated calls', () => {
+        const logger = new LoggerService('MyService');
+        const infoSpy = vi.spyOn(mockChannelLogger, 'info');
+
+        logger.info('hello', { extra: true });
+
+        expect(infoSpy).toHaveBeenCalledWith('hello', {
+          context: 'MyService',
+          extra: true,
+        });
+      });
+
+      it('should merge withContext into delegated calls', () => {
+        const logger = new LoggerService('Ctx');
+        logger.withContext({ requestId: '123' });
+        const warnSpy = vi.spyOn(mockChannelLogger, 'warn');
+
+        logger.warn('warning');
+
+        expect(warnSpy).toHaveBeenCalledWith('warning', {
+          context: 'Ctx',
+          requestId: '123',
+        });
+      });
+
+      it('should remove keys with withoutContext', () => {
+        const logger = new LoggerService('Svc');
+        logger.withContext({ a: 1, b: 2 });
+        logger.withoutContext(['a']);
+        const debugSpy = vi.spyOn(mockChannelLogger, 'debug');
+
+        logger.debug('msg');
+
+        expect(debugSpy).toHaveBeenCalledWith('msg', {
+          context: 'Svc',
+          b: 2,
+        });
+      });
+
+      it('should clear all context with withoutContext() and no args', () => {
+        const logger = new LoggerService('Svc');
+        logger.withContext({ a: 1, b: 2 });
+        logger.withoutContext();
+        const errorSpy = vi.spyOn(mockChannelLogger, 'error');
+
+        logger.error('err');
+
+        expect(errorSpy).toHaveBeenCalledWith('err', {
+          context: 'Svc',
+        });
+      });
     });
 
-    /**
-     * Test: Context chaining
-     *
-     * This test ensures that context methods can be chained
-     * for fluent API usage.
-     *
-     * Expected behavior:
-     * - Multiple context operations can be chained
-     * - Final result is the service instance
-     */
-    it('should support method chaining', () => {
-      // Act: Chain context operations
-      const result = loggerService.withContext({ requestId: 'abc' }).withContext({ userId: 123 });
+    describe('accessors', () => {
+      it('should return fallback transporters when no manager is set', () => {
+        const logger = new LoggerService();
+        const transporters = logger.getTransporters();
 
-      // Assert: Returns service instance
-      expect(result).toBe(loggerService);
-    });
-  });
+        expect(transporters).toHaveLength(1);
+        expect(transporters[0]).toBeInstanceOf(ConsoleTransporter);
+      });
 
-  /**
-   * Test suite for channel information methods
-   *
-   * Validates that the service can provide information about
-   * configured channels.
-   */
-  describe('channel information', () => {
-    /**
-     * Test: Get default channel name
-     *
-     * This test ensures that the service returns the correct
-     * default channel name as specified in configuration.
-     *
-     * Expected behavior:
-     * - Returns the default channel name from config
-     */
-    it('should return default channel name', () => {
-      // Act: Get default channel name
-      const defaultName = loggerService.getDefaultChannelName();
+      it('should return manager channel transporters when manager is set', () => {
+        const channelTransporter = new SilentTransporter();
+        const channelLogger = new LoggerService({ transporters: [channelTransporter] });
+        const mockManager = { channel: vi.fn().mockReturnValue(channelLogger) } as any;
+        LoggerService.staticManagerRef = mockManager;
 
-      // Assert: Returns the configured default name
-      expect(defaultName).toBe('app');
+        const logger = new LoggerService();
+        expect(logger.getTransporters()).toEqual([channelTransporter]);
+      });
     });
 
-    /**
-     * Test: Get all channel names
-     *
-     * This test ensures that the service can return a list of
-     * all configured channel names.
-     *
-     * Expected behavior:
-     * - Returns array of channel names
-     * - Array includes all configured channels
-     */
-    it('should return all configured channel names', () => {
-      // Act: Get channel names
-      const names = loggerService.getChannelNames();
+    describe('overrideLogger', () => {
+      it('should set staticManagerRef', () => {
+        const mockManager = { channel: vi.fn() } as any;
+        LoggerService.overrideLogger(mockManager);
 
-      // Assert: Returns array with all configured channels
-      expect(names).toEqual(['app', 'audit', 'error']);
-    });
-
-    /**
-     * Test: Check if channel exists
-     *
-     * This test ensures that the service can check whether
-     * a channel is configured.
-     *
-     * Expected behavior:
-     * - Returns true for configured channels
-     * - Returns false for unconfigured channels
-     */
-    it('should check if channel is configured', () => {
-      // Act & Assert: Configured channel exists
-      expect(loggerService.hasChannel('app')).toBe(true);
-      // Act & Assert: Unconfigured channel doesn't exist
-      expect(loggerService.hasChannel('invalid')).toBe(false);
-    });
-
-    /**
-     * Test: Check if channel is active
-     *
-     * This test ensures that the service can report whether
-     * a channel is currently active (cached and ready to use).
-     *
-     * Expected behavior:
-     * - Returns false for channels that haven't been created
-     * - Returns true for channels that have been created
-     */
-    it('should check if channel is active', () => {
-      // Act & Assert: Channel that hasn't been created is not active
-      expect(loggerService.isChannelActive('audit')).toBe(false);
-
-      // Arrange: Create a channel
-      loggerService.channel('audit');
-
-      // Act & Assert: Channel that has been created is active
-      expect(loggerService.isChannelActive('audit')).toBe(true);
+        expect(LoggerService.staticManagerRef).toBe(mockManager);
+      });
     });
   });
 });

@@ -13,7 +13,7 @@ import { defineConfig } from '@abdokouta/ts-config';
  * Config Configuration
  *
  * Settings:
- * - driver: 'env' (reads from process.env)
+ * - driver: 'env' (reads from import.meta.env)
  * - ignoreEnvFile: true (don't load .env file in browser)
  * - isGlobal: true (available to all modules)
  * - envPrefix: 'auto' (auto-detect and strip VITE_ or NEXT_PUBLIC_ prefix)
@@ -36,7 +36,7 @@ import { defineConfig } from '@abdokouta/ts-config';
 export const configConfig = defineConfig({
   /**
    * Driver to use for loading configuration
-   * 'env' reads from process.env
+   * 'env' reads from import.meta.env
    */
   driver: 'env',
 

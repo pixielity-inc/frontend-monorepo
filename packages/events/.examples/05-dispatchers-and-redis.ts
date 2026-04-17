@@ -151,8 +151,8 @@ function redisDispatcherExample() {
   console.log("        default: 'events',");
   console.log('        connections: {');
   console.log('          events: {');
-  console.log('            url: process.env.UPSTASH_REDIS_REST_URL!,');
-  console.log('            token: process.env.UPSTASH_REDIS_REST_TOKEN!,');
+  console.log('            url: import.meta.env.UPSTASH_REDIS_REST_URL!,');
+  console.log('            token: import.meta.env.UPSTASH_REDIS_REST_TOKEN!,');
   console.log('          },');
   console.log('        },');
   console.log('      }),');

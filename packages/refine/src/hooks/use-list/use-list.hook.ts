@@ -1,79 +1,44 @@
 /**
- * @fileoverview useList Hook
- *
- * Enhanced useList hook that wraps the original Refine useList
- * and exposes isLoading directly for better DX.
+ * @fileoverview useList hook — fetch a paginated, sorted, filtered list.
  *
  * @module @abdokouta/react-refine
  * @category Hooks
  */
 
-import { useList as useListOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseListProps, UseListReturnType } from './use-list.types';
+import { useQuery } from '@tanstack/react-query';
+import { resolveService } from '../use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { GetListParams } from '@/interfaces/get-list-params.interface';
+import type { UseListProps } from '@/interfaces/use-list-props.interface';
+import type { UseListReturnType } from '@/types/use-list-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
 /**
- * useList Hook
+ * Fetch a paginated list of records.
  *
- * Enhanced version of Refine's useList hook that exposes loading states directly.
- * Fetches a list of records with pagination, sorting, and filtering support.
- *
- * @param props - Hook configuration options
- * @returns Enhanced return object with direct access to loading states
- *
- * @example
- * ```typescript
- * const { data, total, isLoading, isError } = useList({
- *   resource: 'posts',
- * });
- *
- * if (isLoading) return <Spinner />;
- * return <Table data={data} total={total} />;
- * ```
- *
- * @example With pagination
- * ```typescript
- * const { data, total, isLoading } = useList({
- *   resource: 'posts',
- *   pagination: {
- *     current: 1,
- *     pageSize: 10,
- *   },
- * });
- * ```
- *
- * @example With filters and sorters
- * ```typescript
- * const { data, isLoading } = useList({
- *   resource: 'posts',
- *   filters: [
- *     { field: 'status', operator: 'eq', value: 'published' },
- *   ],
- *   sorters: [
- *     { field: 'createdAt', order: 'desc' },
- *   ],
- * });
- * ```
+ * @param props - Hook parameters.
+ * @returns Query result with data array, total count, and states.
  */
-export const useList = <
-  TQueryFnData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  TData extends BaseRecord = TQueryFnData,
->(
-  props?: UseListProps<TQueryFnData, TError, TData>
-): UseListReturnType<TData, TError> => {
-  const result = useListOriginal<TQueryFnData, TError, TData>(props);
+export function useList<TData = any>(props: UseListProps): UseListReturnType<TData> {
+  const { resource, pagination, sorters, filters, enabled = true } = props;
+
+  const params: GetListParams = { pagination, sorters, filters };
+
+  const query = useQuery({
+    queryKey: QueryKeyFactory.list(resource, params),
+    queryFn: () => resolveService(resource).getList(params),
+    enabled,
+  });
 
   return {
-    data: result.result.data,
-    total: result.result.total,
-    isLoading: result.query.isLoading,
-    isFetching: result.query.isFetching,
-    isError: result.query.isError,
-    isSuccess: result.query.isSuccess,
-    error: result.query.error,
-    refetch: result.query.refetch,
-    query: result.query,
-    overtime: result.overtime,
+    data: query.data?.data as TData[] | undefined,
+    total: query.data?.total ?? 0,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    isSuccess: query.isSuccess,
+    error: query.error as unknown as HttpError | null,
+    refetch: query.refetch,
+    query,
   };
-};
+}

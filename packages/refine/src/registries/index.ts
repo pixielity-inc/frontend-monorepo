@@ -1,7 +1,10 @@
 /**
- * Registries
+ * @fileoverview Barrel export for all registries in the refine package.
  *
- * Registry services for managing Refine resources.
+ * NOTE: RouteRegistry lives in `@abdokouta/react-router`.
+ *
+ * @module @abdokouta/react-refine
+ * @category Registries
  */
 
-export { ResourceRegistry } from './resource.registry';
+export { ServiceRegistry } from './service.registry';

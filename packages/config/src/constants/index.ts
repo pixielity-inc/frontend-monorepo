@@ -7,4 +7,5 @@
  * @module constants
  */
 
-export { CONFIG_OPTIONS, CONFIG_DRIVER, CONFIG_SERVICE } from './tokens.constant';
+export { CONFIG_OPTIONS, CONFIG_MANAGER, CONFIG_SERVICE } from './tokens.constant';
+export { DEFAULT_PLUGIN_OPTIONS } from './default-plugin-options.constant';

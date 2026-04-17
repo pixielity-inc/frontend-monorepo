@@ -8,22 +8,6 @@
  */
 
 /**
- * Configuration driver token.
- *
- * Injects the active `ConfigDriver` instance (EnvDriver, FileDriver, etc.)
- * into services that need direct driver access.
- *
- * @example
- * ```typescript
- * @Injectable()
- * class MyService {
- *   constructor(@Inject(CONFIG_DRIVER) private driver: ConfigDriver) {}
- * }
- * ```
- */
-export const CONFIG_DRIVER = Symbol.for('CONFIG_DRIVER');
-
-/**
  * Configuration options token.
  *
  * Injects the raw `ConfigModuleOptions` object passed to `ConfigModule.forRoot()`.
@@ -39,10 +23,26 @@ export const CONFIG_DRIVER = Symbol.for('CONFIG_DRIVER');
 export const CONFIG_OPTIONS = Symbol.for('CONFIG_OPTIONS');
 
 /**
+ * Configuration manager token.
+ *
+ * `useExisting` alias to `ConfigManager`. Allows injection via
+ * token instead of class reference.
+ *
+ * @example
+ * ```typescript
+ * @Injectable()
+ * class MyService {
+ *   constructor(@Inject(CONFIG_MANAGER) private manager: ConfigManager) {}
+ * }
+ * ```
+ */
+export const CONFIG_MANAGER = Symbol.for('CONFIG_MANAGER');
+
+/**
  * Configuration service token.
  *
- * `useExisting` alias to `ConfigService`. Allows injection via
- * token instead of class reference.
+ * Injects the default `ConfigService` instance (wrapping the default source).
+ * This is the most common injection point for consumers.
  *
  * @example
  * ```typescript

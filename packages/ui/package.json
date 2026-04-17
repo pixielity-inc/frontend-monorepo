@@ -34,6 +34,8 @@
     "release": "pnpm publish --access public --no-git-checks"
   },
   "peerDependencies": {
+    "@abdokouta/react-support": "^1.1.0",
+    "@abdokouta/ts-container": "workspace:*",
     "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {

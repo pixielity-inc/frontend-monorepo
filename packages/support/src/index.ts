@@ -37,11 +37,20 @@ export { MultipleInstanceManager } from '@/managers';
 export { withMultipleInstanceManager } from '@/mixins';
 
 // ============================================================================
-// Types & Interfaces
+// Types
+// ============================================================================
+export type { DriverCreator } from '@/types';
+
+// ============================================================================
+// Interfaces
 // ============================================================================
 export type {
   BaseRegistryOptions,
   Collection as RegistryCollection,
   ValidationResult,
-  DriverCreator,
-} from '@/types';
+} from '@/interfaces';
+
+// ============================================================================
+// Facades
+// ============================================================================
+export { Facade } from './facades/facade';

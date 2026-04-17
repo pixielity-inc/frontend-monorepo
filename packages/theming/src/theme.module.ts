@@ -33,13 +33,11 @@
 import 'reflect-metadata';
 import { Module, type DynamicModule } from '@abdokouta/ts-container';
 
-import type { ThemeConfig, ThemeModuleOptions } from '@/types/theme.types';
+import type { ThemeConfig } from '@/interfaces/theme-config.interface';
+import type { ThemeModuleOptions } from '@/interfaces/theme-module-options.interface';
 import { ThemeRegistry, themeRegistry } from '@/registries/theme.registry';
-import {
-  CustomizerRegistry,
-  customizerRegistry,
-  type CustomizerPanel,
-} from '@/registries/customizer.registry';
+import { CustomizerRegistry, customizerRegistry } from '@/registries/customizer.registry';
+import type { CustomizerPanel } from '@/interfaces/customizer-panel.interface';
 import { THEME_CONFIG, THEME_REGISTRY, CUSTOMIZER_REGISTRY } from '@/constants/tokens.constant';
 import { BUILT_IN_THEMES } from '@/constants/themes.constant';
 

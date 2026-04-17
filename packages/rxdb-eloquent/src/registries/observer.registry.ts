@@ -4,6 +4,8 @@
  * Observer-to-Model bindings. Wires observers into MetadataStorage so
  * the HasEvents concern picks them up at runtime.
  *
+ * @category Registries
+ *
  * @example
  * ```ts
  * const registry = new ObserverRegistry();
@@ -77,3 +79,6 @@ export class ObserverRegistry extends BaseRegistry<ObserverBinding> {
     );
   }
 }
+
+/** Global singleton ObserverRegistry. */
+export const observerRegistry = new ObserverRegistry();

@@ -14,5 +14,5 @@ export { useNetworkStatus } from './use-network-status';
 export { useStandaloneMode } from './use-standalone-mode';
 export { useSplashScreen } from './use-splash-screen';
 export { usePullToRefresh } from './use-pull-to-refresh';
-export type { UsePullToRefreshReturn } from './use-pull-to-refresh';
+export type { UsePullToRefreshReturn } from '@/interfaces/use-pull-to-refresh-return.interface';
 export { useOnboarding } from './use-onboarding';

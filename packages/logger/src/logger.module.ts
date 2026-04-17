@@ -16,6 +16,7 @@ import { Module, type DynamicModule, Global } from '@abdokouta/ts-container';
 
 import type { LoggerModuleOptions } from './interfaces/logger-module-options.interface';
 import { LoggerManager } from './services/logger-manager.service';
+import { LoggerService } from './services/logger.service';
 import { LOGGER_CONFIG, LOGGER_MANAGER } from './constants/tokens.constant';
 import { ConsoleTransporter } from './transporters/console.transporter';
 import { SilentTransporter } from './transporters/silent.transporter';
@@ -59,6 +60,14 @@ export class LoggerModule {
         { provide: LOGGER_CONFIG, useValue: processedConfig },
         { provide: LoggerManager, useClass: LoggerManager },
         { provide: LOGGER_MANAGER, useExisting: LoggerManager },
+        {
+          provide: 'LOGGER_STATIC_REF',
+          useFactory: (manager: LoggerManager) => {
+            LoggerService.staticManagerRef = manager;
+            return manager;
+          },
+          inject: [LoggerManager],
+        },
       ],
       exports: [LoggerManager, LOGGER_MANAGER, LOGGER_CONFIG],
     };

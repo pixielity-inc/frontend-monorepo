@@ -45,7 +45,6 @@ export type {
 // Registries
 // ============================================================================
 export { customizerRegistry, CustomizerRegistry, themeRegistry, ThemeRegistry } from './registries';
-export type { CustomizerPanel } from './registries';
 
 // ============================================================================
 // Contexts
@@ -77,6 +76,14 @@ export {
 export { renderSlot } from './utils';
 
 // ============================================================================
+// Interfaces
+// ============================================================================
+export type { CustomizerPanel } from './interfaces';
+export type { ThemeVars } from './interfaces';
+export type { ThemeConfig } from './interfaces';
+export type { ThemeModuleOptions } from './interfaces';
+
+// ============================================================================
 // Types
 // ============================================================================
-export type { ColorMode, ThemeConfig, ThemeModuleOptions } from './types';
+export type { ColorMode } from './types';

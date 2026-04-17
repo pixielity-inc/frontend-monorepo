@@ -57,7 +57,7 @@ export interface RedisConnectionConfig {
    *
    * @example
    * ```typescript
-   * token: process.env.UPSTASH_REDIS_REST_TOKEN!
+   * token: import.meta.env.UPSTASH_REDIS_REST_TOKEN!
    * ```
    */
   token: string;
@@ -144,17 +144,17 @@ export interface RedisConnectionConfig {
  *   default: 'cache',
  *   connections: {
  *     cache: {
- *       url: process.env.UPSTASH_CACHE_URL!,
- *       token: process.env.UPSTASH_CACHE_TOKEN!,
+ *       url: import.meta.env.UPSTASH_CACHE_URL!,
+ *       token: import.meta.env.UPSTASH_CACHE_TOKEN!,
  *     },
  *     session: {
- *       url: process.env.UPSTASH_SESSION_URL!,
- *       token: process.env.UPSTASH_SESSION_TOKEN!,
+ *       url: import.meta.env.UPSTASH_SESSION_URL!,
+ *       token: import.meta.env.UPSTASH_SESSION_TOKEN!,
  *       timeout: 10000,
  *     },
  *     ratelimit: {
- *       url: process.env.UPSTASH_RATELIMIT_URL!,
- *       token: process.env.UPSTASH_RATELIMIT_TOKEN!,
+ *       url: import.meta.env.UPSTASH_RATELIMIT_URL!,
+ *       token: import.meta.env.UPSTASH_RATELIMIT_TOKEN!,
  *       enableAutoPipelining: true,
  *     },
  *   },

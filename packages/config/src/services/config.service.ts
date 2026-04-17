@@ -1,58 +1,66 @@
 /**
  * Configuration Service
  *
- * Provides type-safe access to configuration values with various getter methods.
- * Wraps a `ConfigDriver` with convenience methods for typed access.
+ * The high-level API that consumers interact with. Wraps a `ConfigDriver`
+ * and provides convenience methods for typed access: getString, getNumber,
+ * getBool, getArray, getJson, etc.
  *
- * This IS injectable — registered by `ConfigModule.forRoot()`.
+ * This class is NOT injectable directly — it's created internally by
+ * `ConfigManager.source()`.
  *
  * @module services/config
  */
 
-import { Inject, Injectable } from '@abdokouta/ts-container';
-
-import { CONFIG_DRIVER } from '@/constants/tokens.constant';
 import type { ConfigDriver } from '@/interfaces/config-driver.interface';
 import type { ConfigServiceInterface } from '@/interfaces/config-service.interface';
 
 /**
  * ConfigService — the consumer-facing configuration API.
  *
- * Injected via `ConfigService` class or `CONFIG_SERVICE` token.
- * Provides typed getters for string, number, boolean, array, and JSON values.
+ * Created by `ConfigManager.source(name)`. Wraps a `ConfigDriver`
+ * with typed getters and "or throw" variants for required values.
  *
  * @example
  * ```typescript
- * @Injectable()
- * class DatabaseService {
- *   constructor(@Inject(ConfigService) private config: ConfigService) {}
- *
- *   connect() {
- *     const host = this.config.getString('DB_HOST', 'localhost');
- *     const port = this.config.getNumber('DB_PORT', 5432);
- *     const ssl = this.config.getBool('DB_SSL', false);
- *   }
- * }
+ * const config = manager.source();
+ * const host = config.getString('DB_HOST', 'localhost');
+ * const port = config.getNumber('DB_PORT', 5432);
+ * const ssl = config.getBool('DB_SSL', false);
+ * const secret = config.getStringOrThrow('JWT_SECRET');
  * ```
  */
-@Injectable()
 export class ConfigService implements ConfigServiceInterface {
   /**
    * The underlying configuration driver.
-   * @private
    */
   private readonly _driver: ConfigDriver;
 
   /**
+   * Runtime overrides set via `set()`.
+   * Takes precedence over driver values.
+   */
+  private readonly _overrides: Map<string, any> = new Map();
+
+  /**
+   * Keys marked as sensitive.
+   * Redacted from `all()` and `toSafeObject()` output.
+   */
+  private readonly _sensitiveKeys: Set<string> = new Set();
+
+  /**
    * Create a new ConfigService.
    *
-   * @param driver - The configuration driver injected via DI
+   * @param driver - The configuration driver to wrap
+   * @param sensitiveKeys - Optional list of keys to mark as sensitive
+   *   (e.g., `['JWT_SECRET', 'DB_PASSWORD', 'API_KEY']`)
    */
-  constructor(
-    @Inject(CONFIG_DRIVER)
-    driver: ConfigDriver
-  ) {
+  constructor(driver: ConfigDriver, sensitiveKeys?: string[]) {
     this._driver = driver;
+    if (sensitiveKeys) {
+      for (const key of sensitiveKeys) {
+        this._sensitiveKeys.add(key);
+      }
+    }
   }
 
   // ── Read ────────────────────────────────────────────────────────────────
@@ -60,6 +68,7 @@ export class ConfigService implements ConfigServiceInterface {
   /**
    * Get a configuration value by key.
    *
+   * Checks runtime overrides first, then falls back to the driver.
    * Supports dot-notation for nested values (e.g., `'database.host'`).
    *
    * @typeParam T - Expected return type
@@ -74,6 +83,10 @@ export class ConfigService implements ConfigServiceInterface {
    * ```
    */
   public get<T = any>(key: string, defaultValue?: T): T | undefined {
+    // Runtime overrides take precedence
+    if (this._overrides.has(key)) {
+      return this._overrides.get(key) as T;
+    }
     return this._driver.get<T>(key, defaultValue);
   }
 
@@ -255,28 +268,123 @@ export class ConfigService implements ConfigServiceInterface {
   /**
    * Check if a configuration key exists.
    *
+   * Checks both runtime overrides and the underlying driver.
+   *
    * @param key - Configuration key (supports dot notation)
-   * @returns `true` if the key exists in the configuration
+   * @returns `true` if the key exists in overrides or the configuration
    */
   public has(key: string): boolean {
-    return this._driver.has(key);
+    return this._overrides.has(key) || this._driver.has(key);
   }
 
   /**
    * Get all configuration values as a plain object.
    *
+   * Merges driver values with runtime overrides. Overrides take precedence.
+   *
    * @returns A shallow copy of all configuration key-value pairs
    */
   public all(): Record<string, any> {
-    return this._driver.all();
+    const base = this._driver.all();
+    // Apply overrides on top
+    for (const [key, value] of this._overrides) {
+      base[key] = value;
+    }
+    return base;
+  }
+
+  // ── Mutation ────────────────────────────────────────────────────────────
+
+  /**
+   * Set a configuration value at runtime.
+   *
+   * Creates a runtime override that takes precedence over the driver's
+   * value. Useful for feature flags, A/B tests, or test fixtures.
+   *
+   * @param key - Configuration key
+   * @param value - The value to set
+   * @returns `this` for chaining
+   *
+   * @example
+   * ```typescript
+   * config.set('FEATURE_NEW_UI', true);
+   * config.set('API_TIMEOUT', 5000);
+   * ```
+   */
+  public set(key: string, value: any): this {
+    this._overrides.set(key, value);
+    return this;
   }
 
   /**
-   * Clear any cached configuration values.
+   * Remove a runtime override, reverting to the driver's value.
    *
-   * Currently a no-op — caching should be done at a higher level if needed.
+   * @param key - Configuration key to unset
+   * @returns `this` for chaining
+   */
+  public unset(key: string): this {
+    this._overrides.delete(key);
+    return this;
+  }
+
+  // ── Secrets ─────────────────────────────────────────────────────────────
+
+  /**
+   * Mark one or more keys as sensitive.
+   *
+   * Sensitive keys are redacted in `toSafeObject()` output, preventing
+   * accidental exposure in logs, error reports, or debug dumps.
+   *
+   * @param keys - Key(s) to mark as sensitive
+   * @returns `this` for chaining
+   *
+   * @example
+   * ```typescript
+   * config.markSensitive('JWT_SECRET', 'DB_PASSWORD', 'API_KEY');
+   * config.toSafeObject(); // { JWT_SECRET: '[REDACTED]', ... }
+   * ```
+   */
+  public markSensitive(...keys: string[]): this {
+    for (const key of keys) {
+      this._sensitiveKeys.add(key);
+    }
+    return this;
+  }
+
+  /**
+   * Get all configuration values with sensitive keys redacted.
+   *
+   * Returns a copy of `all()` where keys marked as sensitive
+   * have their values replaced with `'[REDACTED]'`. Safe for
+   * logging, error reports, and debug output.
+   *
+   * @param redactValue - Custom redaction placeholder
+   *   (default: `'[REDACTED]'`)
+   * @returns A redacted copy of all configuration key-value pairs
+   *
+   * @example
+   * ```typescript
+   * config.markSensitive('JWT_SECRET');
+   * config.toSafeObject();
+   * // { APP_NAME: 'MyApp', JWT_SECRET: '[REDACTED]' }
+   * ```
+   */
+  public toSafeObject(redactValue: string = '[REDACTED]'): Record<string, any> {
+    const all = this.all();
+    for (const key of this._sensitiveKeys) {
+      if (key in all) {
+        all[key] = redactValue;
+      }
+    }
+    return all;
+  }
+
+  /**
+   * Clear all runtime overrides.
+   *
+   * Reverts all values to the driver's original configuration.
    */
   public clearCache(): void {
-    // No-op — caching should be done at a higher level if needed
+    this._overrides.clear();
   }
 }

@@ -62,7 +62,6 @@
   "peerDependencies": {
     "@abdokouta/ts-container": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
     "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
@@ -72,16 +71,12 @@
     "@abdokouta/ts-support": {
       "optional": false
     },
-    "@abdokouta/ts-container-react": {
-      "optional": true
-    },
     "react": {
       "optional": true
     }
   },
   "devDependencies": {
     "@abdokouta/ts-support": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
     "@abdokouta/ts-container": "workspace:*",
     "@eslint/js": "10.0.1",
     "@nesvel/eslint-config": "^1.0.5",

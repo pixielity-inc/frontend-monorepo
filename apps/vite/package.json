@@ -20,8 +20,6 @@
   "dependencies": {
     "@abdokouta/ts-config": "workspace:*",
     "@abdokouta/ts-container": "workspace:*",
-    "@abdokouta/ts-container-react": "workspace:*",
-    "@abdokouta/ts-application": "workspace:*",
     "@abdokouta/ts-desktop": "workspace:*",
     "@abdokouta/kbd": "workspace:*",
     "@abdokouta/ts-pwa": "workspace:*",

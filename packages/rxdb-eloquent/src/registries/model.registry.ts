@@ -12,6 +12,8 @@
  * This follows the same pattern as `CacheManager.onModuleInit()` in
  * `@abdokouta/ts-cache`.
  *
+ * @category Registries
+ *
  * @example
  * ```ts
  * // No manual boot() needed — onModuleInit() handles it automatically

@@ -14,5 +14,5 @@ export { ShortcutHelp } from './shortcut-help';
 export type { ShortcutHelpProps } from './shortcut-help';
 export { ShortcutHint } from './shortcut-hint';
 export type { ShortcutHintProps } from './shortcut-hint';
-export { KbdVisibilityProvider } from '../providers/kbd-visibility-provider';
-export type { KbdVisibilityProviderProps } from '../providers/kbd-visibility-provider';
+export { KbdVisibilityProvider } from '@/providers/kbd-visibility-provider';
+export type { KbdVisibilityProviderProps } from '@/providers/kbd-visibility-provider';

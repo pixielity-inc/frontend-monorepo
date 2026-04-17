@@ -15,7 +15,7 @@
  * @module @abdokouta/react-theming
  */
 
-import type { ThemeConfig } from '@/types/theme.types';
+import type { ThemeConfig } from '@/interfaces/theme-config.interface';
 
 /** Default indigo theme. */
 export const THEME_DEFAULT: ThemeConfig = {

@@ -1,8 +1,13 @@
 /**
- * Vite Plugin Entry
+ * Vite Plugin Entry Point
  *
- * Separate entry point for the Vite config plugin.
- * Imported as: import { viteConfigPlugin } from '@abdokouta/ts-config/vite-plugin'
+ * Separate entry point for the Vite config plugin, consumed as:
+ * `import { viteConfigPlugin } from '@abdokouta/ts-config/vite-plugin'`
+ *
+ * Re-exports the plugin factory and its options type so consumers
+ * don't need to reach into internal paths.
+ *
+ * @module vite-plugin
  */
 
 export { viteConfigPlugin } from './plugins/vite.plugin';

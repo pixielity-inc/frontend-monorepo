@@ -32,6 +32,7 @@ export type { StorageTransporterOptions } from './interfaces';
 // ============================================================================
 export { LoggerManager } from './services/logger-manager.service';
 export { LoggerService } from './services/logger.service';
+export { LoggerService as Logger } from './services/logger.service';
 
 // ============================================================================
 // Module (DI Configuration)

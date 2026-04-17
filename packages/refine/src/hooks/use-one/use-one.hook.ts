@@ -1,67 +1,43 @@
 /**
- * @fileoverview useOne Hook
+ * @fileoverview useOne hook — fetch a single record by ID.
  *
- * Enhanced useOne hook that wraps the original Refine useOne
- * and exposes isLoading directly for better DX.
+ * Resolves the service from the ServiceRegistry and delegates
+ * to `service.getOne(id)` via TanStack Query's `useQuery`.
  *
  * @module @abdokouta/react-refine
  * @category Hooks
  */
 
-import { useOne as useOneOriginal } from '@refinedev/core';
-import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseOneProps, UseOneReturnType } from './use-one.types';
+import { useQuery } from '@tanstack/react-query';
+import { resolveService } from '../use-service.util';
+import { QueryKeyFactory } from '@/utils/query-key-factory.util';
+import type { UseOneProps } from '@/interfaces/use-one-props.interface';
+import type { UseOneReturnType } from '@/types/use-one-return-type.type';
+import type { HttpError } from '@/interfaces/http-error.interface';
 
 /**
- * useOne Hook
+ * Fetch a single record by resource name and ID.
  *
- * Enhanced version of Refine's useOne hook that exposes loading states directly.
- * Fetches a single record from the data provider.
- *
- * @param props - Hook configuration options
- * @returns Enhanced return object with direct access to loading states
- *
- * @example
- * ```typescript
- * const { data, isLoading, isError, error } = useOne({
- *   resource: 'posts',
- *   id: 1,
- * });
- *
- * if (isLoading) return <Spinner />;
- * if (isError) return <Error message={error.message} />;
- * return <div>{data?.title}</div>;
- * ```
- *
- * @example With meta data
- * ```typescript
- * const { data, isLoading } = useOne({
- *   resource: 'posts',
- *   id: 1,
- *   meta: {
- *     populate: ['author', 'category'],
- *   },
- * });
- * ```
+ * @param props - Hook parameters.
+ * @returns Query result with data, loading, and error states.
  */
-export const useOne = <
-  TQueryFnData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  TData extends BaseRecord = TQueryFnData,
->(
-  props: UseOneProps<TQueryFnData, TError, TData>
-): UseOneReturnType<TData, TError> => {
-  const result = useOneOriginal<TQueryFnData, TError, TData>(props);
+export function useOne<TData = any>(props: UseOneProps): UseOneReturnType<TData> {
+  const { resource, id, enabled = true } = props;
+
+  const query = useQuery({
+    queryKey: QueryKeyFactory.one(resource, id),
+    queryFn: () => resolveService(resource).getOne(id),
+    enabled,
+  });
 
   return {
-    data: result.result,
-    isLoading: result.query.isLoading,
-    isFetching: result.query.isFetching,
-    isError: result.query.isError,
-    isSuccess: result.query.isSuccess,
-    error: result.query.error,
-    refetch: result.query.refetch,
-    query: result.query,
-    overtime: result.overtime,
+    data: query.data as TData | undefined,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    isSuccess: query.isSuccess,
+    error: query.error as unknown as HttpError | null,
+    refetch: query.refetch,
+    query,
   };
-};
+}
