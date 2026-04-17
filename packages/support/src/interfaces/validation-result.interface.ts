@@ -1,4 +1,11 @@
 /**
+ * @fileoverview Validation result interface for registry operations.
+ *
+ * @module @abdokouta/ts-support
+ * @category Interfaces
+ */
+
+/**
  * Validation result for registry operations
  *
  * @example

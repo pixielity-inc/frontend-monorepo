@@ -1,4 +1,14 @@
-import type { ValidationResult } from './validation-result.type';
+/**
+ * @fileoverview Base registry options interface.
+ *
+ * Configuration options for creating a registry instance.
+ * Allows customization of default item behavior and validation.
+ *
+ * @module @abdokouta/ts-support
+ * @category Interfaces
+ */
+
+import type { ValidationResult } from './validation-result.interface';
 
 /**
  * Base registry options
