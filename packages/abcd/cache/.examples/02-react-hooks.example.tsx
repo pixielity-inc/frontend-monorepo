@@ -8,8 +8,8 @@
  * @module examples/react-hooks
  *
  * Prerequisites:
- * - @abdokouta/ts-cache installed and CacheModule.forRoot() configured
- * - @abdokouta/ts-container installed
+ * - @stackra/ts-cache installed and CacheModule.forRoot() configured
+ * - @stackra/ts-container installed
  * - React 18 or 19
  */
 

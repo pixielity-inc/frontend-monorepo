@@ -10,7 +10,7 @@
  *
  * @example
  * ```typescript
- * import type { II18nextService } from '@abdokouta/react-i18n';
+ * import type { II18nextService } from '@stackra/react-i18n';
  *
  * class CustomProvider implements II18nextService {
  *   translate(key: string) { return key; }

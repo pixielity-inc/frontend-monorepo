@@ -5,8 +5,8 @@
  * connection introspection, and service injection patterns.
  */
 
-import { Module, Injectable, Inject } from '@abdokouta/ts-container';
-import { RedisModule, RedisManager } from '@abdokouta/ts-redis';
+import { Module, Injectable, Inject } from '@stackra/ts-container';
+import { RedisModule, RedisManager } from '@stackra/ts-redis';
 import redisConfig from './redis.config';
 
 // ============================================================================
@@ -58,12 +58,7 @@ async function pipelineExample(redis: RedisManager) {
   console.log('Pipeline results:', results); // ["OK", "OK", "OK"]
 
   // Batch reads
-  const readResults = await conn
-    .pipeline()
-    .get('item:1')
-    .get('item:2')
-    .get('item:3')
-    .exec();
+  const readResults = await conn.pipeline().get('item:1').get('item:2').get('item:3').exec();
 
   console.log('Read results:', readResults);
 

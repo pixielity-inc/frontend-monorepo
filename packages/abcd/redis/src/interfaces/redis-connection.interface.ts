@@ -403,6 +403,88 @@ export interface RedisConnection {
   pipeline(): RedisPipeline;
 
   // ============================================================================
+  // Pub/Sub Operations
+  // ============================================================================
+
+  /**
+   * Publish a message to a channel
+   *
+   * @param channel - The channel to publish to
+   * @param message - The message to send
+   * @returns The number of clients that received the message
+   *
+   * @remarks
+   * Publishing is a fire-and-forget HTTP call that works in all environments
+   * (browser, serverless, edge). Subscribers on other connections or services
+   * will receive the message.
+   *
+   * @example
+   * ```typescript
+   * // Notify subscribers of a cache invalidation
+   * await connection.publish('cache:invalidate', 'user:123');
+   *
+   * // Broadcast an event
+   * const receivers = await connection.publish('events:order', JSON.stringify({
+   *   type: 'created',
+   *   orderId: 'abc-123',
+   * }));
+   * console.log(`${receivers} subscriber(s) received the message`);
+   * ```
+   */
+  publish(channel: string, message: string): Promise<number>;
+
+  /**
+   * Subscribe to one or more channels
+   *
+   * @param channels - Channel name(s) to subscribe to
+   * @returns A subscriber instance for listening to messages
+   *
+   * @remarks
+   * Uses HTTP streaming under the hood. The subscriber emits events
+   * when messages arrive on the subscribed channels.
+   *
+   * @example
+   * ```typescript
+   * const subscriber = connection.subscribe<string>('notifications');
+   *
+   * subscriber.on('message', (data) => {
+   *   console.log(`Channel: ${data.channel}, Message: ${data.message}`);
+   * });
+   *
+   * // Unsubscribe when done
+   * await subscriber.unsubscribe();
+   * ```
+   */
+  subscribe<TMessage = unknown>(channels: string | string[]): RedisSubscriber<TMessage>;
+
+  /**
+   * Subscribe to channels matching a glob pattern
+   *
+   * @param patterns - Glob pattern(s) to match channel names
+   * @returns A subscriber instance for listening to messages
+   *
+   * @remarks
+   * Pattern subscriptions use glob-style matching:
+   * - `*` matches any sequence of characters
+   * - `?` matches a single character
+   * - `[abc]` matches any character in the set
+   *
+   * @example
+   * ```typescript
+   * const subscriber = connection.psubscribe<string>('user:*');
+   *
+   * subscriber.on('pmessage', (data) => {
+   *   console.log(`Pattern: ${data.pattern}, Channel: ${data.channel}`);
+   *   console.log(`Message: ${data.message}`);
+   * });
+   *
+   * // Unsubscribe when done
+   * await subscriber.unsubscribe();
+   * ```
+   */
+  psubscribe<TMessage = unknown>(patterns: string | string[]): RedisSubscriber<TMessage>;
+
+  // ============================================================================
   // Maintenance Operations
   // ============================================================================
 
@@ -553,4 +635,128 @@ export interface SetOptions {
    * Useful for updating existing values without creating new ones.
    */
   xx?: boolean;
+}
+
+// ============================================================================
+// Pub/Sub Types
+// ============================================================================
+
+/**
+ * Data emitted for a direct channel message event
+ *
+ * @example
+ * ```typescript
+ * subscriber.on('message', (data: RedisMessageData<string>) => {
+ *   console.log(data.channel, data.message);
+ * });
+ * ```
+ */
+export interface RedisMessageData<TMessage = unknown> {
+  /** The channel the message was published to */
+  channel: string;
+  /** The message payload */
+  message: TMessage;
+}
+
+/**
+ * Data emitted for a pattern-matched message event
+ *
+ * @example
+ * ```typescript
+ * subscriber.on('pmessage', (data: RedisPatternMessageData<string>) => {
+ *   console.log(data.pattern, data.channel, data.message);
+ * });
+ * ```
+ */
+export interface RedisPatternMessageData<TMessage = unknown> {
+  /** The pattern that matched the channel */
+  pattern: string;
+  /** The actual channel the message was published to */
+  channel: string;
+  /** The message payload */
+  message: TMessage;
+}
+
+/**
+ * Data emitted for subscription count events (subscribe, unsubscribe, etc.)
+ */
+export interface RedisSubscriptionCountEvent {
+  /** The channel or pattern */
+  channel: string;
+  /** The current number of active subscriptions */
+  count: number;
+}
+
+/**
+ * Map of event types to their data shapes for a Redis subscriber
+ */
+export interface RedisSubscriberEventMap<TMessage = unknown> {
+  /** Fired when a message is received on a directly subscribed channel */
+  message: RedisMessageData<TMessage>;
+  /** Fired when a message matches a pattern subscription */
+  pmessage: RedisPatternMessageData<TMessage>;
+  /** Fired when a channel subscription is confirmed */
+  subscribe: RedisSubscriptionCountEvent;
+  /** Fired when a channel is unsubscribed */
+  unsubscribe: RedisSubscriptionCountEvent;
+  /** Fired when a pattern subscription is confirmed */
+  psubscribe: RedisSubscriptionCountEvent;
+  /** Fired when a pattern is unsubscribed */
+  punsubscribe: RedisSubscriptionCountEvent;
+  /** Fired when an error occurs */
+  error: Error;
+}
+
+/**
+ * Redis subscriber for receiving pub/sub messages
+ *
+ * @remarks
+ * Subscribers use HTTP streaming to listen for messages published
+ * to channels or patterns. They emit typed events that can be
+ * listened to via the `on` method.
+ *
+ * Always call `unsubscribe()` when done to clean up resources.
+ *
+ * @example
+ * ```typescript
+ * const subscriber = connection.subscribe<string>('chat:room:1');
+ *
+ * subscriber.on('message', (data) => {
+ *   console.log(`[${data.channel}] ${data.message}`);
+ * });
+ *
+ * // Later...
+ * await subscriber.unsubscribe();
+ * ```
+ */
+export interface RedisSubscriber<TMessage = unknown> {
+  /**
+   * Register an event listener
+   *
+   * @param type - The event type to listen for
+   * @param listener - Callback invoked when the event fires
+   */
+  on<T extends keyof RedisSubscriberEventMap<TMessage>>(
+    type: T,
+    listener: (event: RedisSubscriberEventMap<TMessage>[T]) => void
+  ): void;
+
+  /**
+   * Remove all registered event listeners
+   */
+  removeAllListeners(): void;
+
+  /**
+   * Unsubscribe from some or all channels/patterns
+   *
+   * @param channels - Specific channels to unsubscribe from. If omitted, unsubscribes from all.
+   */
+  unsubscribe(channels?: string[]): Promise<void>;
+
+  /**
+   * Get the list of currently subscribed channels or patterns
+   *
+   * @returns Array of channel/pattern names
+   */
+  getSubscribedChannels(): string[];
 }

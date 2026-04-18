@@ -14,7 +14,7 @@
  *
  * @example
  * ```typescript
- * import { NavigatorLocaleResolver } from '@abdokouta/react-i18n';
+ * import { NavigatorLocaleResolver } from '@stackra/react-i18n';
  *
  * // Accept any browser language
  * const resolver = new NavigatorLocaleResolver();

@@ -4,8 +4,8 @@
  * Register the RedisModule before using hooks in components.
  */
 
-import { Module } from '@abdokouta/ts-container';
-import { RedisModule } from '@abdokouta/ts-redis';
+import { Module } from '@stackra/ts-container';
+import { RedisModule } from '@stackra/ts-redis';
 import redisConfig from './redis.config';
 
 @Module({

@@ -13,9 +13,9 @@
  * - Mixing custom and built-in resolvers in the chain
  */
 
-import { Module } from '@abdokouta/ts-container';
-import { I18nModule, LocaleResolverPriority } from '@abdokouta/react-i18n';
-import type { ILocaleResolver } from '@abdokouta/react-i18n';
+import { Module } from '@stackra/ts-container';
+import { I18nModule, LocaleResolverPriority } from '@stackra/react-i18n';
+import type { ILocaleResolver } from '@stackra/react-i18n';
 
 // ============================================================================
 // Custom Resolver 1: JWT Token

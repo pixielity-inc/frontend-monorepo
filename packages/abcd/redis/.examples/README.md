@@ -1,4 +1,4 @@
-# @abdokouta/ts-redis — Examples
+# @stackra/ts-redis — Examples
 
 ## Examples
 
@@ -42,7 +42,7 @@ React integration using `useRedis` and `useRedisConnection`:
 1. Install dependencies:
 
 ```bash
-pnpm add @abdokouta/ts-redis @abdokouta/ts-container @abdokouta/ts-support @upstash/redis
+pnpm add @stackra/ts-redis @stackra/ts-container @stackra/ts-support @upstash/redis
 ```
 
 2. Set environment variables in your `.env`:

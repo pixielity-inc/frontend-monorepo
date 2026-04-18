@@ -9,7 +9,7 @@
  * - VITE_UPSTASH_REDIS_REST_TOKEN: Your Upstash Redis REST token
  */
 
-import { defineConfig } from '@abdokouta/ts-redis';
+import { defineConfig } from '@stackra/ts-redis';
 
 const redisConfig = defineConfig({
   /**

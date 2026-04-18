@@ -1,10 +1,10 @@
 /**
- * @abdokouta/ts-redis
+ * @stackra/ts-redis
  *
  * Client-side Redis connection management using Upstash HTTP API.
  * Provides multiple named connections, DI integration, and React hooks.
  *
- * @module @abdokouta/ts-redis
+ * @module @stackra/ts-redis
  */
 
 // ============================================================================
@@ -39,6 +39,11 @@ export type {
   RedisConnection,
   RedisPipeline,
   SetOptions,
+  RedisSubscriber,
+  RedisSubscriberEventMap,
+  RedisMessageData,
+  RedisPatternMessageData,
+  RedisSubscriptionCountEvent,
 } from './interfaces/redis-connection.interface';
 
 export type { RedisConfig, RedisConnectionConfig } from './interfaces/redis-config.interface';

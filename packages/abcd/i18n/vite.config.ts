@@ -2,14 +2,14 @@ import { defineConfig } from 'vite';
 import typescript from 'vite/dist/node/constants.mjs';
 
 /**
- * Vite configuration for @abdokouta/react-i18n package development
+ * Vite configuration for @stackra/react-i18n package development
  * Used for local development and testing
  */
 export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: '@abdokouta/react-i18n',
+      name: '@stackra/react-i18n',
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
     },
     rollupOptions: {

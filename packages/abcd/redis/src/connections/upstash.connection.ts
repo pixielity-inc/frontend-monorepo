@@ -10,7 +10,7 @@
  */
 
 import type { Redis } from '@upstash/redis';
-import type { RedisConnection, RedisPipeline, SetOptions } from '@/interfaces';
+import type { RedisConnection, RedisPipeline, SetOptions, RedisSubscriber } from '@/interfaces';
 
 /**
  * Upstash Redis connection implementation
@@ -386,6 +386,53 @@ export class UpstashConnection implements RedisConnection {
     };
 
     return wrapper;
+  }
+
+  // ============================================================================
+  // Pub/Sub Operations
+  // ============================================================================
+
+  /**
+   * Publish a message to a channel
+   *
+   * @param channel - The channel to publish to
+   * @param message - The message to send
+   * @returns The number of clients that received the message
+   *
+   * @remarks
+   * This is a simple HTTP call — works in browsers, serverless, and edge.
+   * Subscribers listening on the channel (via subscribe/psubscribe on
+   * a server-side connection) will receive the message.
+   */
+  async publish(channel: string, message: string): Promise<number> {
+    return this.redis.publish(channel, message);
+  }
+
+  /**
+   * Subscribe to one or more channels
+   *
+   * @param channels - Channel name(s) to subscribe to
+   * @returns A subscriber instance for listening to messages
+   *
+   * @remarks
+   * Uses HTTP streaming under the hood. The returned subscriber
+   * emits typed events when messages arrive.
+   */
+  subscribe<TMessage = unknown>(channels: string | string[]): RedisSubscriber<TMessage> {
+    return this.redis.subscribe<TMessage>(channels) as unknown as RedisSubscriber<TMessage>;
+  }
+
+  /**
+   * Subscribe to channels matching a glob pattern
+   *
+   * @param patterns - Glob pattern(s) to match channel names
+   * @returns A subscriber instance for listening to messages
+   *
+   * @remarks
+   * Pattern subscriptions use glob-style matching (`*`, `?`, `[abc]`).
+   */
+  psubscribe<TMessage = unknown>(patterns: string | string[]): RedisSubscriber<TMessage> {
+    return this.redis.psubscribe<TMessage>(patterns) as unknown as RedisSubscriber<TMessage>;
   }
 
   // ============================================================================

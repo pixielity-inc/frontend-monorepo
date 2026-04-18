@@ -1,5 +1,5 @@
 /**
- * @fileoverview Prettier configuration for @abdokouta/ts-redis package
+ * @fileoverview Prettier configuration for @stackra/ts-redis package
  *
  * Extends the shared @nesvel/prettier-config for consistent code formatting
  * across all packages in the monorepo.
@@ -12,7 +12,7 @@
  * - Semicolons enabled
  * - LF line endings
  *
- * @module @abdokouta/ts-redis
+ * @module @stackra/ts-redis
  * @category Configuration
  * @see https://prettier.io/docs/en/configuration
  */

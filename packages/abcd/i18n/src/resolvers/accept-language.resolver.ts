@@ -15,7 +15,7 @@
  *
  * @example
  * ```typescript
- * import { AcceptLanguageLocaleResolver } from '@abdokouta/react-i18n';
+ * import { AcceptLanguageLocaleResolver } from '@stackra/react-i18n';
  *
  * // Default header name ('Content-Language')
  * const resolver = new AcceptLanguageLocaleResolver();

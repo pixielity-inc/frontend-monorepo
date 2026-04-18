@@ -13,7 +13,7 @@
  *
  * @example
  * ```typescript
- * import { useCache, useCachedQuery } from '@abdokouta/ts-cache';
+ * import { useCache, useCachedQuery } from '@stackra/ts-cache';
  * ```
  */
 

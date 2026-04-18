@@ -32,9 +32,9 @@ import {
   Optional,
   type OnModuleInit,
   type OnModuleDestroy,
-} from '@abdokouta/ts-container';
-import { MultipleInstanceManager } from '@abdokouta/ts-support';
-import { REDIS_MANAGER, type IRedisService } from '@abdokouta/ts-redis';
+} from '@stackra/ts-container';
+import { MultipleInstanceManager } from '@stackra/ts-support';
+import { REDIS_MANAGER, type IRedisService } from '@stackra/ts-redis';
 
 import type { StoreConfig } from '@/types';
 import { CacheService } from './cache.service';
@@ -308,7 +308,7 @@ export class CacheManager
   private createRedisStore(config: StoreConfig, prefix: string): RedisStore {
     if (!this.redisService) {
       throw new Error(
-        'Redis cache driver requires @abdokouta/ts-redis.\n' +
+        'Redis cache driver requires @stackra/ts-redis.\n' +
           'Import RedisModule.forRoot() before CacheModule.forRoot().'
       );
     }

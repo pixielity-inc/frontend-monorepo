@@ -5,13 +5,13 @@
  * Lower numeric values run first. The first resolver that returns
  * a non-`undefined` value wins.
  *
- * Mirrors the {@link ResolverPriority} pattern from `@abdokouta/react-multitenancy`.
+ * Mirrors the {@link ResolverPriority} pattern from `@stackra/react-multitenancy`.
  *
  * @module enums/locale-resolver-priority
  *
  * @example
  * ```typescript
- * import { LocaleResolverPriority } from '@abdokouta/react-i18n';
+ * import { LocaleResolverPriority } from '@stackra/react-i18n';
  *
  * class CustomResolver implements LocaleResolver {
  *   name = 'custom';

@@ -5,7 +5,7 @@
  * and useRedisConnection hooks.
  */
 
-import { defineConfig } from '@abdokouta/ts-redis';
+import { defineConfig } from '@stackra/ts-redis';
 
 const redisConfig = defineConfig({
   isGlobal: true,

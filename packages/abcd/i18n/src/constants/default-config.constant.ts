@@ -24,7 +24,7 @@ import type { I18nextConfig } from '@/interfaces';
  *
  * @example
  * ```typescript
- * import { DEFAULT_PLUGIN_OPTIONS } from '@abdokouta/react-i18n';
+ * import { DEFAULT_PLUGIN_OPTIONS } from '@stackra/react-i18n';
  *
  * const merged = { ...DEFAULT_PLUGIN_OPTIONS, ...userOptions };
  * ```
@@ -62,8 +62,8 @@ export const DEFAULT_PLUGIN_OPTIONS = {
   /** Generates `.d.ts` files for translation key autocomplete. */
   typeGeneration: true,
 
-  /** @default '.abdokouta/react-i18n/types' */
-  typeOutputDir: '.abdokouta/react-i18n/types',
+  /** @default '.stackra/react-i18n/types' */
+  typeOutputDir: '.stackra/react-i18n/types',
 
   /** @default false */
   debug: false,
@@ -93,7 +93,7 @@ export const DEFAULT_PLUGIN_OPTIONS = {
  *
  * @example
  * ```typescript
- * import { DEFAULT_I18NEXT_CONFIG } from '@abdokouta/react-i18n';
+ * import { DEFAULT_I18NEXT_CONFIG } from '@stackra/react-i18n';
  *
  * const config = { ...DEFAULT_I18NEXT_CONFIG, lng: 'ar' };
  * ```

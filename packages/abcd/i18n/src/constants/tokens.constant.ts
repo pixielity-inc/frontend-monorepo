@@ -1,9 +1,9 @@
 /**
- * DI Tokens for @abdokouta/react-i18n
+ * DI Tokens for @stackra/react-i18n
  *
  * Symbols used as service identifiers for dependency injection.
- * Follows the same pattern as `@abdokouta/ts-http` and
- * `@abdokouta/react-multitenancy`.
+ * Follows the same pattern as `@stackra/ts-http` and
+ * `@stackra/react-multitenancy`.
  *
  * Core:
  *   `I18N_CONFIG` — the merged i18n module configuration
@@ -19,8 +19,8 @@
  *
  * @example
  * ```typescript
- * import { Inject } from '@abdokouta/ts-container';
- * import { I18NEXT_SERVICE, I18N_CONFIG } from '@abdokouta/react-i18n';
+ * import { Inject } from '@stackra/ts-container';
+ * import { I18NEXT_SERVICE, I18N_CONFIG } from '@stackra/react-i18n';
  *
  * @Injectable()
  * class MyService {

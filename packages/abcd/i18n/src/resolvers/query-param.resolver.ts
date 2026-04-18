@@ -12,7 +12,7 @@
  *
  * @example
  * ```typescript
- * import { QueryParamLocaleResolver } from '@abdokouta/react-i18n';
+ * import { QueryParamLocaleResolver } from '@stackra/react-i18n';
  *
  * // Default parameter name ('lang')
  * const resolver = new QueryParamLocaleResolver();

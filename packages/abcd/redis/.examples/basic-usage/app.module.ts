@@ -5,8 +5,8 @@
  * and perform basic CRUD operations.
  */
 
-import { Module } from '@abdokouta/ts-container';
-import { RedisModule, RedisManager } from '@abdokouta/ts-redis';
+import { Module } from '@stackra/ts-container';
+import { RedisModule, RedisManager } from '@stackra/ts-redis';
 import redisConfig from './redis.config';
 
 // ============================================================================

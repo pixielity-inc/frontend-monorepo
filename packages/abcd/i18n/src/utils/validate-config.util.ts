@@ -88,7 +88,7 @@ export function validateConfig(
   }
 
   if (!config.typeOutputDir) {
-    config.typeOutputDir = '.abdokouta/react-i18n/types';
+    config.typeOutputDir = '.stackra/react-i18n/types';
   }
 
   if (!config.resourcesPath) {

@@ -12,9 +12,9 @@
  * - Adding resources at runtime
  */
 
-import { Injectable, Inject } from '@abdokouta/ts-container';
-import { I18N_SERVICE } from '@abdokouta/react-i18n';
-import type { II18nService } from '@abdokouta/react-i18n';
+import { Injectable, Inject } from '@stackra/ts-container';
+import { I18N_SERVICE } from '@stackra/react-i18n';
+import type { II18nService } from '@stackra/react-i18n';
 
 // ============================================================================
 // Example: Notification Service

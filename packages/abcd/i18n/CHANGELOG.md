@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@abdokouta/react-i18n` will be documented in this file.
+All notable changes to `@stackra/react-i18n` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
@@ -11,7 +11,7 @@ and this project adheres to
 ### Added
 
 - **DI Module** — `I18nModule.forRoot()` following the `HttpModule` /
-  `MultiTenancyModule` pattern from `@abdokouta/ts-container`
+  `MultiTenancyModule` pattern from `@stackra/ts-container`
 - **I18nService** — `@Injectable()` high-level service with `t()`, `__()`,
   `trans()`, `changeLocale()`, `resolveLocale()`, `isRTL()`,
   `onLanguageChanged()`
@@ -43,7 +43,7 @@ and this project adheres to
   `I18nextService` (removed duplicate `i18n-instance.util.ts`)
 - **Interface naming convention** — standardized on `I` prefix (`II18nService`,
   `II18nextService`, `ILocaleResolver`, `IHttpMiddleware`) matching
-  `@abdokouta/react-multitenancy` patterns
+  `@stackra/react-multitenancy` patterns
 - **Provider → Service** — renamed `I18nProvider` class to `I18nextService`,
   moved from `providers/` to `services/`
 - **File renamed** — `i18n-provider.interface.ts` →
@@ -68,7 +68,7 @@ and this project adheres to
 
 - Initial release
 - Vite plugin with auto-discovery, type generation, HMR
-- Virtual module (`virtual:@abdokouta/react-i18n`)
+- Virtual module (`virtual:@stackra/react-i18n`)
 - Global translation helpers (`__`, `t`, `trans`)
 - Framework-agnostic i18n provider
 - i18next integration with HTTP backend and language detector support

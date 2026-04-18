@@ -13,7 +13,7 @@
  *
  * @example
  * ```typescript
- * import { UrlPathLocaleResolver } from '@abdokouta/react-i18n';
+ * import { UrlPathLocaleResolver } from '@stackra/react-i18n';
  *
  * // Without allowed languages (matches any locale-like segment)
  * const resolver = new UrlPathLocaleResolver();

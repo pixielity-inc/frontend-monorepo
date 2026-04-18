@@ -9,8 +9,8 @@
  *
  * @example
  * ```typescript
- * import { I18nModule } from '@abdokouta/react-i18n';
- * import { TenantMode } from '@abdokouta/react-multitenancy';
+ * import { I18nModule } from '@stackra/react-i18n';
+ * import { TenantMode } from '@stackra/react-multitenancy';
  *
  * @Module({
  *   imports: [

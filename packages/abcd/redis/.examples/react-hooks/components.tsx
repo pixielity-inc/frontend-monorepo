@@ -6,8 +6,8 @@
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { useRedis, useRedisConnection } from '@abdokouta/ts-redis';
-import type { RedisConnection } from '@abdokouta/ts-redis';
+import { useRedis, useRedisConnection } from '@stackra/ts-redis';
+import type { RedisConnection } from '@stackra/ts-redis';
 
 // ============================================================================
 // 1. useRedis — Access the RedisManager directly
@@ -201,10 +201,4 @@ function BatchProductLoader({ productIds }: { productIds: string[] }) {
   );
 }
 
-export {
-  PageViewCounter,
-  UserProfile,
-  ConnectionDashboard,
-  KeyValueEditor,
-  BatchProductLoader,
-};
+export { PageViewCounter, UserProfile, ConnectionDashboard, KeyValueEditor, BatchProductLoader };

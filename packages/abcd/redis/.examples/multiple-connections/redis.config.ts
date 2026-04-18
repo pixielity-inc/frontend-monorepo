@@ -14,7 +14,7 @@
  * - VITE_UPSTASH_RATELIMIT_REST_URL / TOKEN: Rate-limit connection
  */
 
-import { defineConfig } from '@abdokouta/ts-redis';
+import { defineConfig } from '@stackra/ts-redis';
 
 const redisConfig = defineConfig({
   isGlobal: true,
