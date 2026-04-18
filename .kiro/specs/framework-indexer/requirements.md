@@ -3,8 +3,8 @@
 ## Introduction
 
 The `framework/src/Indexer/` sub-package provides the foundational indexing
-layer for the Pixielity monorepo. It lives inside the framework package at
-`packages/framework/src/Indexer/` under the namespace `Pixielity\Indexer`,
+layer for the Stackra monorepo. It lives inside the framework package at
+`packages/framework/src/Indexer/` under the namespace `Stackra\Indexer`,
 following the same pattern as `Aop/`, `Compiler/`, `Queue/`, `Event/`, and other
 framework sub-packages.
 
@@ -17,7 +17,7 @@ This sub-package owns the pure PHP foundation that the `search` package and
 and a compile-time registry (`IndexerRegistry`).
 
 This sub-package has NO Elasticsearch dependency — it is pure PHP attributes,
-contracts, traits, and enums. The search package (`pixielity/laravel-search`)
+contracts, traits, and enums. The search package (`stackra/laravel-search`)
 provides the ES-specific implementations using `pdphilip/elasticsearch`. The
 reporting package provides ES aggregation implementations. This sub-package
 defines the contracts and data structures they implement.
@@ -130,11 +130,11 @@ configuration, so that I avoid duplicating field declarations.
 3. THE `#[Indexed]` attribute SHALL target `Attribute::TARGET_CLASS` and be
    declared as `final readonly`.
 4. THE `#[Indexed]` attribute SHALL define `ATTR_*` constants for each parameter
-   name following the Pixielity convention (e.g., `ATTR_LABEL`,
-   `ATTR_GEO_FIELD`, `ATTR_SYNONYMS`).
+   name following the Stackra convention (e.g., `ATTR_LABEL`, `ATTR_GEO_FIELD`,
+   `ATTR_SYNONYMS`).
 5. THE `#[Indexed]` attribute SHALL reside in
    `packages/framework/src/Indexer/src/Attributes/Indexed.php` under the
-   namespace `Pixielity\Indexer\Attributes`.
+   namespace `Stackra\Indexer\Attributes`.
 
 ### Requirement 2: EmbedOne and EmbedMany Attributes
 
@@ -159,7 +159,7 @@ flattened into the ES document for denormalized search.
    constants for each parameter name.
 5. BOTH attributes SHALL reside in
    `packages/framework/src/Indexer/src/Attributes/` under the namespace
-   `Pixielity\Indexer\Attributes`.
+   `Stackra\Indexer\Attributes`.
 
 ### Requirement 3: Aggregatable Attribute
 
@@ -182,7 +182,7 @@ fields can be used for analytics dashboards.
    `'price' => [AggregationType::AVG, AggregationType::SUM, AggregationType::RANGE]`).
 6. THE `#[Aggregatable]` attribute SHALL reside in
    `packages/framework/src/Indexer/src/Attributes/Aggregatable.php` under the
-   namespace `Pixielity\Indexer\Attributes`.
+   namespace `Stackra\Indexer\Attributes`.
 
 ### Requirement 4: UseIndex Attribute
 
@@ -201,7 +201,7 @@ reads.
 3. THE `#[UseIndex]` attribute SHALL define `ATTR_FALLBACK` constant.
 4. THE `#[UseIndex]` attribute SHALL reside in
    `packages/framework/src/Indexer/src/Attributes/UseIndex.php` under the
-   namespace `Pixielity\Indexer\Attributes`.
+   namespace `Stackra\Indexer\Attributes`.
 
 ### Requirement 5: AggregationType Enum
 
@@ -216,14 +216,14 @@ that `#[Aggregatable]` field declarations are type-safe and self-documenting.
    (`'geo_distance'`), `CARDINALITY` (`'cardinality'`), and `PERCENTILES`
    (`'percentiles'`).
 2. THE `AggregationType` enum SHALL use the `Enum` trait from
-   `Pixielity\Enum\Enum`.
+   `Stackra\Enum\Enum`.
 3. EACH case SHALL have `#[Label]` and `#[Description]` attributes following the
-   Pixielity enum convention.
+   Stackra enum convention.
 4. THE `AggregationType` enum SHALL provide a `isNumeric(): bool` helper method
    that returns `true` for `SUM`, `AVG`, `MIN`, `MAX`, `PERCENTILES`.
 5. THE `AggregationType` enum SHALL reside in
    `packages/framework/src/Indexer/src/Enums/AggregationType.php` under the
-   namespace `Pixielity\Indexer\Enums`.
+   namespace `Stackra\Indexer\Enums`.
 
 ### Requirement 6: IndexStatus Enum
 
@@ -236,14 +236,14 @@ packages.
 1. THE `IndexStatus` enum SHALL be a backed string enum with cases: `GREEN`
    (`'green'`), `YELLOW` (`'yellow'`), `RED` (`'red'`), and `UNKNOWN`
    (`'unknown'`).
-2. THE `IndexStatus` enum SHALL use the `Enum` trait from `Pixielity\Enum\Enum`.
+2. THE `IndexStatus` enum SHALL use the `Enum` trait from `Stackra\Enum\Enum`.
 3. EACH case SHALL have `#[Label]` and `#[Description]` attributes.
 4. THE `IndexStatus` enum SHALL provide `isHealthy(): bool` (returns `true` for
    `GREEN`), `isDegraded(): bool` (returns `true` for `YELLOW`), and
    `isUnhealthy(): bool` (returns `true` for `RED` or `UNKNOWN`) helper methods.
 5. THE `IndexStatus` enum SHALL reside in
    `packages/framework/src/Indexer/src/Enums/IndexStatus.php` under the
-   namespace `Pixielity\Indexer\Enums`.
+   namespace `Stackra\Indexer\Enums`.
 
 ### Requirement 7: BuildState Enum
 
@@ -255,14 +255,14 @@ that index build progress and failures are tracked consistently.
 1. THE `BuildState` enum SHALL be a backed string enum with cases: `PENDING`
    (`'pending'`), `BUILDING` (`'building'`), `COMPLETED` (`'completed'`),
    `FAILED` (`'failed'`), and `SKIPPED` (`'skipped'`).
-2. THE `BuildState` enum SHALL use the `Enum` trait from `Pixielity\Enum\Enum`.
+2. THE `BuildState` enum SHALL use the `Enum` trait from `Stackra\Enum\Enum`.
 3. EACH case SHALL have `#[Label]` and `#[Description]` attributes.
 4. THE `BuildState` enum SHALL provide `isTerminal(): bool` (returns `true` for
    `COMPLETED`, `FAILED`, `SKIPPED`) and `isActive(): bool` (returns `true` for
    `PENDING`, `BUILDING`) helper methods.
 5. THE `BuildState` enum SHALL reside in
    `packages/framework/src/Indexer/src/Enums/BuildState.php` under the namespace
-   `Pixielity\Indexer\Enums`.
+   `Stackra\Indexer\Enums`.
 
 ### Requirement 8: IndexerInterface Contract
 
@@ -282,7 +282,7 @@ framework sub-package remains ES-agnostic.
    search package's implementation class.
 3. THE `IndexerInterface` SHALL reside in
    `packages/framework/src/Indexer/src/Contracts/IndexerInterface.php` under the
-   namespace `Pixielity\Indexer\Contracts`.
+   namespace `Stackra\Indexer\Contracts`.
 4. THE `IndexerInterface` SHALL include full PHPDoc on each method with `@param`
    and `@return` annotations.
 
@@ -305,7 +305,7 @@ sub-package defines the API.
    search package's implementation class.
 3. THE `IndexManagerInterface` SHALL reside in
    `packages/framework/src/Indexer/src/Contracts/IndexManagerInterface.php`
-   under the namespace `Pixielity\Indexer\Contracts`.
+   under the namespace `Stackra\Indexer\Contracts`.
 
 ### Requirement 10: RecordBuilderInterface Contract
 
@@ -325,7 +325,7 @@ the framework sub-package defines the API.
    the search package's implementation class.
 3. THE `RecordBuilderInterface` SHALL reside in
    `packages/framework/src/Indexer/src/Contracts/RecordBuilderInterface.php`
-   under the namespace `Pixielity\Indexer\Contracts`.
+   under the namespace `Stackra\Indexer\Contracts`.
 
 ### Requirement 11: DocumentIndexed Event
 
@@ -342,8 +342,8 @@ document is indexed so that other packages can react to indexing operations
    value), and `indexName` (string, the resolved ES index name).
 3. THE `DocumentIndexed` event SHALL reside in
    `packages/framework/src/Indexer/src/Events/DocumentIndexed.php` under the
-   namespace `Pixielity\Indexer\Events`.
-4. THE `DocumentIndexed` event SHALL follow the Pixielity event convention:
+   namespace `Stackra\Indexer\Events`.
+4. THE `DocumentIndexed` event SHALL follow the Stackra event convention:
    readonly DTO with IDs only, no model instances.
 
 ### Requirement 12: Indexable Trait (Model Concern)
@@ -374,7 +374,7 @@ so that models opted into indexing have a consistent API.
    to trigger index rebuilds.
 6. THE `Indexable` trait SHALL reside in
    `packages/framework/src/Indexer/src/Concerns/Indexable.php` under the
-   namespace `Pixielity\Indexer\Concerns`.
+   namespace `Stackra\Indexer\Concerns`.
 7. THE `Indexable` trait SHALL resolve embed configurations from
    `Discovery::forClass(static::class)` reading `#[EmbedOne]` and `#[EmbedMany]`
    attributes.
@@ -402,7 +402,7 @@ know about the search backend.
    `RoutesToIndex` trait SHALL throw an `IndexUnavailableException`.
 6. THE `RoutesToIndex` trait SHALL reside in
    `packages/framework/src/Indexer/src/Concerns/RoutesToIndex.php` under the
-   namespace `Pixielity\Indexer\Concerns`.
+   namespace `Stackra\Indexer\Concerns`.
 
 ### Requirement 14: IndexerRegistry (Compile-Time Discovery and Merged Configuration)
 
@@ -437,7 +437,7 @@ repeated attribute resolution.
    per-request isolation.
 8. THE `IndexerRegistry` SHALL reside in
    `packages/framework/src/Indexer/src/Registry/IndexerRegistry.php` under the
-   namespace `Pixielity\Indexer\Registry`.
+   namespace `Stackra\Indexer\Registry`.
 
 ### Requirement 15: IndexerRegistryCompiler (Build-Time Compilation)
 
@@ -460,7 +460,7 @@ repeated Discovery calls.
    return `CompilerResult::skipped('No indexed models found')`.
 6. THE `IndexerRegistryCompiler` SHALL reside in
    `packages/framework/src/Indexer/src/Compiler/IndexerRegistryCompiler.php`
-   under the namespace `Pixielity\Indexer\Compiler`.
+   under the namespace `Stackra\Indexer\Compiler`.
 
 ### Requirement 16: IndexConfigurationDTO (Merged Configuration Data Object)
 
@@ -482,7 +482,7 @@ consistent, validated data structure.
    `typoTolerance` (bool), and `analyzer` (?string).
 2. THE `IndexConfigurationDTO` SHALL reside in
    `packages/framework/src/Indexer/src/Data/IndexConfigurationDTO.php` under the
-   namespace `Pixielity\Indexer\Data`.
+   namespace `Stackra\Indexer\Data`.
 3. THE `IndexConfigurationDTO` SHALL include full PHPDoc on each property.
 
 ### Requirement 17: IndexUnavailableException
@@ -499,4 +499,4 @@ consistent.
    unavailable for {entityClass} and fallback is disabled").
 3. THE `IndexUnavailableException` SHALL reside in
    `packages/framework/src/Indexer/src/Exceptions/IndexUnavailableException.php`
-   under the namespace `Pixielity\Indexer\Exceptions`.
+   under the namespace `Stackra\Indexer\Exceptions`.

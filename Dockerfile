@@ -1,16 +1,16 @@
 # =============================================================================
-# 🐳 Multi-stage Dockerfile — Pixielity Frontend
+# 🐳 Multi-stage Dockerfile — Stackra Frontend
 # =============================================================================
 #
 # Builds the Vite app with all workspace packages in a minimal production image.
 # Uses Caddy for static file serving with SPA fallback and compression.
 #
 # Build:
-#   docker build -t pixielity-frontend .
-#   docker build --build-arg APP_NAME=vite -t pixielity-frontend .
+#   docker build -t stackra-frontend .
+#   docker build --build-arg APP_NAME=vite -t stackra-frontend .
 #
 # Run:
-#   docker run -p 8080:8080 pixielity-frontend
+#   docker run -p 8080:8080 stackra-frontend
 #
 # =============================================================================
 

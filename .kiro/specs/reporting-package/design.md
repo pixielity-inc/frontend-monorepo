@@ -1,8 +1,8 @@
-# Design Document — Reporting Package (`pixielity/laravel-reporting`)
+# Design Document — Reporting Package (`stackra/laravel-reporting`)
 
 ## Overview
 
-The `pixielity/laravel-reporting` package provides the reporting and analytics
+The `stackra/laravel-reporting` package provides the reporting and analytics
 engine for the MNGO venue management platform. It builds on the framework
 Indexer sub-package (which owns `#[Aggregatable]`, `AggregationType`,
 `IndexerRegistry`, `IndexConfigurationDTO`) and the search package (which owns
@@ -30,7 +30,7 @@ data store, no materialized views.
 
 4. **No Direct ES Dependency** — All ES access goes through the search package's
    `pdphilip/elasticsearch` `Connection`. The reporting package declares
-   `pixielity/laravel-search` as a composer dependency, not
+   `stackra/laravel-search` as a composer dependency, not
    `pdphilip/elasticsearch` or `elasticsearch/elasticsearch`.
 
 5. **PostgreSQL for Historical Results** — Report execution results are stored
@@ -247,7 +247,7 @@ sequenceDiagram
 ### `#[AsReport]` Attribute
 
 Resides at `packages/reporting/src/Attributes/AsReport.php` under
-`Pixielity\Reporting\Attributes`.
+`Stackra\Reporting\Attributes`.
 
 ```php
 #[Attribute(Attribute::TARGET_CLASS)]
@@ -278,7 +278,7 @@ final readonly class AsReport
 #### `ReportInterface`
 
 Resides at `packages/reporting/src/Contracts/ReportInterface.php` under
-`Pixielity\Reporting\Contracts`.
+`Stackra\Reporting\Contracts`.
 
 ```php
 interface ReportInterface
@@ -315,7 +315,7 @@ interface ReportInterface
 #### `ReportManagerInterface`
 
 Resides at `packages/reporting/src/Contracts/ReportManagerInterface.php` under
-`Pixielity\Reporting\Contracts`.
+`Stackra\Reporting\Contracts`.
 
 ```php
 #[Bind(ReportManager::class)]
@@ -361,7 +361,7 @@ interface ReportManagerInterface
 #### `AggregationBuilderInterface`
 
 Resides at `packages/reporting/src/Contracts/AggregationBuilderInterface.php`
-under `Pixielity\Reporting\Contracts`.
+under `Stackra\Reporting\Contracts`.
 
 ```php
 #[Bind(AggregationBuilder::class)]
@@ -383,7 +383,7 @@ interface AggregationBuilderInterface
 #### `ReportExportServiceInterface`
 
 Resides at `packages/reporting/src/Contracts/ReportExportServiceInterface.php`
-under `Pixielity\Reporting\Contracts`.
+under `Stackra\Reporting\Contracts`.
 
 ```php
 #[Bind(ReportExportService::class)]
@@ -404,7 +404,7 @@ interface ReportExportServiceInterface
 
 Resides at
 `packages/reporting/src/Contracts/ReportResultRepositoryInterface.php` under
-`Pixielity\Reporting\Contracts`.
+`Stackra\Reporting\Contracts`.
 
 ```php
 #[Bind(ReportResultRepository::class)]
@@ -444,7 +444,7 @@ interface ReportResultRepositoryInterface
 #### `ReportManager`
 
 Resides at `packages/reporting/src/Services/ReportManager.php` under
-`Pixielity\Reporting\Services`.
+`Stackra\Reporting\Services`.
 
 ```php
 #[Scoped]
@@ -538,7 +538,7 @@ class ReportManager implements ReportManagerInterface
 #### `AggregationBuilder`
 
 Resides at `packages/reporting/src/Services/AggregationBuilder.php` under
-`Pixielity\Reporting\Services`.
+`Stackra\Reporting\Services`.
 
 ```php
 #[Scoped]
@@ -644,7 +644,7 @@ class AggregationBuilder implements AggregationBuilderInterface
 #### `ReportExportService`
 
 Resides at `packages/reporting/src/Services/ReportExportService.php` under
-`Pixielity\Reporting\Services`.
+`Stackra\Reporting\Services`.
 
 ```php
 #[Scoped]
@@ -678,7 +678,7 @@ class ReportExportService implements ReportExportServiceInterface
 #### `ReportScheduler`
 
 Resides at `packages/reporting/src/Services/ReportScheduler.php` under
-`Pixielity\Reporting\Services`.
+`Stackra\Reporting\Services`.
 
 ```php
 class ReportScheduler
@@ -725,7 +725,7 @@ class ReportScheduler
 #### `ReportRegistry`
 
 Resides at `packages/reporting/src/Registry/ReportRegistry.php` under
-`Pixielity\Reporting\Registry`.
+`Stackra\Reporting\Registry`.
 
 ```php
 #[Scoped]
@@ -793,7 +793,7 @@ class ReportRegistry
 #### `ReportRegistryCompiler`
 
 Resides at `packages/reporting/src/Compiler/ReportRegistryCompiler.php` under
-`Pixielity\Reporting\Compiler`.
+`Stackra\Reporting\Compiler`.
 
 ```php
 #[AsCompiler(priority: 30, phase: CompilerPhase::REGISTRY)]
@@ -832,7 +832,7 @@ class ReportRegistryCompiler implements CompilerInterface
 ### ReportController
 
 Resides at `packages/reporting/src/Controllers/ReportController.php` under
-`Pixielity\Reporting\Controllers`.
+`Stackra\Reporting\Controllers`.
 
 ```php
 #[AsController]
@@ -941,7 +941,7 @@ final readonly class ReportScheduled
 ### Exceptions
 
 All exception classes reside in `packages/reporting/src/Exceptions/` under
-`Pixielity\Reporting\Exceptions`.
+`Stackra\Reporting\Exceptions`.
 
 ```php
 class InvalidAggregationException extends \InvalidArgumentException {}
@@ -976,8 +976,8 @@ class ReportingServiceProvider extends ServiceProvider implements HasBindings, H
 ### MNGO Phase 1 Report Definitions
 
 All report classes reside in `packages/reporting/src/Reports/` under
-`Pixielity\Reporting\Reports`. Each implements `ReportInterface` and is
-annotated with `#[AsReport]`.
+`Stackra\Reporting\Reports`. Each implements `ReportInterface` and is annotated
+with `#[AsReport]`.
 
 #### `SalesRevenueReport`
 
@@ -1269,7 +1269,7 @@ class AccessControlReport implements ReportInterface
 ### DTOs
 
 All DTOs reside in `packages/reporting/src/Data/` under
-`Pixielity\Reporting\Data`.
+`Stackra\Reporting\Data`.
 
 #### `ReportConfigurationDTO`
 
@@ -1366,7 +1366,7 @@ final readonly class AggregationDefinitionDTO
 #### `ReportStatus`
 
 Resides at `packages/reporting/src/Enums/ReportStatus.php` under
-`Pixielity\Reporting\Enums`.
+`Stackra\Reporting\Enums`.
 
 ```php
 enum ReportStatus: string
@@ -1430,7 +1430,7 @@ enum ReportStatus: string
 #### `ReportResult`
 
 Resides at `packages/reporting/src/Models/ReportResult.php` under
-`Pixielity\Reporting\Models`.
+`Stackra\Reporting\Models`.
 
 ```php
 #[Table('report_results')]

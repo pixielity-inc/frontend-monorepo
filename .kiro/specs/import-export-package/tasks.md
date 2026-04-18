@@ -2,7 +2,7 @@
 
 ## Overview
 
-Incremental implementation of the `pixielity/laravel-import-export` package
+Incremental implementation of the `stackra/laravel-import-export` package
 following the attribute-driven architecture. Tasks build sequentially: package
 scaffolding → enums & value objects → attributes → contracts → registry &
 compiler → dynamic Laravel Excel classes → services → jobs & events → controller
@@ -12,9 +12,9 @@ compiler → dynamic Laravel Excel classes → services → jobs & events → co
 
 - [x] 1. Scaffold package structure and configuration
   - [x] 1.1 Create `packages/import-export/composer.json` with package metadata,
-        PSR-4 autoload (`Pixielity\\ImportExport\\` → `src/`), dependencies
-        (`pixielity/laravel-discovery`, `pixielity/laravel-crud`,
-        `pixielity/laravel-database`, `maatwebsite/excel`), and path repository
+        PSR-4 autoload (`Stackra\\ImportExport\\` → `src/`), dependencies
+        (`stackra/laravel-discovery`, `stackra/laravel-crud`,
+        `stackra/laravel-database`, `maatwebsite/excel`), and path repository
         entries
     - _Requirements: 1.3, 1.4, 1.5_
   - [x] 1.2 Create `packages/import-export/module.json` with module name

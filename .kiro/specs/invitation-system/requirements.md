@@ -2,12 +2,12 @@
 
 ## Introduction
 
-The Invitation package (`packages/invitation/`, namespace
-`Pixielity\Invitation`, composer name `pixielity/laravel-invitation`) is a
-standalone, reusable invitation system extracted from the family package. It
-provides a complete polymorphic invitation lifecycle that any bounded context
-can consume — family invites, admin invites, tenant invites, developer
-collaborator invites, referral invites, and any future invitable context.
+The Invitation package (`packages/invitation/`, namespace `Stackra\Invitation`,
+composer name `stackra/laravel-invitation`) is a standalone, reusable invitation
+system extracted from the family package. It provides a complete polymorphic
+invitation lifecycle that any bounded context can consume — family invites,
+admin invites, tenant invites, developer collaborator invites, referral invites,
+and any future invitable context.
 
 The current family package has a basic invitation implementation (create +
 accept by token). This new package replaces it with a full-fledged system
@@ -17,7 +17,7 @@ consumer of this package.
 
 ## Glossary
 
-- **Invitation_System**: The standalone `Pixielity\Invitation` package that
+- **Invitation_System**: The standalone `Stackra\Invitation` package that
   manages the full invitation lifecycle.
 - **Invitation**: A polymorphic record representing an invite from an inviter to
   an invitee email, associated with an invitable context.
@@ -53,13 +53,13 @@ consumer of this package.
 ### Requirement 1: Package Structure and Standards Compliance
 
 **User Story:** As a developer, I want the invitation package to follow all
-Pixielity steering conventions, so that it integrates seamlessly with the
-existing modular monolith architecture.
+Stackra steering conventions, so that it integrates seamlessly with the existing
+modular monolith architecture.
 
 #### Acceptance Criteria
 
 1. THE Invitation_System SHALL reside at `packages/invitation/` with namespace
-   `Pixielity\Invitation` and composer name `pixielity/laravel-invitation`.
+   `Stackra\Invitation` and composer name `stackra/laravel-invitation`.
 2. THE Invitation_System SHALL include all required package files:
    `composer.json`, `module.json`, `phpunit.xml`, `rector.php`, `.gitignore`,
    `CHANGELOG.md`, `LICENSE`, `README.md`.
@@ -353,13 +353,13 @@ that invitation logic is centralized and reusable.
    its own `Invitation` model, `InvitationInterface`, `InvitationStatus` enum,
    `InvitationRepository`, `InvitationRepositoryInterface`, `InvitationSent`
    event, `InvitationAccepted` event, and invitation migration.
-2. THE family package SHALL add `pixielity/laravel-invitation` as a composer
+2. THE family package SHALL add `stackra/laravel-invitation` as a composer
    dependency.
 3. THE `FamilyAccount` model SHALL implement
-   `Pixielity\Invitation\Contracts\InvitableInterface`.
+   `Stackra\Invitation\Contracts\InvitableInterface`.
 4. THE `FamilyAccountService` SHALL replace its `InvitationRepositoryInterface`
-   dependency with `Pixielity\Invitation\Contracts\InvitationServiceInterface`
-   and delegate invitation operations to the invitation package.
+   dependency with `Stackra\Invitation\Contracts\InvitationServiceInterface` and
+   delegate invitation operations to the invitation package.
 5. THE `FamilyAccountServiceInterface` SHALL retain its `invite()` and
    `acceptInvitation()` method signatures as a facade over the invitation
    package, maintaining backward compatibility for consumers.

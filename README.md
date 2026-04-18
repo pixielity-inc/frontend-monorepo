@@ -4,8 +4,8 @@
 
 <div align="center">
 
-[![CI](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/ci.yml/badge.svg)](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/ci.yml)
-[![Security](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/security.yml/badge.svg)](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/security.yml)
+[![CI](https://github.com/stackra-inc/frontend-monorepo/actions/workflows/ci.yml/badge.svg)](https://github.com/stackra-inc/frontend-monorepo/actions/workflows/ci.yml)
+[![Security](https://github.com/stackra-inc/frontend-monorepo/actions/workflows/security.yml/badge.svg)](https://github.com/stackra-inc/frontend-monorepo/actions/workflows/security.yml)
 [![Node](https://img.shields.io/badge/Node-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
@@ -27,12 +27,12 @@ shared ESLint/tsconfig, CI/CD, git hooks, and MCP.
 ```
 frontend-monorepo/
 ├── apps/
-│   ├── web/                   # @pixielity/web — Next.js 16 (port 3000)
-│   └── docs/                  # @pixielity/docs — Next.js 16 (port 3001)
+│   ├── web/                   # @stackra/web — Next.js 16 (port 3000)
+│   └── docs/                  # @stackra/docs — Next.js 16 (port 3001)
 ├── packages/
-│   ├── react-ui/              # @pixielity/react-ui — shared React component library
-│   ├── eslint-config/         # @pixielity/eslint-config — ESLint 9 flat config
-│   └── typescript-config/     # @pixielity/typescript-config — shared tsconfigs
+│   ├── react-ui/              # @stackra/react-ui — shared React component library
+│   ├── eslint-config/         # @stackra/eslint-config — ESLint 9 flat config
+│   └── typescript-config/     # @stackra/typescript-config — shared tsconfigs
 ├── .github/
 │   ├── assets/banner.svg
 │   ├── workflows/
@@ -55,7 +55,7 @@ frontend-monorepo/
 
 ```bash
 # 1. Clone
-git clone https://github.com/pixielity-inc/frontend-monorepo.git
+git clone https://github.com/stackra-inc/frontend-monorepo.git
 cd frontend-monorepo
 
 # 2. Install (also registers git hooks via `prepare`)
@@ -91,41 +91,41 @@ npm run dev
 Filter to a single workspace:
 
 ```bash
-npm run build -- --filter=@pixielity/web
-npm run test  -- --filter=@pixielity/react-ui
-npm run dev   -- --filter=@pixielity/docs
+npm run build -- --filter=@stackra/web
+npm run test  -- --filter=@stackra/react-ui
+npm run dev   -- --filter=@stackra/docs
 ```
 
 ---
 
 ## Packages
 
-### `@pixielity/react-ui`
+### `@stackra/react-ui`
 
 Shared React component library consumed by all apps.
 
 ```tsx
-import { Button } from '@pixielity/react-ui/button';
+import { Button } from '@stackra/react-ui/button';
 ```
 
-### `@pixielity/eslint-config`
+### `@stackra/eslint-config`
 
 Three ESLint 9 flat configs:
 
 ```js
 // eslint.config.js in an app
-import { nextJs } from '@pixielity/eslint-config/next-js';
+import { nextJs } from '@stackra/eslint-config/next-js';
 export default [...nextJs];
 ```
 
 Exports: `./base`, `./next-js`, `./react-internal`
 
-### `@pixielity/typescript-config`
+### `@stackra/typescript-config`
 
 Shared tsconfigs:
 
 ```json
-{ "extends": "@pixielity/typescript-config/nextjs" }
+{ "extends": "@stackra/typescript-config/nextjs" }
 ```
 
 Exports: `./base`, `./nextjs`, `./react-library`
@@ -139,7 +139,7 @@ Exports: `./base`, `./nextjs`, `./react-library`
 npx create-next-app apps/my-app --typescript --tailwind --app
 
 # 2. Update apps/my-app/package.json:
-#    "name": "@pixielity/my-app"
+#    "name": "@stackra/my-app"
 
 # 3. Add shared deps
 npm install
@@ -149,7 +149,7 @@ npm install
 
 ```bash
 mkdir -p packages/my-package/src
-# Add package.json with "name": "@pixielity/my-package"
+# Add package.json with "name": "@stackra/my-package"
 npm install
 ```
 
@@ -199,4 +199,4 @@ Configured in `.kiro/settings/mcp.json`:
 
 ## License
 
-MIT © [Pixielity](https://github.com/pixielity-inc)
+MIT © [Stackra](https://github.com/stackra-inc)

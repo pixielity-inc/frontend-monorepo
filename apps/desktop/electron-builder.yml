@@ -12,9 +12,9 @@
 # |   pnpm package:linux — build Linux .AppImage + .deb
 # |
 
-appId: com.pixielity.desktop
-productName: Pixielity
-copyright: Copyright © 2025 Abdelrhman Kouta
+appId: com.stackra.desktop
+productName: Stackra
+copyright: Copyright © 2025 Stackra L.L.C
 
 # |--------------------------------------------------------------------------
 # | Directories
@@ -105,5 +105,5 @@ linux:
 # Uncomment and configure when you have an update server:
 # publish:
 #   provider: github
-#   owner: pixielity-inc
+#   owner: stackra-inc
 #   repo: frontend-monorepo

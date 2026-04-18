@@ -1,5 +1,5 @@
 # =============================================================================
-# Makefile — Pixielity Frontend Monorepo
+# Makefile — Stackra Frontend Monorepo
 # =============================================================================
 #
 # Convenient shortcuts for common development tasks.
@@ -31,7 +31,7 @@ NC     := \033[0m
 
 ## help: Display this help message
 help:
-	@echo "$(BLUE)Pixielity Frontend Monorepo — Available Commands$(NC)"
+	@echo "$(BLUE)Stackra Frontend Monorepo — Available Commands$(NC)"
 	@echo ""
 	@grep -E '^## [a-zA-Z_-]+:.*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = "## |:"}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$2, $$3}'
@@ -66,12 +66,12 @@ dev:
 ## dev-vite: Start the Vite app only
 dev-vite:
 	@echo "$(BLUE)Starting Vite app...$(NC)"
-	pnpm --filter @pixielity/vite dev
+	pnpm --filter @stackra/vite dev
 
 ## dev-desktop: Start the Electron desktop app (Vite + Electron)
 dev-desktop:
 	@echo "$(BLUE)Starting Electron desktop app...$(NC)"
-	pnpm --filter @pixielity/desktop dev
+	pnpm --filter @stackra/desktop dev
 
 # =============================================================================
 # Build
@@ -197,7 +197,7 @@ sync-configs:
 	@echo "$(BLUE)Syncing config files across all packages...$(NC)"
 	pnpm sync-configs
 
-## fix-deps: Fix all @abdokouta/* deps to use workspace:*
+## fix-deps: Fix all @stackra/* deps to use workspace:*
 fix-deps:
 	@echo "$(BLUE)Fixing workspace dependencies...$(NC)"
 	pnpm fix-deps
@@ -249,7 +249,7 @@ docker-logs:
 docker-dev:
 	@echo "$(BLUE)Starting with wildcard domain proxy...$(NC)"
 	docker compose up -d proxy
-	@echo "$(GREEN)Open http://pixielity.test$(NC)"
+	@echo "$(GREEN)Open http://stackra.test$(NC)"
 
 # =============================================================================
 # Utilities

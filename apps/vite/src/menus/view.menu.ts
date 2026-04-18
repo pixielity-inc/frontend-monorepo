@@ -2,7 +2,7 @@
  * View Menu
  */
 
-import { Menu, MenuItem } from '@abdokouta/ts-desktop';
+import { Menu, MenuItem } from '@stackra/ts-desktop';
 
 @Menu('view', { label: 'View', order: 2 })
 export class ViewMenu {

@@ -2,7 +2,7 @@
  * Electron Main Process
  *
  * |--------------------------------------------------------------------------
- * | Production-ready Electron shell for the Pixielity app.
+ * | Production-ready Electron shell for the Stackra app.
  * |--------------------------------------------------------------------------
  * |
  * | Features:
@@ -99,7 +99,7 @@ function saveWindowState(win: BrowserWindow): void {
 |
 */
 let windowConfig = {
-  title: 'Pixielity',
+  title: 'Stackra',
   backgroundColor: '#000000',
   titleBarStyle: 'hiddenInset' as const,
   trafficLightPosition: { x: 15, y: 15 },
@@ -301,7 +301,7 @@ function buildMenuFromTemplate(menus: SerializedMenu[]): void {
       submenu: [
         {
           label: 'Documentation',
-          click: () => shell.openExternal('https://pixielity.com/docs'),
+          click: () => shell.openExternal('https://stackra.com/docs'),
         },
         {
           label: `About v${app.getVersion()}`,

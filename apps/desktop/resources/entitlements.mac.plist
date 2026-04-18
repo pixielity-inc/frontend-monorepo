@@ -35,7 +35,7 @@
     <!-- Keychain access (for secure credential storage) -->
     <key>com.apple.security.keychain-access-groups</key>
     <array>
-        <string>$(AppIdentifierPrefix)com.pixielity.desktop</string>
+        <string>$(AppIdentifierPrefix)com.stackra.desktop</string>
     </array>
 </dict>
 </plist>

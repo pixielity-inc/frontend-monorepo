@@ -3,8 +3,8 @@
 ## Overview
 
 Implement the `packages/framework/src/Indexer/` sub-package under namespace
-`Pixielity\Indexer`. This is a pure PHP foundation layer — zero Elasticsearch
-dependency. All code follows Pixielity conventions: `declare(strict_types=1)`,
+`Stackra\Indexer`. This is a pure PHP foundation layer — zero Elasticsearch
+dependency. All code follows Stackra conventions: `declare(strict_types=1)`,
 comprehensive docblocks, `ATTR_*` constants, `#[Bind]` on interfaces pointing to
 search package implementations via string class references.
 
@@ -16,8 +16,8 @@ at the end.
 
 - [x] 1. Scaffold project structure and package metadata
   - Create `packages/framework/src/Indexer/composer.json` with
-    `pixielity/framework-indexer` name, `Pixielity\Indexer\` PSR-4 autoload, PHP
-    `^8.5` requirement, and `pixielity/laravel-discovery` dependency
+    `stackra/framework-indexer` name, `Stackra\Indexer\` PSR-4 autoload, PHP
+    `^8.5` requirement, and `stackra/laravel-discovery` dependency
   - Create `packages/framework/src/Indexer/module.json` with module name, alias,
     and version
   - Create directory structure: `src/Attributes/`, `src/Compiler/`,
@@ -110,19 +110,19 @@ at the end.
     - _Requirements: 16.1, 16.2, 16.3_
 
   - [x] 5.2 Create `src/Contracts/IndexerInterface.php` — interface with
-        `#[Bind('Pixielity\\Search\\Services\\SearchIndexer')]`, methods:
+        `#[Bind('Stackra\\Search\\Services\\SearchIndexer')]`, methods:
         `index()`, `remove()`, `flush()`, `rebuild()`, full PHPDoc with
         `@param`/`@return`
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
   - [x] 5.3 Create `src/Contracts/IndexManagerInterface.php` — interface with
-        `#[Bind('Pixielity\\Search\\Services\\SearchIndexManager')]`, methods:
+        `#[Bind('Stackra\\Search\\Services\\SearchIndexManager')]`, methods:
         `createIndex()`, `deleteIndex()`, `rebuildIndex()`, `flushIndex()`,
         `getIndexStatus()`, `resolveIndexName()`
     - _Requirements: 9.1, 9.2, 9.3_
 
   - [x] 5.4 Create `src/Contracts/RecordBuilderInterface.php` — interface with
-        `#[Bind('Pixielity\\Search\\Services\\SearchRecordBuilder')]`, methods:
+        `#[Bind('Stackra\\Search\\Services\\SearchRecordBuilder')]`, methods:
         `build()`, `map()`, `dryRun()`
     - _Requirements: 10.1, 10.2, 10.3_
 
@@ -220,7 +220,7 @@ at the end.
 - All files must include `declare(strict_types=1)`, file-level docblocks, and
   method-level docblocks per steering
 - `#[Bind]` on interfaces uses string class references (e.g.,
-  `'Pixielity\\Search\\Services\\SearchIndexer'`), NOT imports
+  `'Stackra\\Search\\Services\\SearchIndexer'`), NOT imports
 - The `Indexable` and `RoutesToIndex` traits resolve dependencies via the
   Laravel container, not constructor injection
 - Property tests validate universal correctness properties from the design

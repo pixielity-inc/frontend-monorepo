@@ -12,7 +12,7 @@
  * @module config/redis
  */
 
-import { defineConfig } from '@abdokouta/ts-redis';
+import { defineConfig } from '@stackra/ts-redis';
 
 /*
 |--------------------------------------------------------------------------

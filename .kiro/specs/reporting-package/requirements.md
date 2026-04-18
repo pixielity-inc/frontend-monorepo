@@ -1,8 +1,8 @@
-# Requirements Document — Reporting Package (`pixielity/laravel-reporting`)
+# Requirements Document — Reporting Package (`stackra/laravel-reporting`)
 
 ## Introduction
 
-The `pixielity/laravel-reporting` package provides the reporting and analytics
+The `stackra/laravel-reporting` package provides the reporting and analytics
 engine for the MNGO venue management platform. It builds on top of the framework
 Indexer sub-package (`packages/framework/src/Indexer/`) which owns the
 `#[Aggregatable]` attribute, `AggregationType` enum, `IndexerRegistry`, and
@@ -128,7 +128,7 @@ packages/import-export/         ← Export engine (CSV, XLSX, JSON, PDF — used
 ### Requirement 1: Package Scaffolding and Service Provider
 
 **User Story:** As a developer, I want the reporting package to follow the
-standard Pixielity package layout, so that it integrates seamlessly with the
+standard Stackra package layout, so that it integrates seamlessly with the
 monorepo build system and module discovery.
 
 #### Acceptance Criteria
@@ -142,13 +142,13 @@ monorepo build system and module discovery.
 3. THE Report_Service_Provider SHALL implement `HasScheduledTasks` and register
    all scheduled reports discovered from `#[AsReport]` attributes with cron
    expressions during the boot phase.
-4. THE package SHALL use the namespace `Pixielity\Reporting` with PSR-4
+4. THE package SHALL use the namespace `Stackra\Reporting` with PSR-4
    autoloading from `src/`.
-5. THE package SHALL declare `pixielity/laravel-framework` (for Indexer
+5. THE package SHALL declare `stackra/laravel-framework` (for Indexer
    sub-package: `#[Aggregatable]`, `AggregationType`, `IndexerRegistry`),
-   `pixielity/laravel-search` (for ES connection via `pdphilip/elasticsearch`),
-   `pixielity/laravel-import-export` (for report export: CSV, XLSX, JSON, PDF),
-   `pixielity/laravel-discovery`, and `pixielity/laravel-tenancy` as composer
+   `stackra/laravel-search` (for ES connection via `pdphilip/elasticsearch`),
+   `stackra/laravel-import-export` (for report export: CSV, XLSX, JSON, PDF),
+   `stackra/laravel-discovery`, and `stackra/laravel-tenancy` as composer
    dependencies.
 6. THE package SHALL NOT depend on `pdphilip/elasticsearch`,
    `elasticsearch/elasticsearch`, or any direct ES client library — all ES
@@ -176,13 +176,13 @@ discover and execute reports without manual registration.
 2. THE `#[AsReport]` attribute SHALL target `Attribute::TARGET_CLASS` and be
    declared as `final readonly`.
 3. THE `#[AsReport]` attribute SHALL define `ATTR_*` constants for each
-   parameter name following the Pixielity convention (`ATTR_NAME`, `ATTR_LABEL`,
+   parameter name following the Stackra convention (`ATTR_NAME`, `ATTR_LABEL`,
    `ATTR_ENTITY`, `ATTR_SCHEDULE`).
 4. WHEN a class is annotated with `#[AsReport]`, THE class SHALL implement
    `ReportInterface`.
 5. THE `#[AsReport]` attribute SHALL reside in
    `packages/reporting/src/Attributes/AsReport.php` under the namespace
-   `Pixielity\Reporting\Attributes`.
+   `Stackra\Reporting\Attributes`.
 
 ### Requirement 3: ReportInterface Contract
 
@@ -195,7 +195,7 @@ definitions, filters, and date ranges.
 1. THE `ReportInterface` SHALL define the method `aggregations(): array` that
    returns an array of aggregation definitions, where each definition specifies
    the field name, `AggregationType` (from the framework's
-   `Pixielity\Indexer\Enums\AggregationType`), and optional parameters (interval
+   `Stackra\Indexer\Enums\AggregationType`), and optional parameters (interval
    for date_histogram, ranges for range aggregation, sub-aggregations).
 2. THE `ReportInterface` SHALL define the method `filters(): array` that returns
    an array of available filter parameter definitions, where each definition
@@ -209,7 +209,7 @@ definitions, filters, and date ranges.
    implementation or left unbound (each report class is its own implementation).
 5. THE `ReportInterface` SHALL reside in
    `packages/reporting/src/Contracts/ReportInterface.php` under the namespace
-   `Pixielity\Reporting\Contracts`.
+   `Stackra\Reporting\Contracts`.
 6. THE `ReportInterface` SHALL include full PHPDoc on each method with `@param`
    and `@return` annotations.
 
@@ -254,7 +254,7 @@ have a clean API for all reporting operations.
    for non-tenant entities.
 9. THE `ReportManager` SHALL reside in
    `packages/reporting/src/Services/ReportManager.php` under the namespace
-   `Pixielity\Reporting\Services`.
+   `Stackra\Reporting\Services`.
 
 ### Requirement 5: AggregationBuilder Service
 
@@ -300,7 +300,7 @@ can execute complex nested aggregations without manual query construction.
     `filter` clauses.
 13. THE `AggregationBuilder` SHALL reside in
     `packages/reporting/src/Services/AggregationBuilder.php` under the namespace
-    `Pixielity\Reporting\Services`.
+    `Stackra\Reporting\Services`.
 
 ### Requirement 6: Report Registry and Discovery
 
@@ -331,7 +331,7 @@ without manual registration.
    per-request isolation.
 7. THE `ReportRegistry` SHALL reside in
    `packages/reporting/src/Registry/ReportRegistry.php` under the namespace
-   `Pixielity\Reporting\Registry`.
+   `Stackra\Reporting\Registry`.
 
 ### Requirement 7: Report Registry Compiler
 
@@ -354,7 +354,7 @@ Discovery calls.
    return `CompilerResult::skipped('No report classes found')`.
 6. THE `ReportRegistryCompiler` SHALL reside in
    `packages/reporting/src/Compiler/ReportRegistryCompiler.php` under the
-   namespace `Pixielity\Reporting\Compiler`.
+   namespace `Stackra\Reporting\Compiler`.
 
 ### Requirement 8: Report Scheduling
 
@@ -385,7 +385,7 @@ report data is generated without manual intervention.
    `ReportScheduled` event with a failed status.
 7. THE `ReportScheduler` SHALL reside in
    `packages/reporting/src/Services/ReportScheduler.php` under the namespace
-   `Pixielity\Reporting\Services`.
+   `Stackra\Reporting\Services`.
 
 ### Requirement 9: Report Result Storage
 
@@ -441,7 +441,7 @@ not have platform access.
    and tenant ID.
 7. THE `ReportExportService` SHALL reside in
    `packages/reporting/src/Services/ReportExportService.php` under the namespace
-   `Pixielity\Reporting\Services`.
+   `Stackra\Reporting\Services`.
 
 ### Requirement 11: Report API — List Reports
 
@@ -459,7 +459,7 @@ available reports, so that I can build a report selection UI.
    for response formatting.
 4. THE `ReportController` SHALL reside in
    `packages/reporting/src/Controllers/ReportController.php` under the namespace
-   `Pixielity\Reporting\Controllers`.
+   `Stackra\Reporting\Controllers`.
 
 ### Requirement 12: Report API — Execute Report
 
@@ -573,9 +573,9 @@ logging, or cache invalidation.
    `status` (string: `'completed'` or `'failed'`), `executionTimeMs` (int),
    `tenantId` (nullable int|string), and `errorMessage` (nullable string).
 4. ALL events SHALL be `final readonly` DTOs carrying scalar values (not model
-   instances) following the Pixielity event convention.
+   instances) following the Stackra event convention.
 5. THE event classes SHALL reside in `packages/reporting/src/Events/` under the
-   namespace `Pixielity\Reporting\Events`.
+   namespace `Stackra\Reporting\Events`.
 
 ### Requirement 17: Data Transfer Objects
 
@@ -600,7 +600,7 @@ structures.
    `params` (array, optional parameters like interval, ranges, percents), and
    `subAggregations` (nullable array of `AggregationDefinitionDTO`).
 4. ALL DTOs SHALL reside in `packages/reporting/src/Data/` under the namespace
-   `Pixielity\Reporting\Data`.
+   `Stackra\Reporting\Data`.
 5. ALL DTOs SHALL include full PHPDoc on each property.
 
 ### Requirement 18: Report Enums
@@ -619,9 +619,9 @@ constants, so that report status and scope are type-safe and self-documenting.
    `RUNNING` and `PENDING`) helper methods.
 3. THE package SHALL NOT redefine `AggregationType` — that enum is owned by the
    framework Indexer sub-package. The reporting package SHALL use
-   `Pixielity\Indexer\Enums\AggregationType` directly.
+   `Stackra\Indexer\Enums\AggregationType` directly.
 4. THE enum classes SHALL reside in `packages/reporting/src/Enums/` under the
-   namespace `Pixielity\Reporting\Enums`.
+   namespace `Stackra\Reporting\Enums`.
 
 ### Requirement 19: Multi-Tenant Awareness
 
@@ -671,7 +671,7 @@ during development and maintenance.
    progress bars, info/warning/error messages) and SHALL NOT use `$this->info()`
    or `$this->error()`.
 6. THE command classes SHALL reside in `packages/reporting/src/Commands/` under
-   the namespace `Pixielity\Reporting\Commands`.
+   the namespace `Stackra\Reporting\Commands`.
 
 ### Requirement 21: Configuration
 
@@ -748,7 +748,7 @@ box.
    violation counts, using `TERMS`, `SUM`, `CARDINALITY`, and `DATE_HISTOGRAM`
    aggregation types.
 8. ALL MNGO report classes SHALL reside in `packages/reporting/src/Reports/`
-   under the namespace `Pixielity\Reporting\Reports`.
+   under the namespace `Stackra\Reporting\Reports`.
 9. ALL MNGO report classes SHALL define meaningful default date ranges (e.g.,
    last 30 days for sales, last 7 days for POS performance) and relevant filter
    definitions (e.g., channel, venue, cashier, date range).
@@ -797,4 +797,4 @@ that error handling is explicit and consistent.
    `\RuntimeException` that is thrown when an ES aggregation query fails during
    report execution.
 5. ALL exception classes SHALL reside in `packages/reporting/src/Exceptions/`
-   under the namespace `Pixielity\Reporting\Exceptions`.
+   under the namespace `Stackra\Reporting\Exceptions`.

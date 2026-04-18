@@ -27,14 +27,14 @@ import { GlobalShortcuts } from '@/components/global-shortcuts';
 | PWA Providers — auto-read config from DI (PWA_CONFIG)
 |--------------------------------------------------------------------------
 */
-import { PwaProvider } from '@abdokouta/ts-pwa';
+import { PwaProvider } from '@stackra/ts-pwa';
 
 /*
 |--------------------------------------------------------------------------
 | Slot Provider — enables <Slot> / slotRegistry across the app
 |--------------------------------------------------------------------------
 */
-import { SlotProvider } from '@abdokouta/ts-ui';
+import { SlotProvider } from '@stackra/ts-ui';
 
 export interface ProviderProps {
   children: React.ReactNode;
@@ -54,7 +54,7 @@ export function Provider({ children }: ProviderProps) {
           <Navbar />
           <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16">{children}</main>
           <footer className="flex w-full items-center justify-center py-3">
-            <span className="text-muted text-sm">Pixielity © {new Date().getFullYear()}</span>
+            <span className="text-muted text-sm">Stackra © {new Date().getFullYear()}</span>
           </footer>
         </div>
       </PwaProvider>

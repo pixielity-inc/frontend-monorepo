@@ -7,9 +7,11 @@
  * |
  * | Order:
  * |   1. Capture PWA beforeinstallprompt event (fires before React mounts)
- * |   2. Bootstrap DI container (ApplicationContext)
+ * |   2. Bootstrap DI container via Application.create()
+ * |      — registers app globally, ContainerProvider needs no props
  * |   3. Detect Electron environment
- * |   4. Render React app with ContainerProvider
+ * |   4. Render React app
+ * |   5. Register beforeunload for graceful DI shutdown
  * |
  * @module main
  */
@@ -17,8 +19,8 @@
 import 'reflect-metadata';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { bootstrapApp } from '@abdokouta/ts-container';
-import { ContainerProvider } from '@abdokouta/ts-container/react';
+import { Application } from '@stackra/ts-container';
+import { ContainerProvider } from '@stackra/ts-container/react';
 
 import { Provider } from './provider';
 import App from './App';
@@ -44,7 +46,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
  * Bootstrap the DI container, then render the React app.
  */
 async function bootstrap() {
-  const app = await bootstrapApp(AppModule);
+  // Application.create() bootstraps the DI container and registers
+  // the app globally — ContainerProvider works without a context prop.
+  const app: Application = await Application.create(AppModule);
 
   /*
   |--------------------------------------------------------------------------
@@ -57,13 +61,30 @@ async function bootstrap() {
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
-      <ContainerProvider context={app}>
+      <ContainerProvider>
         <Provider>
           <App />
         </Provider>
       </ContainerProvider>
     </BrowserRouter>
   );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Graceful shutdown — browser only
+  |--------------------------------------------------------------------------
+  |
+  | beforeunload fires when the tab closes, refreshes, or navigates away.
+  | Calls onModuleDestroy / onApplicationShutdown hooks on all providers.
+  |
+  | Note: the browser does not wait for async work here. Hooks must be
+  | synchronous or near-instant. For async teardown (e.g. flushing
+  | analytics), use navigator.sendBeacon() instead.
+  |
+  */
+  window.addEventListener('beforeunload', () => {
+    app.close();
+  });
 }
 
 bootstrap().catch(console.error);

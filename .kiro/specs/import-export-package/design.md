@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `pixielity/laravel-import-export` package provides an attribute-driven
+The `stackra/laravel-import-export` package provides an attribute-driven
 import/export engine built on top of `maatwebsite/laravel-excel` (Laravel Excel
 3.1). Instead of requiring developers to write per-entity export/import classes,
 the package uses PHP attributes (`#[Exportable]`, `#[Importable]`,
@@ -10,10 +10,10 @@ the package uses PHP attributes (`#[Exportable]`, `#[Importable]`,
 dynamic classes — `DynamicEntityExport` and `DynamicEntityImport` — are
 constructed from attribute metadata and passed to Laravel Excel.
 
-The package integrates with the existing Pixielity ecosystem: Discovery facade
-for cross-package model discovery, `#[AsCompiler]` for build-time registry
-caching, `BelongsToTenant` for automatic tenant scoping, Spatie Data DTOs for
-request validation, and `#[AsEvent]` domain events for lifecycle hooks.
+The package integrates with the existing Stackra ecosystem: Discovery facade for
+cross-package model discovery, `#[AsCompiler]` for build-time registry caching,
+`BelongsToTenant` for automatic tenant scoping, Spatie Data DTOs for request
+validation, and `#[AsEvent]` domain events for lifecycle hooks.
 
 ### Key Design Decisions
 
@@ -60,7 +60,7 @@ request validation, and `#[AsEvent]` domain events for lifecycle hooks.
 
 8. **Zero manual bindings**: All interface bindings use `#[Bind]` and
    `#[Scoped]` attributes on the interfaces themselves — the service provider
-   does NOT manually register bindings. This follows the Pixielity convention
+   does NOT manually register bindings. This follows the Stackra convention
    where Discovery resolves `#[Bind]` attributes at boot time.
 
 ## Architecture

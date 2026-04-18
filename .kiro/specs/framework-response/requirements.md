@@ -3,24 +3,24 @@
 ## Introduction
 
 The Framework Response sub-package provides a unified, fluent API response
-system for the Pixielity framework. It lives at
-`packages/framework/src/Response/` under namespace `Pixielity\Response` and
-modernizes the legacy Response package to follow current Pixielity conventions:
-PHP 8.4+ attributes (`#[Scoped]`, `#[Bind]`, `#[Config]`), discovery-based
-registration, `declare(strict_types=1)`, comprehensive docblocks, and `ATTR_*`
-constants. The package delivers a fluent Response builder, content negotiation
-via pluggable renderers, response presets, request-scoped context management,
-HATEOAS links, pagination metadata, lazy data resolution, pipeline transformers,
-and seamless integration with the existing Routing base Controller and CRUD
-attribute system (`#[UseService]`, `#[UseData]`, `#[UseResource]`).
+system for the Stackra framework. It lives at `packages/framework/src/Response/`
+under namespace `Stackra\Response` and modernizes the legacy Response package to
+follow current Stackra conventions: PHP 8.4+ attributes (`#[Scoped]`, `#[Bind]`,
+`#[Config]`), discovery-based registration, `declare(strict_types=1)`,
+comprehensive docblocks, and `ATTR_*` constants. The package delivers a fluent
+Response builder, content negotiation via pluggable renderers, response presets,
+request-scoped context management, HATEOAS links, pagination metadata, lazy data
+resolution, pipeline transformers, and seamless integration with the existing
+Routing base Controller and CRUD attribute system (`#[UseService]`,
+`#[UseData]`, `#[UseResource]`).
 
 ## Glossary
 
 - **Response_Builder**: The fluent builder class
-  (`Pixielity\Response\Builders\Response`) that provides chainable methods for
+  (`Stackra\Response\Builders\Response`) that provides chainable methods for
   constructing API responses with status codes, data, meta, links, headers, and
   ETag values.
-- **ApiResponse**: The Responsable class (`Pixielity\Response\Http\ApiResponse`)
+- **ApiResponse**: The Responsable class (`Stackra\Response\Http\ApiResponse`)
   that converts builder state into a final Symfony HTTP response via content
   negotiation and pipeline transformations.
 - **Renderer**: A pluggable content formatter (JSON, XML, View, Stream) that
@@ -63,7 +63,7 @@ attribute system (`#[UseService]`, `#[UseData]`, `#[UseResource]`).
 - **UseResource_Attribute**: The `#[UseResource]` attribute on controllers that
   specifies an API Resource class with method-specific mapping (single,
   collection, paginated) for automatic response transformation.
-- **Controller**: The abstract base controller (`Pixielity\Routing\Controller`)
+- **Controller**: The abstract base controller (`Stackra\Routing\Controller`)
   that composes interaction traits for request, response, auth, pagination,
   resources, bulk operations, and services.
 - **AsRenderer**: A PHP attribute (`#[AsRenderer]`) placed on Renderer
@@ -394,7 +394,7 @@ consistently with the monorepo build and module system.
 1. THE Response sub-package SHALL reside at `packages/framework/src/Response/`
    with source code in `src/` and configuration in `config/`.
 2. THE Response sub-package SHALL have a `composer.json` with name
-   `pixielity/laravel-response`, PSR-4 autoload mapping `Pixielity\Response\` to
+   `stackra/laravel-response`, PSR-4 autoload mapping `Stackra\Response\` to
    `src/`, and appropriate dependencies.
 3. THE Response sub-package SHALL have a `module.json` with name `Response`,
    alias `response`, and a service provider reference.

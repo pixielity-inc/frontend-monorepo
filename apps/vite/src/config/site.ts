@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: 'Pixielity — Vite',
+  name: 'Stackra — Vite',
   description: 'Production-ready Vite monorepo with Config, Logger, and DI Container.',
   navItems: [
     { label: 'Home', href: '/' },
@@ -18,7 +18,7 @@ export const siteConfig = {
     { label: 'Docs', href: '/docs' },
     {
       label: 'GitHub',
-      href: 'https://github.com/pixielity-inc/frontend-monorepo',
+      href: 'https://github.com/stackra-inc/frontend-monorepo',
     },
   ],
   links: {

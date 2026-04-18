@@ -2,12 +2,12 @@
 
 ## Overview
 
-Build the `packages/invitation/` package (`Pixielity\Invitation`,
-`pixielity/laravel-invitation`) — a standalone, reusable polymorphic invitation
+Build the `packages/invitation/` package (`Stackra\Invitation`,
+`stackra/laravel-invitation`) — a standalone, reusable polymorphic invitation
 lifecycle system. Implementation follows bottom-up order: scaffolding → data
 layer → domain logic → HTTP layer → consumer migration. All code must have
 comprehensive multiline docblocks, detailed comments, `declare(strict_types=1)`,
-and follow all Pixielity steering conventions (attribute-driven config,
+and follow all Stackra steering conventions (attribute-driven config,
 `Interface::ATTR_*` constants, repository pattern, `#[AsEvent]` events,
 `#[Bind]`/`#[Scoped]`/`#[Singleton]` on interfaces).
 
@@ -15,10 +15,10 @@ and follow all Pixielity steering conventions (attribute-driven config,
 
 - [x] 1. Package scaffolding and configuration
   - [x] 1.1 Create `packages/invitation/composer.json` with package name
-        `pixielity/laravel-invitation`, namespace `Pixielity\\Invitation\\`,
-        autoload PSR-4 mapping to `src/`, require `pixielity/laravel-crud`,
-        `pixielity/laravel-database`, `pixielity/laravel-discovery`,
-        `pixielity/laravel-enum`, `pixielity/laravel-event`, and `illuminate/*`
+        `stackra/laravel-invitation`, namespace `Stackra\\Invitation\\`,
+        autoload PSR-4 mapping to `src/`, require `stackra/laravel-crud`,
+        `stackra/laravel-database`, `stackra/laravel-discovery`,
+        `stackra/laravel-enum`, `stackra/laravel-event`, and `illuminate/*`
         deps. Include path repos for local dev, `@dev` constraints, and
         `allow-plugins` for attribute collector.
     - _Requirements: 1.1, 1.2_
@@ -341,7 +341,7 @@ and follow all Pixielity steering conventions (attribute-driven config,
     all components are wired together.
 
 - [x] 20. Family package migration
-  - [x] 20.1 Add `"pixielity/laravel-invitation": "@dev"` to
+  - [x] 20.1 Add `"stackra/laravel-invitation": "@dev"` to
         `packages/family/composer.json` require section. Add path repo entry for
         `"../invitation"`.
     - _Requirements: 12.2_
@@ -357,19 +357,19 @@ and follow all Pixielity steering conventions (attribute-driven config,
     - _Requirements: 12.1_
 
   - [x] 20.3 Update `packages/family/src/Models/FamilyAccount.php` to implement
-        `Pixielity\Invitation\Contracts\InvitableInterface`. Add
+        `Stackra\Invitation\Contracts\InvitableInterface`. Add
         `isAlreadyMember(string $email): bool` method (resolve user by email via
         `UserServiceInterface`, check membership via `members()` relationship).
         Add `getInvitationTtl(): ?int` returning null (use default). Update
         `invitations()` relationship to use
-        `\Pixielity\Invitation\Models\Invitation::class` and
-        `\Pixielity\Invitation\Contracts\Data\InvitationInterface::REL_INVITABLE`.
+        `\Stackra\Invitation\Models\Invitation::class` and
+        `\Stackra\Invitation\Contracts\Data\InvitationInterface::REL_INVITABLE`.
         Full docblocks.
     - _Requirements: 12.3, 11.1, 11.2_
 
   - [x] 20.4 Refactor `packages/family/src/Services/FamilyAccountService.php` —
         replace `InvitationRepositoryInterface` dependency with
-        `Pixielity\Invitation\Contracts\InvitationServiceInterface`. Update
+        `Stackra\Invitation\Contracts\InvitationServiceInterface`. Update
         constructor. Rewrite `invite()` to delegate to
         `$this->invitationService->createInvitation(...)`. Rewrite
         `acceptInvitation()` to call
@@ -403,9 +403,9 @@ and follow all Pixielity steering conventions (attribute-driven config,
 - Checkpoints ensure incremental validation
 - Property tests validate universal correctness properties from the design
   document
-- All code must follow Pixielity steering conventions:
-  `declare(strict_types=1)`, file-level docblocks, multiline method docblocks,
-  `Interface::ATTR_*` constants, no hardcoded strings, attribute-driven bindings
+- All code must follow Stackra steering conventions: `declare(strict_types=1)`,
+  file-level docblocks, multiline method docblocks, `Interface::ATTR_*`
+  constants, no hardcoded strings, attribute-driven bindings
 - Service provider body must be empty — all bindings via `#[Bind]`, `#[Scoped]`,
   `#[Singleton]` on interfaces
 - Cross-context FKs (`invited_by`) use `unsignedBigInteger` + index, no

@@ -490,7 +490,7 @@ interface BuilderState {
 3. **Step 3 — Tickets:** Ticket types with quantity steppers for the selected
    event
 
-Uses `SubViewNavigator` from `@abdokouta/react-ui` for step transitions within a
+Uses `SubViewNavigator` from `@stackra/react-ui` for step transitions within a
 single drawer. Running cart summary shown as a sticky footer. "Back" navigation
 preserves selections from other steps.
 

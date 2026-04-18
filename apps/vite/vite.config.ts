@@ -1,6 +1,6 @@
 /**
  * @file vite.config.ts
- * @description Production-ready Vite configuration for the Pixielity Vite app.
+ * @description Production-ready Vite configuration for the Stackra Vite app.
  *
  * This file configures the Vite build pipeline, dev server, plugins,
  * path aliases, chunk splitting, and asset optimisation.
@@ -15,8 +15,8 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
-import { viteConfigPlugin } from '@abdokouta/ts-config/vite-plugin';
-import { vitePwaPlugin } from '@abdokouta/ts-pwa/vite-plugin';
+import { viteConfigPlugin } from '@stackra/ts-config/vite-plugin';
+import { vitePwaPlugin } from '@stackra/ts-pwa/vite-plugin';
 import pwaConfig from './src/config/pwa.config';
 
 /**

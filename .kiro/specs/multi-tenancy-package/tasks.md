@@ -2,29 +2,29 @@
 
 ## Overview
 
-Implement `pixielity/laravel-tenancy`, a single-database multi-tenancy Laravel
-13 package using `tenant_id` column scoping. The package follows the Pixielity
+Implement `stackra/laravel-tenancy`, a single-database multi-tenancy Laravel 13
+package using `tenant_id` column scoping. The package follows the Stackra
 monorepo modular structure with interface-first design, Laravel 13
 container/Eloquent attributes, attribute-based discovery, state machines, audit
-logging, and the `pixielity/laravel-crud` Repository + Service pattern. All
-tasks are ordered by dependency chain.
+logging, and the `stackra/laravel-crud` Repository + Service pattern. All tasks
+are ordered by dependency chain.
 
 ## Tasks
 
 - [x] 1. Package scaffolding and configuration
   - [x] 1.1 Create `packages/tenancy/composer.json` with all dependencies
-    - Follow `.docs/user/composer.json` pattern with `pixielity/laravel-tenancy`
+    - Follow `.docs/user/composer.json` pattern with `stackra/laravel-tenancy`
       naming
-    - Require: `pixielity/laravel-crud`, `pixielity/laravel-discovery`,
-      `pixielity/laravel-feature-flags`, `pixielity/laravel-health`,
+    - Require: `stackra/laravel-crud`, `stackra/laravel-discovery`,
+      `stackra/laravel-feature-flags`, `stackra/laravel-health`,
       `spatie/laravel-model-states`, `spatie/laravel-activitylog`,
       `laravel/pennant`, `php: ^8.2`, `illuminate/*: ^13.0`
-    - PSR-4 autoload: `Pixielity\\Tenancy\\` → `src/`
+    - PSR-4 autoload: `Stackra\\Tenancy\\` → `src/`
     - _Requirements: 22.7, 36.8, 37.13, 46.6, 47.7, 47.8_
 
   - [x] 1.2 Create `packages/tenancy/module.json`
     - Follow `.docs/user/module.json` pattern with name `Tenancy`, alias
-      `tenancy`, provider `Pixielity\Tenancy\Providers\TenancyServiceProvider`
+      `tenancy`, provider `Stackra\Tenancy\Providers\TenancyServiceProvider`
     - _Requirements: 22.8_
 
   - [x] 1.3 Create `packages/tenancy/config/tenancy.php` configuration file
@@ -104,36 +104,36 @@ tasks are ordered by dependency chain.
     - _Requirements: 9.1, 26.1_
 
   - [x] 3.10 Create `src/Contracts/TenantServiceInterface.php`
-    - Extend `Pixielity\Crud\Contracts\ServiceInterface`
+    - Extend `Stackra\Crud\Contracts\ServiceInterface`
     - Annotate with `#[Bind(TenantService::class)]`
     - Add custom methods: `addDomain()`, `removeDomain()`, `updateStatus()`
     - _Requirements: 26.5, 28.7_
 
   - [x] 3.11 Create `src/Contracts/TenantRepositoryInterface.php`
-    - Extend `Pixielity\Crud\Contracts\RepositoryInterface`
+    - Extend `Stackra\Crud\Contracts\RepositoryInterface`
     - Annotate with `#[Bind(TenantRepository::class)]`
     - _Requirements: 26.6, 28.9_
 
   - [x] 3.12 Create `src/Contracts/TenantSettingRepositoryInterface.php`
-    - Extend `Pixielity\Crud\Contracts\RepositoryInterface`
+    - Extend `Stackra\Crud\Contracts\RepositoryInterface`
     - Annotate with `#[Bind(TenantSettingRepository::class)]`
     - Add custom methods: `get()`, `set()`, `delete()`, `all()` by tenant
     - _Requirements: 26.7, 28.11, 30.4_
 
   - [x] 3.13 Create `src/Contracts/TenantMetadataRepositoryInterface.php`
-    - Extend `Pixielity\Crud\Contracts\RepositoryInterface`
+    - Extend `Stackra\Crud\Contracts\RepositoryInterface`
     - Annotate with `#[Bind(TenantMetadataRepository::class)]`
     - Add custom methods: `get()`, `set()`, `delete()`, `all()` by tenant
     - _Requirements: 26.8, 28.12, 31.4_
 
   - [x] 3.14 Create `src/Contracts/TenantSubscriptionRepositoryInterface.php`
-    - Extend `Pixielity\Crud\Contracts\RepositoryInterface`
+    - Extend `Stackra\Crud\Contracts\RepositoryInterface`
     - Annotate with `#[Bind(TenantSubscriptionRepository::class)]`
     - Add custom method: `findByTenant()`
     - _Requirements: 38.4, 28.14_
 
   - [x] 3.15 Create `src/Contracts/TenantSubscriptionServiceInterface.php`
-    - Extend `Pixielity\Crud\Contracts\ServiceInterface`
+    - Extend `Stackra\Crud\Contracts\ServiceInterface`
     - Annotate with `#[Bind(TenantSubscriptionService::class)]`
     - Add custom methods: `hasActiveSubscription()`, `isOnTrial()`, `isOnPlan()`
     - _Requirements: 38.5, 38.7, 28.13_
@@ -388,33 +388,33 @@ tasks are ordered by dependency chain.
 
 - [x] 14. Repositories
   - [x] 14.1 Create `src/Repositories/TenantRepository.php`
-    - Extend `Pixielity\Crud\Repositories\Repository`
+    - Extend `Stackra\Crud\Repositories\Repository`
     - Use `#[UseModel(TenantInterface::class)]` attribute
     - _Requirements: 28.10_
 
   - [x] 14.2 Create `src/Repositories/TenantSettingRepository.php`
-    - Extend `Pixielity\Crud\Repositories\Repository`
+    - Extend `Stackra\Crud\Repositories\Repository`
     - Use `#[UseModel(TenantSettingInterface::class)]` attribute
     - Implement custom `get()`, `set()`, `delete()`, `all()` methods using
       ATTR\_\* constants
     - _Requirements: 28.11, 30.4_
 
   - [x] 14.3 Create `src/Repositories/TenantMetadataRepository.php`
-    - Extend `Pixielity\Crud\Repositories\Repository`
+    - Extend `Stackra\Crud\Repositories\Repository`
     - Use `#[UseModel(TenantMetadataInterface::class)]` attribute
     - Implement custom `get()`, `set()`, `delete()`, `all()` methods using
       ATTR\_\* constants
     - _Requirements: 28.12, 31.4_
 
   - [x] 14.4 Create `src/Repositories/TenantSubscriptionRepository.php`
-    - Extend `Pixielity\Crud\Repositories\Repository`
+    - Extend `Stackra\Crud\Repositories\Repository`
     - Use `#[UseModel(TenantSubscriptionInterface::class)]` attribute
     - Implement custom `findByTenant()` method
     - _Requirements: 28.14_
 
 - [x] 15. Services
   - [x] 15.1 Create `src/Services/TenantService.php`
-    - Extend `Pixielity\Crud\Services\Service`
+    - Extend `Stackra\Crud\Services\Service`
     - Use `#[UseRepository(TenantRepositoryInterface::class)]` attribute
     - Inject `TenantSettingRepositoryInterface`,
       `TenantMetadataRepositoryInterface` via constructor
@@ -424,7 +424,7 @@ tasks are ordered by dependency chain.
     - _Requirements: 28.8, 37.5, 37.6, 37.7_
 
   - [x] 15.2 Create `src/Services/TenantSubscriptionService.php`
-    - Extend `Pixielity\Crud\Services\Service`
+    - Extend `Stackra\Crud\Services\Service`
     - Use `#[UseRepository(TenantSubscriptionRepositoryInterface::class)]`
       attribute
     - Implement `hasActiveSubscription()`, `isOnTrial()`, `isOnPlan()` methods
@@ -706,7 +706,7 @@ tasks are ordered by dependency chain.
   - [x] 24.3 Create `src/Concerns/HasDiscovery.php` trait
     - Provide `collectBootstrappers()`, `collectFeatures()`,
       `collectIdentifications()` methods
-    - Call `pixielity/laravel-discovery` for auto-registration of annotated
+    - Call `stackra/laravel-discovery` for auto-registration of annotated
       classes
     - _Requirements: 33.2, 33.3, 33.7, 22.6_
 
@@ -761,7 +761,7 @@ tasks are ordered by dependency chain.
 
 - [x] 29. Criteria classes
   - [x] 29.1 Create `src/Criteria/ActiveTenantCriteria.php`
-    - Annotate with `#[AsCriteria]` from `pixielity/laravel-crud`
+    - Annotate with `#[AsCriteria]` from `stackra/laravel-crud`
     - Filter tenants by active status using `TenantInterface::ATTR_STATUS`
     - _Requirements: 28.16_
 
@@ -794,9 +794,9 @@ tasks are ordered by dependency chain.
   instead of properties
 - All interfaces use Laravel 13 container attributes (`#[Bind]`, `#[Singleton]`,
   `#[Scoped]`)
-- All repositories extend `Pixielity\Crud\Repositories\Repository` with
+- All repositories extend `Stackra\Crud\Repositories\Repository` with
   `#[UseModel]` attribute
-- All services extend `Pixielity\Crud\Services\Service` with `#[UseRepository]`
+- All services extend `Stackra\Crud\Services\Service` with `#[UseRepository]`
   attribute
 - Discovery attributes (`#[AsBootstrapper]`, `#[AsFeature]`,
   `#[AsIdentification]`, `#[AsHealthCheck]`, `#[AsCriteria]`) replace config
@@ -804,6 +804,6 @@ tasks are ordered by dependency chain.
 - State machines use `spatie/laravel-model-states` for tenant status and
   subscription status
 - Audit logging uses `spatie/laravel-activitylog` with `LogsActivity` trait
-- Feature flags use `pixielity/laravel-feature-flags` built on Laravel Pennant
-- Health checks use `pixielity/laravel-health` with `#[AsHealthCheck]` attribute
+- Feature flags use `stackra/laravel-feature-flags` built on Laravel Pennant
+- Health checks use `stackra/laravel-health` with `#[AsHealthCheck]` attribute
 - The package lives at `packages/tenancy/` in the monorepo

@@ -1,5 +1,5 @@
 {
-  "name": "@pixielity/vite",
+  "name": "@stakra/vite",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -18,18 +18,18 @@
     "upgrade": "pnpm update --latest"
   },
   "dependencies": {
-    "@abdokouta/ts-config": "workspace:*",
-    "@abdokouta/ts-container": "workspace:*",
-    "@abdokouta/ts-desktop": "workspace:*",
-    "@abdokouta/kbd": "workspace:*",
-    "@abdokouta/ts-pwa": "workspace:*",
-    "@abdokouta/ts-ui": "workspace:*",
-    "@abdokouta/ts-logger": "workspace:*",
-    "@abdokouta/ts-redis": "workspace:*",
-    "@abdokouta/ts-cache": "workspace:*",
-    "@abdokouta/ts-settings": "workspace:*",
-    "@abdokouta/ts-events": "workspace:*",
-    "@abdokouta/ts-support": "workspace:*",
+    "@stakra/ts-config": "workspace:*",
+    "@stakra/ts-container": "workspace:*",
+    "@stakra/ts-desktop": "workspace:*",
+    "@stakra/kbd": "workspace:*",
+    "@stakra/ts-pwa": "workspace:*",
+    "@stakra/ts-ui": "workspace:*",
+    "@stakra/ts-logger": "workspace:*",
+    "@stakra/ts-redis": "workspace:*",
+    "@stakra/ts-cache": "workspace:*",
+    "@stakra/ts-settings": "workspace:*",
+    "@stakra/ts-events": "workspace:*",
+    "@stakra/ts-support": "workspace:*",
     "@heroui/react": "3.0.1",
     "@heroui/styles": "3.0.1",
     "clsx": "2.1.1",
@@ -68,24 +68,25 @@
     "vite": "6.0.11",
     "vite-tsconfig-paths": "5.1.4"
   },
-  "description": "Pixielity Vite application — HeroUI starter.",
-  "homepage": "https://github.com/pixielity-inc/frontend-monorepo/tree/main/apps/vite",
+  "description": "Stakra Vite application — HeroUI starter.",
+  "homepage": "https://github.com/stakra/frontend-monorepo/tree/main/apps/vite",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixielity-inc/frontend-monorepo.git",
+    "url": "git+https://github.com/stakra/frontend-monorepo.git",
     "directory": "apps/vite"
   },
   "license": "MIT",
   "author": {
-    "name": "Pixielity Team",
-    "email": "dev@pixielity.com",
-    "url": "https://pixielity.com"
+    "name": "Stakra Team",
+    "email": "dev@stakra.com",
+    "url": "https://stakra.com"
   },
   "bugs": {
-    "url": "https://github.com/pixielity-inc/frontend-monorepo/issues"
+    "url": "https://github.com/stakra/frontend-monorepo/issues"
   },
   "engines": {
     "node": ">=18",
     "pnpm": ">=10"
-  }
+  },
+  "packageManager": "pnpm@10.33.0"
 }

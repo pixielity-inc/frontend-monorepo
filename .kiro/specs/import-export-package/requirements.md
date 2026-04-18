@@ -2,18 +2,17 @@
 
 ## Introduction
 
-The `pixielity/laravel-import-export` package provides a unified,
-attribute-driven import/export engine for the MNGO venue management platform.
-Built on top of `maatwebsite/laravel-excel` (Laravel Excel 3.x), the package
-enables any entity across the Pixielity monorepo to declare itself as
-importable, exportable, or sample-data-capable via PHP attributes
-(`#[Exportable]`, `#[Importable]`, `#[SampleData]`). The package complements the
-existing `TenantDataExportService` / `TenantDataImportService` in the tenancy
-package — those handle bulk tenant-level JSON migration, while this package
-handles granular, entity-level import/export with CSV, XLSX, JSON, and PDF
-format support.
+The `stackra/laravel-import-export` package provides a unified, attribute-driven
+import/export engine for the MNGO venue management platform. Built on top of
+`maatwebsite/laravel-excel` (Laravel Excel 3.x), the package enables any entity
+across the Stackra monorepo to declare itself as importable, exportable, or
+sample-data-capable via PHP attributes (`#[Exportable]`, `#[Importable]`,
+`#[SampleData]`). The package complements the existing `TenantDataExportService`
+/ `TenantDataImportService` in the tenancy package — those handle bulk
+tenant-level JSON migration, while this package handles granular, entity-level
+import/export with CSV, XLSX, JSON, and PDF format support.
 
-The package follows the established Pixielity patterns: attribute-driven
+The package follows the established Stackra patterns: attribute-driven
 configuration, interface-first design with `ATTR_*` constants, Discovery facade
 for cross-package model discovery, Controller → Service → Repository → Model
 layered architecture, bounded context communication via events and service
@@ -52,8 +51,8 @@ interfaces, and Octane-safe stateless design.
   import or export operations.
 - **Tenant_Context**: The current tenant scope as determined by the tenancy
   package's `BelongsToTenant` trait and `TenancyManager`.
-- **Discovery_Facade**: The `Pixielity\Discovery\Facades\Discovery` facade used
-  to discover all classes annotated with import/export attributes across the
+- **Discovery_Facade**: The `Stackra\Discovery\Facades\Discovery` facade used to
+  discover all classes annotated with import/export attributes across the
   monorepo.
 - **Import_Export_Controller**: The REST API controller that exposes endpoints
   for triggering imports, exports, downloads, upload, status checks, and sample
@@ -70,7 +69,7 @@ interfaces, and Octane-safe stateless design.
 ### Requirement 1: Package Scaffolding and Service Provider
 
 **User Story:** As a developer, I want the import-export package to follow the
-standard Pixielity package layout, so that it integrates seamlessly with the
+standard Stackra package layout, so that it integrates seamlessly with the
 monorepo build system and module discovery.
 
 #### Acceptance Criteria
@@ -80,11 +79,11 @@ monorepo build system and module discovery.
    `#[LoadsResources(migrations: true, config: true, routes: true, commands: true, publishables: true)]`.
 2. THE Import_Export_Service_Provider SHALL register all interface bindings
    using `#[Bind]` on interfaces and `HasBindings` hook interface.
-3. THE package SHALL use the namespace `Pixielity\ImportExport` with PSR-4
+3. THE package SHALL use the namespace `Stackra\ImportExport` with PSR-4
    autoloading from `src/`.
-4. THE package SHALL declare `pixielity/laravel-discovery`,
-   `pixielity/laravel-crud`, `pixielity/laravel-database`, and
-   `maatwebsite/excel` as composer dependencies.
+4. THE package SHALL declare `stackra/laravel-discovery`,
+   `stackra/laravel-crud`, `stackra/laravel-database`, and `maatwebsite/excel`
+   as composer dependencies.
 5. THE package SHALL include `composer.json`, `module.json`,
    `config/import-export.php`, and standard directory structure (`Attributes/`,
    `Contracts/`, `Controllers/`, `Enums/`, `Events/`, `Services/`, `Providers/`,

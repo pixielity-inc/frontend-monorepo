@@ -1,20 +1,20 @@
-# Implementation Plan: Search Package (`pixielity/laravel-search`)
+# Implementation Plan: Search Package (`stackra/laravel-search`)
 
 ## Overview
 
 Implement the Elasticsearch search package that builds on the framework Indexer
 sub-package. Uses `pdphilip/elasticsearch` v5 as the ES Eloquent driver. All
-code at `packages/search/` under namespace `Pixielity\Search`. Framework Indexer
+code at `packages/search/` under namespace `Stackra\Search`. Framework Indexer
 sub-package must be implemented first.
 
 ## Tasks
 
 - [x] 1. Package scaffolding, configuration, and service provider
   - [x] 1.1 Create `packages/search/composer.json` with namespace
-        `Pixielity\Search`, PSR-4 autoload from `src/`, dependencies on
-        `pixielity/laravel-framework`, `pdphilip/elasticsearch: ^5.0`,
-        `pixielity/laravel-discovery`, `pixielity/laravel-crud`,
-        `pixielity/laravel-database`, `pixielity/laravel-tenancy`. Ensure
+        `Stackra\Search`, PSR-4 autoload from `src/`, dependencies on
+        `stackra/laravel-framework`, `pdphilip/elasticsearch: ^5.0`,
+        `stackra/laravel-discovery`, `stackra/laravel-crud`,
+        `stackra/laravel-database`, `stackra/laravel-tenancy`. Ensure
         `laravel/scout`, `meilisearch/meilisearch-php`, `pdphilip/elasticlens`,
         `matchish/laravel-scout-elasticsearch`, `elasticsearch/elasticsearch`
         are NOT listed.
@@ -424,5 +424,5 @@ sub-package must be implemented first.
 - Framework Indexer sub-package (`packages/framework/src/Indexer/`) must be
   implemented before this package
 - All PHP files must have `declare(strict_types=1)`, comprehensive docblocks,
-  and follow Pixielity code style
+  and follow Stackra code style
 - Uses `pdphilip/elasticsearch` v5 — no Scout, no raw ES client, no Meilisearch

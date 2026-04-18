@@ -2,15 +2,14 @@
 
 ## Introduction
 
-This document describes the technical design for redesigning the Pixielity
-service provider package. The redesigned package replaces property/flag-based
+This document describes the technical design for redesigning the Stackra service
+provider package. The redesigned package replaces property/flag-based
 configuration with PHP 8.5 attributes, consolidates ~20 concern traits into 7,
 uses `composer-attribute-collector` for zero-reflection attribute reading, and
-`pixielity/laravel-discovery` for cached auto-discovery. All code is
-Octane-safe.
+`stackra/laravel-discovery` for cached auto-discovery. All code is Octane-safe.
 
 The new package lives at `packages/service-provider/` with namespace
-`Pixielity\ServiceProvider`.
+`Stackra\ServiceProvider`.
 
 ## High-Level Architecture
 
@@ -18,7 +17,7 @@ The new package lives at `packages/service-provider/` with namespace
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Package Developer's Provider                  │
 │                                                                  │
-│  #[Module(name: 'Tenancy', namespace: 'Pixielity\\Tenancy')]    │
+│  #[Module(name: 'Tenancy', namespace: 'Stackra\\Tenancy')]    │
 │  #[LoadsResources(migrations: true, routes: true)]              │
 │  class TenancyServiceProvider extends ServiceProvider            │
 │      implements HasBindings, HasMiddleware { ... }               │
@@ -92,7 +91,7 @@ bootApplication()
   │   └── discoverSeeders()        ← convention-based class check
   │
   ├── [PublishesResources trait]
-  │   ├── publishAssets()          ← resources/ → public/pixielity/{slug}/{version}/
+  │   ├── publishAssets()          ← resources/ → public/stackra/{slug}/{version}/
   │   ├── publishConfig()          ← config/*.php → config_path()
   │   ├── publishViews()           ← views/ → resources/views/vendor/{slug}/
   │   └── publishTranslations()   ← i18n/ → lang/vendor/{slug}/
@@ -117,14 +116,14 @@ bootApplication()
 #### `#[Module]` Attribute
 
 ```php
-namespace Pixielity\ServiceProvider\Attributes;
+namespace Stackra\ServiceProvider\Attributes;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class Module
 {
     public function __construct(
         public string $name,                    // e.g. 'Tenancy'
-        public string $namespace,               // e.g. 'Pixielity\\Tenancy'
+        public string $namespace,               // e.g. 'Stackra\\Tenancy'
         public int $priority = 100,             // loading priority (1-999)
         public string $assetVersion = '1.0.0',  // for cache busting
         public array $dependencies = [],        // required module names
@@ -140,7 +139,7 @@ Covers: Requirement 1
 #### `#[LoadsResources]` Attribute
 
 ```php
-namespace Pixielity\ServiceProvider\Attributes;
+namespace Stackra\ServiceProvider\Attributes;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class LoadsResources
@@ -178,11 +177,11 @@ Responsible for reading `#[Module]` and `#[LoadsResources]` from cached
 attributes.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
 use Koriym\Attributes\Attributes;
-use Pixielity\ServiceProvider\Attributes\Module;
-use Pixielity\ServiceProvider\Attributes\LoadsResources;
+use Stackra\ServiceProvider\Attributes\Module;
+use Stackra\ServiceProvider\Attributes\LoadsResources;
 
 trait ReadsAttributes
 {
@@ -315,11 +314,11 @@ Consolidates HasResourceLoading + HasRoutes. Loads migrations, config, views,
 translations, routes.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use Pixielity\ServiceProvider\ModuleConstants;
+use Stackra\ServiceProvider\ModuleConstants;
 
 trait LoadsResources
 {
@@ -437,10 +436,10 @@ Covers: Requirements 9, 13
 Consolidates HasResourceDiscovery. Uses Discovery facade exclusively.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
-use Pixielity\Discovery\Facades\Discovery;
-use Pixielity\ServiceProvider\ModuleConstants;
+use Stackra\Discovery\Facades\Discovery;
+use Stackra\ServiceProvider\ModuleConstants;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 trait DiscoversResources
@@ -491,13 +490,13 @@ trait DiscoversResources
     {
         // Controllers with #[AsController] are registered via Discovery
         // The RouteRegistrar handles the actual route registration
-        if (!class_exists(\Pixielity\Routing\Attributes\AsController::class)) {
+        if (!class_exists(\Stackra\Routing\Attributes\AsController::class)) {
             return;
         }
 
-        $registrar = $this->app->make(\Pixielity\Routing\RouteRegistrar::class);
+        $registrar = $this->app->make(\Stackra\Routing\RouteRegistrar::class);
 
-        Discovery::attribute(\Pixielity\Routing\Attributes\AsController::class)
+        Discovery::attribute(\Stackra\Routing\Attributes\AsController::class)
             ->cached("controllers.{$this->getModuleSlug()}")
             ->get()
             ->keys()
@@ -507,18 +506,18 @@ trait DiscoversResources
 
     protected function discoverAndRegisterMiddleware(): void
     {
-        if (!class_exists(\Pixielity\Routing\Attributes\AsMiddleware::class)) {
+        if (!class_exists(\Stackra\Routing\Attributes\AsMiddleware::class)) {
             return;
         }
 
         $router = $this->app['router'];
 
-        Discovery::attribute(\Pixielity\Routing\Attributes\AsMiddleware::class)
+        Discovery::attribute(\Stackra\Routing\Attributes\AsMiddleware::class)
             ->cached("middleware.{$this->getModuleSlug()}")
             ->get()
             ->each(function (array $metadata, string $class) use ($router) {
                 $attr = $metadata['attribute'] ?? null;
-                if (!$attr instanceof \Pixielity\Routing\Attributes\AsMiddleware || !$attr->enabled) {
+                if (!$attr instanceof \Stackra\Routing\Attributes\AsMiddleware || !$attr->enabled) {
                     return;
                 }
                 $router->aliasMiddleware($attr->alias, $class);
@@ -563,9 +562,9 @@ Covers: Requirements 4, 6
 Consolidates HasPublishing.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
-use Pixielity\ServiceProvider\ModuleConstants;
+use Stackra\ServiceProvider\ModuleConstants;
 
 trait PublishesResources
 {
@@ -640,10 +639,10 @@ Covers: Requirement 10
 Consolidates HasModuleLifecycle + HasDebugging.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
-use Pixielity\ServiceProvider\Contracts\Terminatable;
-use Pixielity\ServiceProvider\Enums\ModuleLifecycleEvent;
+use Stackra\ServiceProvider\Contracts\Terminatable;
+use Stackra\ServiceProvider\Enums\ModuleLifecycleEvent;
 
 trait ManagesLifecycle
 {
@@ -697,18 +696,18 @@ Covers: Requirements 8, 16
 Consolidates all hook interface dispatch into one trait.
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Pixielity\ServiceProvider\Contracts\HasBindings;
-use Pixielity\ServiceProvider\Contracts\HasHealthChecks;
-use Pixielity\ServiceProvider\Contracts\HasMacros;
-use Pixielity\ServiceProvider\Contracts\HasMiddleware;
-use Pixielity\ServiceProvider\Contracts\HasObservers;
-use Pixielity\ServiceProvider\Contracts\HasPolicies;
-use Pixielity\ServiceProvider\Contracts\HasRoutes;
-use Pixielity\ServiceProvider\Contracts\HasScheduledTasks;
-use Pixielity\ServiceProvider\Contracts\Terminatable;
+use Stackra\ServiceProvider\Contracts\HasBindings;
+use Stackra\ServiceProvider\Contracts\HasHealthChecks;
+use Stackra\ServiceProvider\Contracts\HasMacros;
+use Stackra\ServiceProvider\Contracts\HasMiddleware;
+use Stackra\ServiceProvider\Contracts\HasObservers;
+use Stackra\ServiceProvider\Contracts\HasPolicies;
+use Stackra\ServiceProvider\Contracts\HasRoutes;
+use Stackra\ServiceProvider\Contracts\HasScheduledTasks;
+use Stackra\ServiceProvider\Contracts\Terminatable;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Facades\Health;
 
@@ -773,7 +772,7 @@ Covers: Requirement 7
 #### `SupportsDeferredLoading` Trait
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
 trait SupportsDeferredLoading
 {
@@ -796,9 +795,9 @@ Covers: Requirement 15
 #### `ProvidesServices` Trait (Composition)
 
 ```php
-namespace Pixielity\ServiceProvider\Concerns;
+namespace Stackra\ServiceProvider\Concerns;
 
-use Pixielity\ServiceProvider\Enums\ModuleLifecycleEvent;
+use Stackra\ServiceProvider\Enums\ModuleLifecycleEvent;
 
 trait ProvidesServices
 {
@@ -854,11 +853,11 @@ Covers: Requirements 6, 11
 ### 3. Base ServiceProvider Class
 
 ```php
-namespace Pixielity\ServiceProvider\Providers;
+namespace Stackra\ServiceProvider\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Pixielity\ServiceProvider\Concerns\ProvidesServices;
-use Pixielity\ServiceProvider\Contracts\ServiceProviderInterface;
+use Stackra\ServiceProvider\Concerns\ProvidesServices;
+use Stackra\ServiceProvider\Contracts\ServiceProviderInterface;
 
 abstract class ServiceProvider extends BaseServiceProvider implements ServiceProviderInterface
 {
@@ -881,7 +880,7 @@ Covers: Requirement 12
 ### 4. ModuleConstants Interface
 
 ```php
-namespace Pixielity\ServiceProvider;
+namespace Stackra\ServiceProvider;
 
 interface ModuleConstants
 {
@@ -911,7 +910,7 @@ interface ModuleConstants
     public const TAG_LANG = 'lang';
 
     // Path prefix
-    public const PATH_PREFIX = 'pixielity';
+    public const PATH_PREFIX = 'stackra';
 }
 ```
 
@@ -922,63 +921,63 @@ Covers: Requirement 14
 All contracts are kept from the current package with minimal changes:
 
 ```php
-// Pixielity\ServiceProvider\Contracts\ServiceProviderInterface
+// Stackra\ServiceProvider\Contracts\ServiceProviderInterface
 interface ServiceProviderInterface
 {
     public function boot(): void;
     public function register(): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasBindings
+// Stackra\ServiceProvider\Contracts\HasBindings
 interface HasBindings
 {
     public function bindings(): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasMiddleware
+// Stackra\ServiceProvider\Contracts\HasMiddleware
 interface HasMiddleware
 {
     public function middleware(\Illuminate\Routing\Router $router): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasRoutes
+// Stackra\ServiceProvider\Contracts\HasRoutes
 interface HasRoutes
 {
     public function routes(\Illuminate\Routing\Router $router): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasObservers
+// Stackra\ServiceProvider\Contracts\HasObservers
 interface HasObservers
 {
     public function observers(): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasPolicies
+// Stackra\ServiceProvider\Contracts\HasPolicies
 interface HasPolicies
 {
     public function policies(): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasHealthChecks
+// Stackra\ServiceProvider\Contracts\HasHealthChecks
 interface HasHealthChecks
 {
     /** @return array<\Spatie\Health\Checks\Check> */
     public function healthChecks(): array;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasMacros
+// Stackra\ServiceProvider\Contracts\HasMacros
 interface HasMacros
 {
     public function macros(): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\HasScheduledTasks
+// Stackra\ServiceProvider\Contracts\HasScheduledTasks
 interface HasScheduledTasks
 {
     public function scheduledTasks(\Illuminate\Console\Scheduling\Schedule $schedule): void;
 }
 
-// Pixielity\ServiceProvider\Contracts\Terminatable
+// Stackra\ServiceProvider\Contracts\Terminatable
 interface Terminatable
 {
     public function terminating(): void;
@@ -990,11 +989,11 @@ Covers: Requirement 7
 ### 6. Enums
 
 ```php
-namespace Pixielity\ServiceProvider\Enums;
+namespace Stackra\ServiceProvider\Enums;
 
-use Pixielity\Enum\Attributes\Description;
-use Pixielity\Enum\Attributes\Label;
-use Pixielity\Enum\Enum;
+use Stackra\Enum\Attributes\Description;
+use Stackra\Enum\Attributes\Label;
+use Stackra\Enum\Enum;
 
 enum ModuleLifecycleEvent: string
 {
@@ -1060,7 +1059,7 @@ packages/service-provider/
 
 ```json
 {
-  "name": "pixielity/laravel-service-provider",
+  "name": "stackra/laravel-service-provider",
   "description": "Attribute-based modular service provider for Laravel 13",
   "require": {
     "php": "^8.5",
@@ -1068,16 +1067,16 @@ packages/service-provider/
     "illuminate/routing": "^13.0",
     "illuminate/console": "^13.0",
     "koriym/attributes": "^1.0",
-    "pixielity/laravel-discovery": "^1.0",
-    "pixielity/laravel-enum": "^1.0"
+    "stackra/laravel-discovery": "^1.0",
+    "stackra/laravel-enum": "^1.0"
   },
   "suggest": {
     "spatie/laravel-health": "Required for health check registration",
-    "pixielity/laravel-routing": "Required for controller/middleware discovery via #[AsController]/#[AsMiddleware]"
+    "stackra/laravel-routing": "Required for controller/middleware discovery via #[AsController]/#[AsMiddleware]"
   },
   "autoload": {
     "psr-4": {
-      "Pixielity\\ServiceProvider\\": "src/"
+      "Stackra\\ServiceProvider\\": "src/"
     }
   }
 }
@@ -1088,10 +1087,10 @@ packages/service-provider/
 ### Minimal Service Provider
 
 ```php
-use Pixielity\ServiceProvider\Attributes\Module;
-use Pixielity\ServiceProvider\Providers\ServiceProvider;
+use Stackra\ServiceProvider\Attributes\Module;
+use Stackra\ServiceProvider\Providers\ServiceProvider;
 
-#[Module(name: 'Tenancy', namespace: 'Pixielity\\Tenancy')]
+#[Module(name: 'Tenancy', namespace: 'Stackra\\Tenancy')]
 class TenancyServiceProvider extends ServiceProvider
 {
     // That's it! All resources auto-loaded from conventional paths.
@@ -1101,11 +1100,11 @@ class TenancyServiceProvider extends ServiceProvider
 ### Selective Resource Loading
 
 ```php
-use Pixielity\ServiceProvider\Attributes\Module;
-use Pixielity\ServiceProvider\Attributes\LoadsResources;
-use Pixielity\ServiceProvider\Providers\ServiceProvider;
+use Stackra\ServiceProvider\Attributes\Module;
+use Stackra\ServiceProvider\Attributes\LoadsResources;
+use Stackra\ServiceProvider\Providers\ServiceProvider;
 
-#[Module(name: 'Api', namespace: 'Pixielity\\Api')]
+#[Module(name: 'Api', namespace: 'Stackra\\Api')]
 #[LoadsResources(views: false, translations: false)]
 class ApiServiceProvider extends ServiceProvider
 {
@@ -1116,14 +1115,14 @@ class ApiServiceProvider extends ServiceProvider
 ### Full-Featured with Hooks
 
 ```php
-use Pixielity\ServiceProvider\Attributes\Module;
-use Pixielity\ServiceProvider\Attributes\LoadsResources;
-use Pixielity\ServiceProvider\Contracts\HasBindings;
-use Pixielity\ServiceProvider\Contracts\HasMiddleware;
-use Pixielity\ServiceProvider\Contracts\HasScheduledTasks;
-use Pixielity\ServiceProvider\Providers\ServiceProvider;
+use Stackra\ServiceProvider\Attributes\Module;
+use Stackra\ServiceProvider\Attributes\LoadsResources;
+use Stackra\ServiceProvider\Contracts\HasBindings;
+use Stackra\ServiceProvider\Contracts\HasMiddleware;
+use Stackra\ServiceProvider\Contracts\HasScheduledTasks;
+use Stackra\ServiceProvider\Providers\ServiceProvider;
 
-#[Module(name: 'Tenancy', namespace: 'Pixielity\\Tenancy', priority: 10)]
+#[Module(name: 'Tenancy', namespace: 'Stackra\\Tenancy', priority: 10)]
 #[LoadsResources(healthChecks: true)]
 class TenancyServiceProvider extends ServiceProvider implements HasBindings, HasMiddleware, HasScheduledTasks
 {
@@ -1148,10 +1147,10 @@ class TenancyServiceProvider extends ServiceProvider implements HasBindings, Has
 
 ```php
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Pixielity\ServiceProvider\Attributes\Module;
-use Pixielity\ServiceProvider\Concerns\ProvidesServices;
+use Stackra\ServiceProvider\Attributes\Module;
+use Stackra\ServiceProvider\Concerns\ProvidesServices;
 
-#[Module(name: 'Custom', namespace: 'Pixielity\\Custom')]
+#[Module(name: 'Custom', namespace: 'Stackra\\Custom')]
 class CustomServiceProvider extends BaseServiceProvider
 {
     use ProvidesServices;

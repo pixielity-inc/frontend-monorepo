@@ -58,7 +58,7 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@abdokouta/ts-desktop':
+      '@stakra/ts-desktop':
         specifier: workspace:*
         version: link:../../packages/desktop
     devDependencies:
@@ -80,48 +80,48 @@ importers:
 
   apps/vite:
     dependencies:
-      '@abdokouta/kbd':
-        specifier: workspace:*
-        version: link:../../packages/kbd
-      '@abdokouta/ts-cache':
-        specifier: workspace:*
-        version: link:../../packages/abcd/cache
-      '@abdokouta/ts-config':
-        specifier: workspace:*
-        version: link:../../packages/config
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../../packages/abcd/container
-      '@abdokouta/ts-desktop':
-        specifier: workspace:*
-        version: link:../../packages/desktop
-      '@abdokouta/ts-events':
-        specifier: workspace:*
-        version: link:../../packages/events
-      '@abdokouta/ts-logger':
-        specifier: workspace:*
-        version: link:../../packages/logger
-      '@abdokouta/ts-pwa':
-        specifier: workspace:*
-        version: link:../../packages/pwa
-      '@abdokouta/ts-redis':
-        specifier: workspace:*
-        version: link:../../packages/abcd/redis
-      '@abdokouta/ts-settings':
-        specifier: workspace:*
-        version: link:../../packages/settings
-      '@abdokouta/ts-support':
-        specifier: workspace:*
-        version: link:../../packages/support
-      '@abdokouta/ts-ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@heroui/react':
         specifier: 3.0.1
         version: 3.0.1(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)
       '@heroui/styles':
         specifier: 3.0.1
         version: 3.0.1(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
+      '@stakra/kbd':
+        specifier: workspace:*
+        version: link:../../packages/kbd
+      '@stakra/ts-cache':
+        specifier: workspace:*
+        version: link:../../packages/abcd/cache
+      '@stakra/ts-config':
+        specifier: workspace:*
+        version: link:../../packages/abcd/config
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../../packages/abcd/container
+      '@stakra/ts-desktop':
+        specifier: workspace:*
+        version: link:../../packages/desktop
+      '@stakra/ts-events':
+        specifier: workspace:*
+        version: link:../../packages/events
+      '@stakra/ts-logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
+      '@stakra/ts-pwa':
+        specifier: workspace:*
+        version: link:../../packages/pwa
+      '@stakra/ts-redis':
+        specifier: workspace:*
+        version: link:../../packages/abcd/redis
+      '@stakra/ts-settings':
+        specifier: workspace:*
+        version: link:../../packages/settings
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../../packages/support
+      '@stakra/ts-ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -225,13 +225,13 @@ importers:
 
   packages/abcd/cache:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../container
-      '@abdokouta/ts-redis':
+      '@stakra/ts-redis':
         specifier: workspace:*
         version: link:../redis
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../../support
       react:
@@ -281,15 +281,79 @@ importers:
         specifier: ^4.1.2
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
 
+  packages/abcd/config:
+    dependencies:
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../container
+      '@stakra/ts-http':
+        specifier: workspace:*
+        version: link:../../http
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../../support
+      fast-glob:
+        specifier: ^3.3.0
+        version: 3.3.3
+    devDependencies:
+      '@eslint/js':
+        specifier: 10.0.1
+        version: 10.0.1(eslint@10.2.0(jiti@2.6.1))
+      '@nesvel/eslint-config':
+        specifier: ^1.0.5
+        version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
+      '@nesvel/prettier-config':
+        specifier: ^1.0.3
+        version: 1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
+      '@nesvel/tsup-config':
+        specifier: ^1.0.3
+        version: 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
+      '@nesvel/typescript-config':
+        specifier: ^1.0.4
+        version: 1.0.4(typescript@6.0.3)
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      '@vitest/ui':
+        specifier: ^4.1.2
+        version: 4.1.4(vitest@4.1.4)
+      dotenv:
+        specifier: ^17.3.1
+        version: 17.4.2
+      eslint:
+        specifier: ^10.1.0
+        version: 10.2.0(jiti@2.6.1)
+      jsdom:
+        specifier: ^29.0.1
+        version: 29.0.2
+      prettier:
+        specifier: ^3.8.1
+        version: 3.8.3
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+      typescript-eslint:
+        specifier: ^8.58.0
+        version: 8.58.2(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.3)
+      vite:
+        specifier: ^8.0.3
+        version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)
+      vitest:
+        specifier: ^4.1.2
+        version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
+
   packages/abcd/container:
     dependencies:
+      '@vivtel/metadata':
+        specifier: ^1.0.5
+        version: 1.0.5(reflect-metadata@0.2.2)
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
     devDependencies:
-      '@nesvel/eslint-config':
-        specifier: ^1.0.5
-        version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
       '@nesvel/prettier-config':
         specifier: ^1.0.3
         version: 1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
@@ -311,6 +375,9 @@ importers:
       eslint:
         specifier: ^10.1.0
         version: 10.2.0(jiti@2.6.1)
+      jiti:
+        specifier: ^2.6.1
+        version: 2.6.1
       jsdom:
         specifier: ^29.0.2
         version: 29.0.2
@@ -335,10 +402,10 @@ importers:
 
   packages/abcd/i18n:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../container
-      '@abdokouta/ts-http':
+      '@stakra/ts-http':
         specifier: workspace:*
         version: link:../../http
       fast-glob:
@@ -362,7 +429,7 @@ importers:
         version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
       '@nesvel/jest-config':
         specifier: ^1.0.3
-        version: 1.0.3(@nesvel/prettier-config@1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)))(jest@30.3.0(@types/node@25.6.0))(ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0))(typescript@6.0.3))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
+        version: 1.0.3(@nesvel/prettier-config@1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)))(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(typescript@6.0.3))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
       '@nesvel/tsup-config':
         specifier: ^1.0.3
         version: 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
@@ -396,10 +463,10 @@ importers:
 
   packages/abcd/redis:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../container
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../../support
       '@upstash/redis':
@@ -448,6 +515,52 @@ importers:
       vitest:
         specifier: ^4.1.2
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
+
+  packages/abcd/vite/decorator-discovery:
+    dependencies:
+      glob:
+        specifier: ^11.0.0
+        version: 11.1.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+    devDependencies:
+      '@nesvel/eslint-config':
+        specifier: ^1.0.5
+        version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
+      '@nesvel/prettier-config':
+        specifier: ^1.0.3
+        version: 1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
+      '@nesvel/tsup-config':
+        specifier: ^1.0.3
+        version: 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
+      '@nesvel/typescript-config':
+        specifier: ^1.0.4
+        version: 1.0.4(typescript@6.0.3)
+      '@types/node':
+        specifier: ^25.6.0
+        version: 25.6.0
+      '@vitest/ui':
+        specifier: ^4.1.4
+        version: 4.1.4(vitest@4.1.4)
+      eslint:
+        specifier: ^10.1.0
+        version: 10.2.0(jiti@2.6.1)
+      prettier:
+        specifier: ^3.8.1
+        version: 3.8.3
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)
+      typescript-eslint:
+        specifier: ^8.58.2
+        version: 8.58.2(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.3)
+      vite:
+        specifier: ^6.0.11
+        version: 6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)
+      vitest:
+        specifier: ^4.1.2
+        version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
 
   packages/abcd/vite/ngrok:
     dependencies:
@@ -514,24 +627,21 @@ importers:
         specifier: ^8.0.4
         version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)
 
-  packages/config:
+  packages/auth:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-cache':
+        specifier: workspace:*
+        version: link:../abcd/cache
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-http':
-        specifier: workspace:*
-        version: link:../http
-      '@abdokouta/ts-support':
-        specifier: workspace:*
-        version: link:../support
-      fast-glob:
-        specifier: ^3.3.0
-        version: 3.3.3
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
     devDependencies:
-      '@eslint/js':
-        specifier: 10.0.1
-        version: 10.0.1(eslint@10.2.0(jiti@2.6.1))
       '@nesvel/eslint-config':
         specifier: ^1.0.5
         version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
@@ -544,46 +654,46 @@ importers:
       '@nesvel/typescript-config':
         specifier: ^1.0.4
         version: 1.0.4(typescript@6.0.3)
+      '@stakra/ts-events':
+        specifier: workspace:^
+        version: link:../events
+      '@stakra/ts-http':
+        specifier: workspace:^
+        version: link:../http
+      '@tanstack/react-query':
+        specifier: ^5.96.0
+        version: 5.99.0(react@19.2.5)
       '@types/node':
         specifier: ^25.5.0
         version: 25.6.0
-      '@vitest/ui':
-        specifier: ^4.1.2
-        version: 4.1.4(vitest@4.1.4)
-      dotenv:
-        specifier: ^17.3.1
-        version: 17.4.2
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.14
       eslint:
         specifier: ^10.1.0
         version: 10.2.0(jiti@2.6.1)
-      jsdom:
-        specifier: ^29.0.1
-        version: 29.0.2
       prettier:
         specifier: ^3.8.1
         version: 3.8.3
+      react:
+        specifier: ^19.2.4
+        version: 19.2.5
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
-      typescript-eslint:
-        specifier: ^8.58.0
-        version: 8.58.2(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.3)
-      vite:
-        specifier: ^8.0.3
-        version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))
 
   packages/desktop:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       electron:
@@ -641,13 +751,13 @@ importers:
 
   packages/events:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-redis':
+      '@stakra/ts-redis':
         specifier: workspace:*
         version: link:../abcd/redis
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       react:
@@ -705,10 +815,10 @@ importers:
 
   packages/http:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       axios:
@@ -772,15 +882,15 @@ importers:
 
   packages/kbd:
     dependencies:
-      '@abdokouta/react-support':
-        specifier: ^1.1.0
-        version: 1.2.0
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../abcd/container
       '@heroui/react':
         specifier: ^3.0.0
         version: 3.0.1(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../abcd/container
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../support
       lucide-react:
         specifier: ^1.0.0
         version: 1.8.0(react@19.2.5)
@@ -860,12 +970,6 @@ importers:
 
   packages/logger:
     devDependencies:
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../abcd/container
-      '@abdokouta/ts-support':
-        specifier: workspace:*
-        version: link:../support
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.2.0(jiti@2.6.1))
@@ -881,6 +985,12 @@ importers:
       '@nesvel/typescript-config':
         specifier: ^1.0.4
         version: 1.0.4(typescript@6.0.3)
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../abcd/container
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../support
       '@types/node':
         specifier: ^25.5.2
         version: 25.6.0
@@ -920,15 +1030,15 @@ importers:
 
   packages/multitenancy:
     dependencies:
-      '@abdokouta/react-cache':
-        specifier: ^1.0.0
-        version: 1.2.1(@abdokouta/react-support@1.2.0)(@abdokouta/ts-container@packages+abcd+container)(react@19.2.5)
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../abcd/container
       '@refinedev/core':
         specifier: ^5.0.0
         version: 5.0.12(@tanstack/react-query@5.99.0(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@stakra/ts-cache':
+        specifier: ^1.0.0
+        version: link:../abcd/cache
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../abcd/container
     devDependencies:
       '@heroui/react':
         specifier: ^3.0.1
@@ -990,12 +1100,12 @@ importers:
 
   packages/pwa:
     dependencies:
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../abcd/container
       '@heroui/react':
         specifier: ^3.0.0
         version: 3.0.1(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../abcd/container
       lucide-react:
         specifier: ^1.7.0
         version: 1.8.0(react@19.2.5)
@@ -1054,10 +1164,16 @@ importers:
 
   packages/refine:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-support':
+      '@stakra/ts-eloquent':
+        specifier: workspace:*
+        version: link:../rxdb-eloquent
+      '@stakra/ts-redis':
+        specifier: workspace:*
+        version: link:../abcd/redis
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       reflect-metadata:
@@ -1067,6 +1183,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@heroui/react':
+        specifier: ^3.0.2
+        version: 3.0.3(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)
       '@nesvel/eslint-config':
         specifier: ^1.0.5
         version: 1.0.5(@babel/core@7.29.0)(eslint@10.2.0(jiti@2.6.1))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)
@@ -1079,6 +1198,15 @@ importers:
       '@nesvel/typescript-config':
         specifier: ^1.0.4
         version: 1.0.4(typescript@6.0.3)
+      '@stakra/ts-cache':
+        specifier: workspace:^
+        version: link:../abcd/cache
+      '@stakra/ts-events':
+        specifier: workspace:^
+        version: link:../events
+      '@stakra/ts-http':
+        specifier: workspace:^
+        version: link:../http
       '@tanstack/react-query':
         specifier: ^5.96.0
         version: 5.99.0(react@19.2.5)
@@ -1127,13 +1255,13 @@ importers:
 
   packages/router:
     dependencies:
-      '@abdokouta/react-refine':
+      '@stakra/react-refine':
         specifier: workspace:*
         version: link:../refine
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       react-router-dom:
@@ -1197,13 +1325,13 @@ importers:
 
   packages/rxdb-eloquent:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-logger':
+      '@stakra/ts-logger':
         specifier: workspace:*
         version: link:../logger
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       rxdb:
@@ -1264,18 +1392,18 @@ importers:
 
   packages/sdui:
     dependencies:
-      '@abdokouta/react-refine':
+      '@stakra/react-refine':
         specifier: workspace:*
         version: link:../refine
-      '@abdokouta/react-router':
+      '@stakra/react-router':
         specifier: workspace:*
         version: link:../router
-      '@abdokouta/react-support':
-        specifier: ^1.1.0
-        version: 1.2.0
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../support
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -1334,13 +1462,13 @@ importers:
 
   packages/settings:
     dependencies:
-      '@abdokouta/ts-cache':
+      '@stakra/ts-cache':
         specifier: workspace:*
         version: link:../abcd/cache
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
-      '@abdokouta/ts-support':
+      '@stakra/ts-support':
         specifier: workspace:*
         version: link:../support
       react:
@@ -1389,7 +1517,7 @@ importers:
 
   packages/support:
     dependencies:
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
       collect.js:
@@ -1447,18 +1575,18 @@ importers:
 
   packages/theming:
     dependencies:
-      '@abdokouta/react-support':
-        specifier: ^1.1.0
-        version: 1.2.0
-      '@abdokouta/ts-container':
-        specifier: workspace:*
-        version: link:../abcd/container
-      '@abdokouta/ts-ui':
-        specifier: workspace:*
-        version: link:../ui
       '@heroui/react':
         specifier: ^3.0.0
         version: 3.0.1(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)
+      '@stakra/ts-container':
+        specifier: workspace:*
+        version: link:../abcd/container
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../support
+      '@stakra/ts-ui':
+        specifier: workspace:*
+        version: link:../ui
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -1517,12 +1645,12 @@ importers:
 
   packages/ui:
     dependencies:
-      '@abdokouta/react-support':
-        specifier: ^1.1.0
-        version: 1.2.0
-      '@abdokouta/ts-container':
+      '@stakra/ts-container':
         specifier: workspace:*
         version: link:../abcd/container
+      '@stakra/ts-support':
+        specifier: workspace:*
+        version: link:../support
     devDependencies:
       '@bprogress/react':
         specifier: ^1.2.7
@@ -1577,32 +1705,6 @@ packages:
 
   7zip-bin@5.2.0:
     resolution: {integrity: sha512-ukTPVhqG4jNzMro2qA9HSCSSVJN3aN7tlb+hfqYCt3ER0yWroeA2VR38MNrOHLQ/cVj+DaIMad0kFCtWWowh/A==}
-
-  '@abdokouta/react-cache@1.2.1':
-    resolution: {integrity: sha512-aQGtmGWRGdxapsXrqlSBdMC5+bOmWcRo8pzi4zXs8SaSR8IqUDr0PBp9q9As6sDzDWLTdwf4d/JQ3whhsaOO7g==}
-    engines: {node: '>=18.0.0', pnpm: '>=9.0.0'}
-    peerDependencies:
-      '@abdokouta/react-redis': ^1.1.2
-      '@abdokouta/react-support': ^2.1.0
-      '@abdokouta/ts-container': ^1.2.0
-      '@abdokouta/ts-container-react': ^1.2.0
-      react: ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@abdokouta/react-redis':
-        optional: true
-      '@abdokouta/ts-container-react':
-        optional: true
-      react:
-        optional: true
-
-  '@abdokouta/react-support@1.2.0':
-    resolution: {integrity: sha512-Hj5K5yuqv6J+NZuxaKvYDbf9YwzV8985+eTIHjxp6uZsz7VezkKckon0VaFZaRWDFDNgYnBnRYxIFM7dYwf5uA==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@abdokouta/react-di': ^2.0.0
-    peerDependenciesMeta:
-      '@abdokouta/react-di':
-        optional: true
 
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
@@ -2406,6 +2508,10 @@ packages:
       conventional-commits-parser:
         optional: true
 
+  '@cspotcode/source-map-support@0.8.1':
+    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
+    engines: {node: '>=12'}
+
   '@csstools/color-helpers@6.0.2':
     resolution: {integrity: sha512-LMGQLS9EuADloEFkcTBR3BwV/CGHV7zyDxVRtVDTwdI2Ca4it0CCVTT9wCkxSgokjE5Ho41hEPgb8OEUwoXr6Q==}
     engines: {node: '>=20.19.0'}
@@ -2919,8 +3025,20 @@ packages:
       react-dom: '>=19.0.0'
       tailwindcss: '>=4.0.0'
 
+  '@heroui/react@3.0.3':
+    resolution: {integrity: sha512-UJPOxg3IbS5KtI2GLP7S56KrSBn/r4xQyntCVpnPzgoT7JuciB4dq7IhckuDNHcrdIPO45JrKHGJz2hiYxaRGg==}
+    peerDependencies:
+      react: '>=19.0.0'
+      react-dom: '>=19.0.0'
+      tailwindcss: '>=4.0.0'
+
   '@heroui/styles@3.0.1':
     resolution: {integrity: sha512-ZGXz6nse8713f3uZMNapa8STkiyERgE7P5qOJlWTGnO8qHC+OHCB9TRJOdz1JR+daAhxu68pBO1qdWlzvud1cw==}
+    peerDependencies:
+      tailwindcss: '>=4.0.0'
+
+  '@heroui/styles@3.0.3':
+    resolution: {integrity: sha512-DtN5QWfLVxy6DSDNgtUuHVU/h4G+dfoDHHxGVZRW6plCEh1Rc5Yc7YW7b8JBiYCknSRx/fqLXpas3Fe5Q5XJSw==}
     peerDependencies:
       tailwindcss: '>=4.0.0'
 
@@ -3081,6 +3199,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@jridgewell/trace-mapping@0.3.9':
+    resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
   '@malept/cross-spawn-promise@2.0.0':
     resolution: {integrity: sha512-1DpKU0Z5ThltBwjNySMC14g0CkbyhCaz9FkhxqNsZI6uAPJXFS8cMXlBKo26FJ8ZuW6S9GCMcR9IO5k2X5/9Fg==}
@@ -3360,6 +3481,12 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@react-aria/color@3.2.0':
+    resolution: {integrity: sha512-Qw1TySxXnGlE4L7kzsi8v86U1yFs9FtonqsbySFzLPzsMV1Oar+rtkYHI5vwNSyNNF6TBJJikJNocS9Fi8xXwA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
   '@react-aria/combobox@3.16.0':
     resolution: {integrity: sha512-yPPLduVUluCBuIFSZ+WgBMgl5oH7A5oQTemSpvf9ZmJ2oABIe+h6VQcwkEtMdokveHrdbmWIB9BL0E5jdDczAA==}
     peerDependencies:
@@ -3380,6 +3507,12 @@ packages:
 
   '@react-aria/i18n@3.12.16':
     resolution: {integrity: sha512-Km2CAz6MFQOUEaattaW+2jBdWOHUF8WX7VQoNbjlqElCP58nSaqi9yxTWUDRhAcn8/xFUnkFh4MFweNgtrHuEA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-aria/i18n@3.13.0':
+    resolution: {integrity: sha512-APjw4EwmvlnIyDxixSWfjHvOFFkW2rVTyKZ4l9FV0v7hOerh+FWLE6mF1XnnX3pgz3yARkKWwhSR9xYcRK6tpg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
@@ -3420,6 +3553,13 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@react-aria/ssr@3.10.0':
+    resolution: {integrity: sha512-mnelvACtfNWWKFCT1YHebxJRmfBmmANGwHQhCFPByMVTx1L8RumcaLxChYkE87g2KPuP5xX2il/oRn1DytW+qQ==}
+    engines: {node: '>= 12'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
   '@react-aria/ssr@3.9.10':
     resolution: {integrity: sha512-hvTm77Pf+pMBhuBm760Li0BVIO38jv1IBws1xFm1NoL26PU+fe+FMW5+VZWyANR6nYL65joaJKZqOdTQMkO9IQ==}
     engines: {node: '>= 12'}
@@ -3444,6 +3584,12 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@react-aria/utils@3.34.0':
+    resolution: {integrity: sha512-ZM1ZXIqpwGTJjjL6o3JhlZkEaBpQdxuOCqLEvwEwooaj5GsYI3E9UfOl5vy3UW6bYiEEWl9pNBntrb9CR9kItQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
   '@react-aria/virtualizer@4.2.0':
     resolution: {integrity: sha512-j4Dj/PMQK+d/2E2Dxyr5ifPdg8IG/NYsfZJtPnvKHXeKlI3vj7F/InamujwCuEFHZBK3YmxlRPRGcoMdS66qfw==}
     peerDependencies:
@@ -3452,6 +3598,12 @@ packages:
 
   '@react-spectrum/button@3.18.0':
     resolution: {integrity: sha512-SmjsXt+mLK2cf8PGstNZvLBfjqE5TjHW15yPIATI6ddqMdcC9JZ3ldnBTdFji9P/B6Rlop4ajnAdDV6bpxLtXA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-spectrum/color@3.2.0':
+    resolution: {integrity: sha512-Xg/U8+l1CQdvPRF4Zrv7AvtqsjuYUNkMxJMG0cIug9RKtIfEoyh7VR4Xg3FNd4Y/AwKXNJZZN4l94qz4WlK23Q==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
@@ -3496,6 +3648,12 @@ packages:
     resolution: {integrity: sha512-K2Uy7XEdseFvgwRQ8CyrYEHMupjVKEszddOapP8deNz4hntYvT1aRm0m+sKa5Kl/4kvg9c/3NZpQcrky/vRZIg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-stately/color@3.10.0':
+    resolution: {integrity: sha512-P4tlvOYFA8hl/NXiMyPxfM+7rXV01hnwlvGCwbZqUK1aRv0Ry0yGCj2AbSzhYHx7i4J4+CVUJUYozNLzhm+6Sw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
   '@react-stately/combobox@3.14.0':
     resolution: {integrity: sha512-WYWJK9IzWKDqnFk1HF6FGISrhPh/bzYkRLgd40Psyke5dwYusOrEUzG161P8v9vxAzs621pYB4hz2UhrRWsMPQ==}
@@ -3550,6 +3708,12 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@react-stately/utils@3.12.0':
+    resolution: {integrity: sha512-7q+iHz9cENvro1dVKgdTxNh1i1mtWuLUI6UHp10TAgpxM9DyRDvmuN35zLXYCmMDgx3WLY2xkwqoez8xd+CdxQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
   '@react-stately/virtualizer@4.5.0':
     resolution: {integrity: sha512-Yf1xA9U7PuuaHgxWExwO5MrWCqzDZZTPCzo9YCcsilkOFk2GxMcGNysM71funj+d4CMqsWjCNmgNhZQjBXKjNw==}
     peerDependencies:
@@ -3572,6 +3736,13 @@ packages:
     resolution: {integrity: sha512-s+Xj4pvNBlJPpQ1Gr7bO1j4/tuwMUfdS9xIVFuiW5RvDsSybKTUJ/gqPzTxms94VDCRhLFocVn2STNdD2Erf6A==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-types/color@3.2.0':
+    resolution: {integrity: sha512-beV3vz80nzZ1EuYUM7296Kyi3AHcMrbQw0qub/9yzHWVTKKc5sy/e4dCMKcWL/ArkeAyc7jDOiui190RQ4l0Fw==}
+    peerDependencies:
+      '@react-spectrum/provider': ^3.0.0
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
   '@react-types/combobox@3.15.0':
     resolution: {integrity: sha512-iWV9UfLg1P0XhEqPTbnhsVMHFwc0RnrZjHfCLwgilH0Af0z1CQ8RyWiT8cOd1eqbkOAiVgCv29Xs8PAxaQBHSg==}
@@ -4277,6 +4448,18 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
+  '@tsconfig/node10@1.0.12':
+    resolution: {integrity: sha512-UCYBaeFvM11aU2y3YPZ//O5Rhj+xKyzy7mvcIoAjASbigy8mHMryP5cK7dgjlz2hWxh1g5pLw084E0a/wlUSFQ==}
+
+  '@tsconfig/node12@1.0.11':
+    resolution: {integrity: sha512-cqefuRsh12pWyGsIoBKJA9luFu3mRxCA+ORZvA4ktLSzIuCUtWVxGIuXigEwO5/ywWFMZ2QEGKWvkZG1zDMTag==}
+
+  '@tsconfig/node14@1.0.3':
+    resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
+
+  '@tsconfig/node16@1.0.4':
+    resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+
   '@turbo/darwin-64@2.9.6':
     resolution: {integrity: sha512-X/56SnVXIQZBLKwniGTwEQTGmtE5brSACnKMBWpY3YafuxVYefrC2acamfjgxP7BG5w3I+6jf0UrLoSzgPcSJg==}
     cpu: [x64]
@@ -4753,6 +4936,11 @@ packages:
   '@vitest/utils@4.1.4':
     resolution: {integrity: sha512-13QMT+eysM5uVGa1rG4kegGYNp6cnQcsTc67ELFbhNLQO+vgsygtYJx2khvdt4gVQqSSpC/KT5FZZxUpP3Oatw==}
 
+  '@vivtel/metadata@1.0.5':
+    resolution: {integrity: sha512-NFmPknEPcsQq+mDYcIVcmPCiHUx5noal34AkJjRXlUeSuN7HPjPfbM9nS8gqFN+YWt8lhqOiCUgYnMu1tjxlaQ==}
+    peerDependencies:
+      reflect-metadata: ^0.2.2
+
   '@webcontainer/env@1.1.1':
     resolution: {integrity: sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==}
 
@@ -4768,6 +4956,10 @@ packages:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
+
+  acorn-walk@8.3.5:
+    resolution: {integrity: sha512-HEHNfbars9v4pgpW6SO1KSPkfoS0xVOM/9UzkJltjlsHZmJasxg8aXkuZa7SMf8vKGIBhpUsPluQSqhJFCqebw==}
+    engines: {node: '>=0.4.0'}
 
   acorn@8.16.0:
     resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
@@ -4845,6 +5037,9 @@ packages:
     peerDependencies:
       dmg-builder: 26.8.1
       electron-builder-squirrel-windows: 26.8.1
+
+  arg@4.1.3:
+    resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
 
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
@@ -5331,6 +5526,9 @@ packages:
   crc@3.8.0:
     resolution: {integrity: sha512-iX3mfgcTMIq3ZKLIsVFAbv7+Mc10kxabAGQb8HvjA1o3T1PIYprbakQ65d3I+2HGHt6nSKkM9PYjgoJO2KcFBQ==}
 
+  create-require@1.1.1:
+    resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
   cross-dirname@0.1.0:
     resolution: {integrity: sha512-+R08/oI0nl3vfPcqftZRpytksBXDzOUveBq/NBVx0sUp1axwzPQrKinNx5yd5sxPu8j1wIy8AfnVQ+5eFdha6Q==}
 
@@ -5479,6 +5677,10 @@ packages:
 
   dexie@4.0.10:
     resolution: {integrity: sha512-eM2RzuR3i+M046r2Q0Optl3pS31qTWf8aFuA7H9wnsHTwl8EPvroVLwvQene/6paAs39Tbk6fWZcn2aZaHkc/w==}
+
+  diff@4.0.4:
+    resolution: {integrity: sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ==}
+    engines: {node: '>=0.3.1'}
 
   dir-compare@4.2.0:
     resolution: {integrity: sha512-2xMCmOoMrdQIPHdsTawECdNPwlVFB9zGcz3kuhmBO6U3oU+UQjsue0i8ayLKpgBcm+hcXPMVSGUN9d+pvJ6+VQ==}
@@ -8467,6 +8669,20 @@ packages:
       jest-util:
         optional: true
 
+  ts-node@10.9.2:
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: ^6.0.2
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
@@ -8654,6 +8870,9 @@ packages:
 
   util@0.12.5:
     resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
+
+  v8-compile-cache-lib@3.0.1:
+    resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
   v8-to-istanbul@9.3.0:
     resolution: {integrity: sha512-kiGUalWN+rgBJ/1OHZsBtU4rXZOfj/7rKQxULKlIzwzQSvMJUUNgPwJEEh7gU6xEVxC0ahoOBvN2YI8GH6FNgA==}
@@ -9032,6 +9251,10 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
+  yn@3.1.1:
+    resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
+    engines: {node: '>=6'}
+
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
@@ -9044,18 +9267,6 @@ packages:
 snapshots:
 
   7zip-bin@5.2.0: {}
-
-  '@abdokouta/react-cache@1.2.1(@abdokouta/react-support@1.2.0)(@abdokouta/ts-container@packages+abcd+container)(react@19.2.5)':
-    dependencies:
-      '@abdokouta/react-support': 1.2.0
-      '@abdokouta/ts-container': link:packages/abcd/container
-      '@upstash/redis': 1.37.0
-    optionalDependencies:
-      react: 19.2.5
-
-  '@abdokouta/react-support@1.2.0':
-    dependencies:
-      collect.js: 4.36.1
 
   '@adobe/css-tools@4.4.4': {}
 
@@ -10158,6 +10369,11 @@ snapshots:
     optionalDependencies:
       conventional-commits-parser: 6.4.0
 
+  '@cspotcode/source-map-support@0.8.1':
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.9
+    optional: true
+
   '@csstools/color-helpers@6.0.2': {}
 
   '@csstools/css-calc@3.2.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
@@ -10597,7 +10813,37 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
+  '@heroui/react@3.0.3(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.1.11)':
+    dependencies:
+      '@heroui/styles': 3.0.3(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
+      '@radix-ui/react-avatar': 1.1.11(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-aria/i18n': 3.13.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-aria/ssr': 3.10.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-aria/utils': 3.34.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-stately/utils': 3.12.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-types/color': 3.2.0(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-types/shared': 3.34.0(react@19.2.5)
+      input-otp: 1.4.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react: 19.2.5
+      react-aria-components: 1.17.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react-dom: 19.2.5(react@19.2.5)
+      tailwind-merge: 3.4.0
+      tailwind-variants: 3.2.2(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
+      tailwindcss: 4.1.11
+    transitivePeerDependencies:
+      - '@react-spectrum/provider'
+      - '@types/react'
+      - '@types/react-dom'
+
   '@heroui/styles@3.0.1(tailwind-merge@3.4.0)(tailwindcss@4.1.11)':
+    dependencies:
+      tailwind-variants: 3.2.2(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
+      tailwindcss: 4.1.11
+      tw-animate-css: 1.4.0
+    transitivePeerDependencies:
+      - tailwind-merge
+
+  '@heroui/styles@3.0.3(tailwind-merge@3.4.0)(tailwindcss@4.1.11)':
     dependencies:
       tailwind-variants: 3.2.2(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
       tailwindcss: 4.1.11
@@ -10674,7 +10920,7 @@ snapshots:
       jest-util: 30.3.0
       slash: 3.0.0
 
-  '@jest/core@30.3.0':
+  '@jest/core@30.3.0(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))':
     dependencies:
       '@jest/console': 30.3.0
       '@jest/pattern': 30.0.1
@@ -10689,7 +10935,7 @@ snapshots:
       exit-x: 0.2.2
       graceful-fs: 4.2.11
       jest-changed-files: 30.3.0
-      jest-config: 30.3.0(@types/node@25.6.0)
+      jest-config: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
       jest-haste-map: 30.3.0
       jest-message-util: 30.3.0
       jest-regex-util: 30.0.1
@@ -10866,6 +11112,12 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@jridgewell/trace-mapping@0.3.9':
+    dependencies:
+      '@jridgewell/resolve-uri': 3.1.2
+      '@jridgewell/sourcemap-codec': 1.5.5
+    optional: true
+
   '@malept/cross-spawn-promise@2.0.0':
     dependencies:
       cross-spawn: 7.0.6
@@ -10920,12 +11172,12 @@ snapshots:
       - supports-color
       - tsup
 
-  '@nesvel/jest-config@1.0.3(@nesvel/prettier-config@1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)))(jest@30.3.0(@types/node@25.6.0))(ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0))(typescript@6.0.3))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)':
+  '@nesvel/jest-config@1.0.3(@nesvel/prettier-config@1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3)))(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(typescript@6.0.3))(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))(typescript@6.0.3)':
     dependencies:
       '@nesvel/prettier-config': 1.0.3(prettier@3.8.3)(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
       '@nesvel/tsup-config': 1.0.3(tsup@8.5.1(@swc/core@1.15.26(@swc/helpers@0.5.21))(jiti@2.6.1)(postcss@8.5.10)(typescript@6.0.3)(yaml@2.8.3))
-      jest: 30.3.0(@types/node@25.6.0)
-      ts-jest: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0))(typescript@6.0.3)
+      jest: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
+      ts-jest: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(typescript@6.0.3)
       typescript: 6.0.3
     transitivePeerDependencies:
       - tsup
@@ -11132,6 +11384,13 @@ snapshots:
       react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react-dom: 19.2.5(react@19.2.5)
 
+  '@react-aria/color@3.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react-dom: 19.2.5(react@19.2.5)
+
   '@react-aria/combobox@3.16.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@swc/helpers': 0.5.21
@@ -11165,6 +11424,16 @@ snapshots:
       '@react-types/shared': 3.33.1(react@19.2.5)
       '@swc/helpers': 0.5.21
       react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+
+  '@react-aria/i18n@3.13.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@internationalized/date': 3.12.1
+      '@internationalized/message': 3.1.9
+      '@internationalized/string': 3.2.8
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react-dom: 19.2.5(react@19.2.5)
 
   '@react-aria/interactions@3.28.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
@@ -11211,6 +11480,13 @@ snapshots:
       react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react-dom: 19.2.5(react@19.2.5)
 
+  '@react-aria/ssr@3.10.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react-dom: 19.2.5(react@19.2.5)
+
   '@react-aria/ssr@3.9.10(react@19.2.5)':
     dependencies:
       '@swc/helpers': 0.5.21
@@ -11244,6 +11520,14 @@ snapshots:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
 
+  '@react-aria/utils@3.34.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-aria: 3.48.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react-dom: 19.2.5(react@19.2.5)
+      react-stately: 3.46.0(react@19.2.5)
+
   '@react-aria/virtualizer@4.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@swc/helpers': 0.5.21
@@ -11257,6 +11541,14 @@ snapshots:
       '@swc/helpers': 0.5.21
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
+
+  '@react-spectrum/color@3.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@adobe/react-spectrum': 3.47.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+      react-stately: 3.46.0(react@19.2.5)
 
   '@react-spectrum/combobox@3.17.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
@@ -11307,6 +11599,13 @@ snapshots:
       '@react-stately/utils': 3.11.0(react@19.2.5)
       '@swc/helpers': 0.5.21
       react: 19.2.5
+
+  '@react-stately/color@3.10.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+      react-stately: 3.46.0(react@19.2.5)
 
   '@react-stately/combobox@3.14.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
@@ -11369,6 +11668,13 @@ snapshots:
       '@swc/helpers': 0.5.21
       react: 19.2.5
 
+  '@react-stately/utils@3.12.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@swc/helpers': 0.5.21
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+      react-stately: 3.46.0(react@19.2.5)
+
   '@react-stately/virtualizer@4.5.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@swc/helpers': 0.5.21
@@ -11402,6 +11708,15 @@ snapshots:
     transitivePeerDependencies:
       - '@react-spectrum/provider'
       - react-dom
+
+  '@react-types/color@3.2.0(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      '@react-aria/color': 3.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-spectrum/color': 3.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-spectrum/provider': 3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@react-stately/color': 3.10.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
 
   '@react-types/combobox@3.15.0(@react-spectrum/provider@3.11.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
@@ -11979,6 +12294,18 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
+  '@tsconfig/node10@1.0.12':
+    optional: true
+
+  '@tsconfig/node12@1.0.11':
+    optional: true
+
+  '@tsconfig/node14@1.0.3':
+    optional: true
+
+  '@tsconfig/node16@1.0.4':
+    optional: true
+
   '@turbo/darwin-64@2.9.6':
     optional: true
 
@@ -12460,6 +12787,14 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
+  '@vitest/mocker@4.1.4(vite@6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))':
+    dependencies:
+      '@vitest/spy': 4.1.4
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)
+
   '@vitest/mocker@4.1.4(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))':
     dependencies:
       '@vitest/spy': 4.1.4
@@ -12517,6 +12852,10 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
+  '@vivtel/metadata@1.0.5(reflect-metadata@0.2.2)':
+    dependencies:
+      reflect-metadata: 0.2.2
+
   '@webcontainer/env@1.1.1': {}
 
   '@xmldom/xmldom@0.8.12': {}
@@ -12526,6 +12865,11 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
       acorn: 8.16.0
+
+  acorn-walk@8.3.5:
+    dependencies:
+      acorn: 8.16.0
+    optional: true
 
   acorn@8.16.0: {}
 
@@ -12626,6 +12970,9 @@ snapshots:
       which: 5.0.0
     transitivePeerDependencies:
       - supports-color
+
+  arg@4.1.3:
+    optional: true
 
   argparse@1.0.10:
     dependencies:
@@ -13180,6 +13527,9 @@ snapshots:
       buffer: 5.7.1
     optional: true
 
+  create-require@1.1.1:
+    optional: true
+
   cross-dirname@0.1.0:
     optional: true
 
@@ -13302,6 +13652,9 @@ snapshots:
     optional: true
 
   dexie@4.0.10: {}
+
+  diff@4.0.4:
+    optional: true
 
   dir-compare@4.2.0:
     dependencies:
@@ -14677,15 +15030,15 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-cli@30.3.0(@types/node@25.6.0):
+  jest-cli@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)):
     dependencies:
-      '@jest/core': 30.3.0
+      '@jest/core': 30.3.0(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
       '@jest/test-result': 30.3.0
       '@jest/types': 30.3.0
       chalk: 4.1.2
       exit-x: 0.2.2
       import-local: 3.2.0
-      jest-config: 30.3.0(@types/node@25.6.0)
+      jest-config: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
       jest-util: 30.3.0
       jest-validate: 30.3.0
       yargs: 17.7.2
@@ -14696,7 +15049,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest-config@30.3.0(@types/node@25.6.0):
+  jest-config@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)):
     dependencies:
       '@babel/core': 7.29.0
       '@jest/get-type': 30.1.0
@@ -14723,6 +15076,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 25.6.0
+      ts-node: 10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -14942,12 +15296,12 @@ snapshots:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  jest@30.3.0(@types/node@25.6.0):
+  jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)):
     dependencies:
-      '@jest/core': 30.3.0
+      '@jest/core': 30.3.0(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
       '@jest/types': 30.3.0
       import-local: 3.2.0
-      jest-cli: 30.3.0(@types/node@25.6.0)
+      jest-cli: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -16732,12 +17086,12 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0))(typescript@6.0.3):
+  ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.7)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3)))(typescript@6.0.3):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       handlebars: 4.7.9
-      jest: 30.3.0(@types/node@25.6.0)
+      jest: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3))
       json5: 2.2.3
       lodash.memoize: 4.1.2
       make-error: 1.3.6
@@ -16752,6 +17106,27 @@ snapshots:
       babel-jest: 30.3.0(@babel/core@7.29.0)
       esbuild: 0.27.7
       jest-util: 30.3.0
+
+  ts-node@10.9.2(@swc/core@1.15.26(@swc/helpers@0.5.21))(@types/node@25.6.0)(typescript@6.0.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.12
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 25.6.0
+      acorn: 8.16.0
+      acorn-walk: 8.3.5
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.4
+      make-error: 1.3.6
+      typescript: 6.0.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optionalDependencies:
+      '@swc/core': 1.15.26(@swc/helpers@0.5.21)
+    optional: true
 
   tsconfck@3.1.6(typescript@6.0.3):
     optionalDependencies:
@@ -16968,6 +17343,9 @@ snapshots:
       is-typed-array: 1.1.15
       which-typed-array: 1.1.20
 
+  v8-compile-cache-lib@3.0.1:
+    optional: true
+
   v8-to-istanbul@9.3.0:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -17018,6 +17396,19 @@ snapshots:
       terser: 5.46.1
       yaml: 2.8.3
 
+  vite@6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3):
+    dependencies:
+      esbuild: 0.24.2
+      postcss: 8.5.6
+      rollup: 4.60.1
+    optionalDependencies:
+      '@types/node': 25.6.0
+      fsevents: 2.3.3
+      jiti: 2.6.1
+      lightningcss: 1.32.0
+      terser: 5.46.1
+      yaml: 2.8.3
+
   vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3):
     dependencies:
       lightningcss: 1.32.0
@@ -17032,6 +17423,37 @@ snapshots:
       jiti: 2.6.1
       terser: 5.46.1
       yaml: 2.8.3
+
+  vitest@4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)):
+    dependencies:
+      '@vitest/expect': 4.1.4
+      '@vitest/mocker': 4.1.4(vite@6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
+      '@vitest/pretty-format': 4.1.4
+      '@vitest/runner': 4.1.4
+      '@vitest/snapshot': 4.1.4
+      '@vitest/spy': 4.1.4
+      '@vitest/utils': 4.1.4
+      es-module-lexer: 2.0.0
+      expect-type: 1.3.0
+      magic-string: 0.30.21
+      obug: 2.1.1
+      pathe: 2.0.3
+      picomatch: 4.0.4
+      std-env: 4.1.0
+      tinybench: 2.9.0
+      tinyexec: 1.1.1
+      tinyglobby: 0.2.16
+      tinyrainbow: 3.1.0
+      vite: 6.0.11(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 25.6.0
+      '@vitest/coverage-v8': 4.1.4(vitest@4.1.4)
+      '@vitest/ui': 4.1.4(vitest@4.1.4)
+      happy-dom: 20.9.0
+      jsdom: 29.0.2
+    transitivePeerDependencies:
+      - msw
 
   vitest@4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(happy-dom@20.9.0)(jsdom@29.0.2)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3)):
     dependencies:
@@ -17357,6 +17779,9 @@ snapshots:
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
+
+  yn@3.1.1:
+    optional: true
 
   yocto-queue@0.1.0: {}
 

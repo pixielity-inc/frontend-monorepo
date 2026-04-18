@@ -5,11 +5,11 @@
 A highly structured, interface-driven, attribute-heavy multi-tenancy Laravel 13
 package for a POS/venue management system. The package provides single-database
 tenancy with `tenant_id` column scoping, designed for a headless API
-architecture. It follows the Pixielity monorepo modular package structure and
+architecture. It follows the Stackra monorepo modular package structure and
 leverages Laravel 13's newest features: PHP attributes for container binding
 (`#[Bind]`, `#[Singleton]`, `#[Scoped]`), Eloquent model attributes (`#[Table]`,
 `#[Guarded]`, `#[Fillable]`, `#[Hidden]`, `#[Connection]`), and attribute-based
-discovery via `pixielity/laravel-discovery`.
+discovery via `stackra/laravel-discovery`.
 
 Every binding goes through interfaces with `#[Bind]` attributes. Every model
 uses the new Eloquent attributes. Discovery replaces config arrays. Laravel
@@ -73,11 +73,11 @@ Repository + Service pattern with interface-first design.
   Laravel's Blueprint, adding `tenant_id` foreign key with index and cascade
   delete.
 - **HasDiscovery**: A trait used in the service provider that calls
-  `pixielity/laravel-discovery` to auto-register classes annotated with
+  `stackra/laravel-discovery` to auto-register classes annotated with
   `#[AsBootstrapper]`, `#[AsFeature]`, and `#[AsIdentification]`.
 - **Laravel Pennant**: Laravel's official feature flag package
-  (`laravel/pennant`), used via `pixielity/laravel-feature-flags` package to
-  scope feature flags to the Tenant model.
+  (`laravel/pennant`), used via `stackra/laravel-feature-flags` package to scope
+  feature flags to the Tenant model.
 - **TenantSubscription**: An Eloquent model representing a tenant's subscription
   in the `tenant_subscriptions` table, using `spatie/laravel-model-states` for
   status transitions.
@@ -108,18 +108,18 @@ Repository + Service pattern with interface-first design.
   tenant settings and metadata into cache on tenant initialization.
 - **TenantAwareNotification**: A trait for Laravel notifications that stores and
   restores tenant context when notifications are queued and sent.
-- **pixielity/laravel-feature-flags**: Pixielity's feature flag package built on
+- **stackra/laravel-feature-flags**: Stackra's feature flag package built on
   Laravel Pennant, providing repository pattern, service layer, facades, helper
   functions, `#[Scoped]` attributes, and OpenAPI support.
-- **pixielity/laravel-health**: Pixielity's health check package built on
+- **stackra/laravel-health**: Stackra's health check package built on
   `spatie/laravel-health`, providing `#[AsHealthCheck]` attribute for
   auto-discovery of health check classes.
 - **spatie/laravel-model-states**: Spatie package for defining state machines on
   Eloquent models using state classes and allowed transitions.
 - **spatie/laravel-activitylog**: Spatie package for logging model activity
   (CRUD, state changes) with tagging support for filtering.
-- **pixielity/laravel-crud**: Pixielity's CRUD package providing base Service
-  and Repository classes with PHP attributes (`#[UseModel]`, `#[UseRepository]`,
+- **stackra/laravel-crud**: Stackra's CRUD package providing base Service and
+  Repository classes with PHP attributes (`#[UseModel]`, `#[UseRepository]`,
   `#[UseService]`, `#[AsCriteria]`, `#[UseCriteria]`, `#[UseScope]`) for
   declarative configuration and auto-discovery.
 
@@ -263,7 +263,7 @@ Laravel services for tenant isolation, with bootstrappers auto-discovered via
 5. THE TenancyManager SHALL allow overriding the bootstrapper list via a
    `getBootstrappersUsing` callback.
 6. THE service provider SHALL use the `HasDiscovery` trait to call
-   `collectBootstrappers()` from `pixielity/laravel-discovery`, auto-registering
+   `collectBootstrappers()` from `stackra/laravel-discovery`, auto-registering
    any class annotated with `#[AsBootstrapper]`.
 
 ### Requirement 6: Cache Isolation Bootstrapper
@@ -394,8 +394,8 @@ discovered via `#[AsIdentification]` attribute instead of config arrays.
 6. THE IdentificationMiddleware SHALL skip tenant identification for routes
    explicitly marked as central.
 7. THE service provider SHALL use the `HasDiscovery` trait to call
-   `collectIdentifications()` from `pixielity/laravel-discovery`,
-   auto-registering any middleware class annotated with `#[AsIdentification]`.
+   `collectIdentifications()` from `stackra/laravel-discovery`, auto-registering
+   any middleware class annotated with `#[AsIdentification]`.
 
 ### Requirement 12: Tenancy Facade
 
@@ -585,14 +585,14 @@ command line.
 
 ### Requirement 22: Service Provider and Package Configuration
 
-**User Story:** As a developer, I want the package to follow the Pixielity
-modular package structure with a service provider using `HasDiscovery` trait for
+**User Story:** As a developer, I want the package to follow the Stackra modular
+package structure with a service provider using `HasDiscovery` trait for
 auto-registration, so that it integrates seamlessly into the monorepo.
 
 #### Acceptance Criteria
 
 1. THE TenancyServiceProvider SHALL use the `HasDiscovery` trait from
-   `pixielity/laravel-discovery` for automatic class registration.
+   `stackra/laravel-discovery` for automatic class registration.
 2. THE TenancyServiceProvider SHALL register all Artisan commands.
 3. THE TenancyServiceProvider SHALL load migrations from the package's
    Migrations directory.
@@ -602,31 +602,30 @@ auto-registration, so that it integrates seamlessly into the monorepo.
 6. THE TenancyServiceProvider SHALL call `collectBootstrappers()`,
    `collectFeatures()`, and `collectIdentifications()` via the `HasDiscovery`
    trait to auto-register annotated classes.
-7. THE package SHALL include a `composer.json` following the Pixielity naming
-   convention (`pixielity/laravel-tenancy`) and requiring
-   `pixielity/laravel-crud`, `pixielity/laravel-discovery`,
-   `pixielity/laravel-feature-flags`, `pixielity/laravel-health`,
-   `spatie/laravel-model-states`, `spatie/laravel-activitylog`, and
-   `laravel/pennant`.
+7. THE package SHALL include a `composer.json` following the Stackra naming
+   convention (`stackra/laravel-tenancy`) and requiring `stackra/laravel-crud`,
+   `stackra/laravel-discovery`, `stackra/laravel-feature-flags`,
+   `stackra/laravel-health`, `spatie/laravel-model-states`,
+   `spatie/laravel-activitylog`, and `laravel/pennant`.
 8. THE package SHALL include a `module.json` file with the module name, alias,
    and provider class.
 
 ### Requirement 23: Feature Flags via Laravel Pennant (Separate Package)
 
 **User Story:** As a developer, I want feature flags scoped to tenants using
-Laravel Pennant via a separate `pixielity/laravel-feature-flag` package, so that
+Laravel Pennant via a separate `stackra/laravel-feature-flag` package, so that
 different tenants can have different capabilities based on their plan or
 configuration.
 
 #### Acceptance Criteria
 
-1. THE `pixielity/laravel-feature-flag` package SHALL use Laravel Pennant
+1. THE `stackra/laravel-feature-flag` package SHALL use Laravel Pennant
    (`laravel/pennant`) as the underlying feature flag engine.
 2. THE feature-flag package SHALL scope Pennant features to the Tenant model
    using `Feature::for($tenant)->active('feature-name')`.
 3. THE Tenant model SHALL use Pennant's `HasFeatures` trait for feature flag
    integration.
-4. THE tenancy package SHALL require `pixielity/laravel-feature-flag` in its
+4. THE tenancy package SHALL require `stackra/laravel-feature-flag` in its
    `composer.json`.
 5. THE Tenant model SHALL NOT have custom `hasFeature()`, `enableFeature()`, or
    `disableFeature()` methods; Pennant's API SHALL be used instead.
@@ -717,58 +716,57 @@ consistent with Laravel 13 conventions.
    `#[Connection('connection_name')]` instead of `protected $connection`
    property.
 
-### Requirement 28: Repository + Service Pattern (via pixielity/laravel-crud)
+### Requirement 28: Repository + Service Pattern (via stackra/laravel-crud)
 
 **User Story:** As a developer, I want a strict Repository + Service layered
-architecture built on `pixielity/laravel-crud` base classes and PHP attributes,
-so that controllers inject services, services inject repositories, and
-repositories inject models, with each layer extending the CRUD package's base
-classes and using declarative attribute configuration.
+architecture built on `stackra/laravel-crud` base classes and PHP attributes, so
+that controllers inject services, services inject repositories, and repositories
+inject models, with each layer extending the CRUD package's base classes and
+using declarative attribute configuration.
 
 #### Acceptance Criteria
 
-1. ALL service interfaces SHALL extend
-   `Pixielity\Crud\Contracts\ServiceInterface` which provides base CRUD
-   operations (`all`, `find`, `findOrFail`, `findBy`, `findWhere`, `create`,
-   `update`, `delete`, `paginate`, `count`, `exists`).
-2. ALL service implementations SHALL extend `Pixielity\Crud\Services\Service`
+1. ALL service interfaces SHALL extend `Stackra\Crud\Contracts\ServiceInterface`
+   which provides base CRUD operations (`all`, `find`, `findOrFail`, `findBy`,
+   `findWhere`, `create`, `update`, `delete`, `paginate`, `count`, `exists`).
+2. ALL service implementations SHALL extend `Stackra\Crud\Services\Service`
    which implements the base CRUD operations.
 3. ALL repository interfaces SHALL extend
-   `Pixielity\Crud\Contracts\RepositoryInterface` which provides base data
-   access operations.
+   `Stackra\Crud\Contracts\RepositoryInterface` which provides base data access
+   operations.
 4. ALL repository implementations SHALL extend
-   `Pixielity\Crud\Repositories\Repository` which implements the base data
-   access operations.
+   `Stackra\Crud\Repositories\Repository` which implements the base data access
+   operations.
 5. ALL repositories SHALL use the `#[UseModel(ModelInterface::class)]` attribute
    to declare their associated model.
 6. ALL services SHALL use the `#[UseRepository(RepositoryInterface::class)]`
    attribute to declare their associated repository.
 7. THE TenantServiceInterface SHALL extend
-   `Pixielity\Crud\Contracts\ServiceInterface` and add custom methods
+   `Stackra\Crud\Contracts\ServiceInterface` and add custom methods
    (`addDomain`, `removeDomain`, `updateStatus`).
-8. THE TenantService SHALL extend `Pixielity\Crud\Services\Service` and inject
+8. THE TenantService SHALL extend `Stackra\Crud\Services\Service` and inject
    TenantRepositoryInterface via constructor and
    `#[UseRepository(TenantRepositoryInterface::class)]` attribute.
 9. THE TenantRepositoryInterface SHALL extend
-   `Pixielity\Crud\Contracts\RepositoryInterface`.
-10. THE TenantRepository SHALL extend `Pixielity\Crud\Repositories\Repository`
-    and use `#[UseModel(TenantInterface::class)]` attribute.
+   `Stackra\Crud\Contracts\RepositoryInterface`.
+10. THE TenantRepository SHALL extend `Stackra\Crud\Repositories\Repository` and
+    use `#[UseModel(TenantInterface::class)]` attribute.
 11. THE TenantSettingRepositoryInterface SHALL extend
-    `Pixielity\Crud\Contracts\RepositoryInterface` and add custom methods
-    (`get`, `set`, `delete`, `all` by tenant).
+    `Stackra\Crud\Contracts\RepositoryInterface` and add custom methods (`get`,
+    `set`, `delete`, `all` by tenant).
 12. THE TenantMetadataRepositoryInterface SHALL extend
-    `Pixielity\Crud\Contracts\RepositoryInterface` and add custom methods
-    (`get`, `set`, `delete`, `all` by tenant).
+    `Stackra\Crud\Contracts\RepositoryInterface` and add custom methods (`get`,
+    `set`, `delete`, `all` by tenant).
 13. THE TenantSubscriptionServiceInterface SHALL extend
-    `Pixielity\Crud\Contracts\ServiceInterface` and add custom methods
+    `Stackra\Crud\Contracts\ServiceInterface` and add custom methods
     (`hasActiveSubscription`, `isOnTrial`, `isOnPlan`).
 14. THE TenantSubscriptionRepositoryInterface SHALL extend
-    `Pixielity\Crud\Contracts\RepositoryInterface` and add custom method
+    `Stackra\Crud\Contracts\RepositoryInterface` and add custom method
     (`findByTenant`).
 15. EACH layer (controller → service → repository → model) SHALL communicate
     through interfaces, not concrete classes.
 16. Custom criteria classes (e.g., `ActiveTenantCriteria`) SHALL use the
-    `#[AsCriteria]` attribute from `pixielity/laravel-crud` for auto-discovery.
+    `#[AsCriteria]` attribute from `stackra/laravel-crud` for auto-discovery.
 
 ### Requirement 29: Model Organization Pattern
 
@@ -869,7 +867,7 @@ configuration files.
 1. THE package SHALL provide `#[AsBootstrapper]`, `#[AsFeature]`, and
    `#[AsIdentification]` PHP attributes for class annotation.
 2. THE TenancyServiceProvider SHALL use a `HasDiscovery` trait that calls
-   `pixielity/laravel-discovery` for auto-registration.
+   `stackra/laravel-discovery` for auto-registration.
 3. THE `HasDiscovery` trait SHALL provide `collectBootstrappers()`,
    `collectFeatures()`, and `collectIdentifications()` methods that discover
    annotated classes.
@@ -1183,7 +1181,7 @@ detected and reported.
 
 #### Acceptance Criteria
 
-1. THE package SHALL use `pixielity/laravel-health` (built on
+1. THE package SHALL use `stackra/laravel-health` (built on
    `spatie/laravel-health`) for tenant health checks.
 2. THE package SHALL provide a `TenantDatabaseCheck` health check class
    annotated with `#[AsHealthCheck]` that verifies tenant-scoped queries execute
@@ -1195,35 +1193,35 @@ detected and reported.
    accessible.
 5. WHILE tenancy is initialized, THE health checks SHALL run within the current
    tenant context.
-6. THE package SHALL add `pixielity/laravel-health` to the `require` section of
+6. THE package SHALL add `stackra/laravel-health` to the `require` section of
    `composer.json`.
 
-### Requirement 47: Feature Flags via pixielity/laravel-feature-flags
+### Requirement 47: Feature Flags via stackra/laravel-feature-flags
 
 **User Story:** As a developer, I want feature flags scoped to tenants using
-`pixielity/laravel-feature-flags` (built on Laravel Pennant), so that different
+`stackra/laravel-feature-flags` (built on Laravel Pennant), so that different
 tenants can have different capabilities with full repository pattern, service
 layer, and helper function support.
 
 #### Acceptance Criteria
 
-1. THE package SHALL use `pixielity/laravel-feature-flags` (NOT
-   `pixielity/laravel-feature-flag`) as the feature flag integration package.
-2. THE `pixielity/laravel-feature-flags` package SHALL provide repository
-   pattern, service layer, facades, helper functions, `#[Scoped]` attributes,
-   and OpenAPI support built on Laravel Pennant.
+1. THE package SHALL use `stackra/laravel-feature-flags` (NOT
+   `stackra/laravel-feature-flag`) as the feature flag integration package.
+2. THE `stackra/laravel-feature-flags` package SHALL provide repository pattern,
+   service layer, facades, helper functions, `#[Scoped]` attributes, and OpenAPI
+   support built on Laravel Pennant.
 3. THE Tenant model SHALL work with Pennant's scope system using
    `Feature::for($tenant)->active('feature-name')`.
 4. THE package SHALL use `FeatureFlagServiceInterface` from
-   `pixielity/laravel-feature-flags` for dependency injection.
+   `stackra/laravel-feature-flags` for dependency injection.
 5. THE package SHALL support `feature()`, `featureFor()`, `activateFeature()`,
    and `deactivateFeature()` helper functions from
-   `pixielity/laravel-feature-flags`.
+   `stackra/laravel-feature-flags`.
 6. THE TenancyServiceProvider SHALL set Pennant's default scope to the current
    tenant using `Feature::resolveScopeUsing(fn () => tenant())`.
-7. THE package SHALL add `pixielity/laravel-feature-flags` to the `require`
-   section of `composer.json` (replacing `pixielity/laravel-feature-flag`).
-8. THE package `composer.json` SHALL require: `pixielity/laravel-discovery`,
-   `pixielity/laravel-feature-flags`, `pixielity/laravel-health`,
+7. THE package SHALL add `stackra/laravel-feature-flags` to the `require`
+   section of `composer.json` (replacing `stackra/laravel-feature-flag`).
+8. THE package `composer.json` SHALL require: `stackra/laravel-discovery`,
+   `stackra/laravel-feature-flags`, `stackra/laravel-health`,
    `spatie/laravel-model-states`, `spatie/laravel-activitylog`, and
    `laravel/pennant`.

@@ -2,13 +2,13 @@
 
 ## Overview
 
-The Invitation package (`packages/invitation/`, namespace
-`Pixielity\Invitation`, composer `pixielity/laravel-invitation`) is a
-standalone, reusable invitation lifecycle system extracted from the family
-package. It provides polymorphic invitations that any bounded context can
-consume — family invites, tenant invites, team invites, referral invites, etc.
+The Invitation package (`packages/invitation/`, namespace `Stackra\Invitation`,
+composer `stackra/laravel-invitation`) is a standalone, reusable invitation
+lifecycle system extracted from the family package. It provides polymorphic
+invitations that any bounded context can consume — family invites, tenant
+invites, team invites, referral invites, etc.
 
-The package follows all Pixielity steering conventions: attribute-driven
+The package follows all Stackra steering conventions: attribute-driven
 configuration, interface-first design with `ATTR_*` constants, layered
 architecture (Model → Repository → Service → Controller), `#[AsEvent]` domain
 events as readonly DTOs, and cross-context FK columns as `unsignedBigInteger` +
@@ -28,7 +28,7 @@ listeners.
 
 ```mermaid
 graph TB
-    subgraph "Invitation Package (Pixielity\Invitation)"
+    subgraph "Invitation Package (Stackra\Invitation)"
         ISP[InvitationServiceProvider]
         IS[InvitationService]
         IR[InvitationRepository]
@@ -75,12 +75,12 @@ graph TB
 ### Package Dependency Graph
 
 ```
-pixielity/laravel-invitation
-├── pixielity/laravel-crud       (Base Repository, Base Service)
-├── pixielity/laravel-database   (Base Model)
-├── pixielity/laravel-discovery  (Attribute discovery)
-├── pixielity/laravel-enum       (Enum trait, Label, Description)
-├── pixielity/laravel-event      (#[AsEvent] attribute)
+stackra/laravel-invitation
+├── stackra/laravel-crud       (Base Repository, Base Service)
+├── stackra/laravel-database   (Base Model)
+├── stackra/laravel-discovery  (Attribute discovery)
+├── stackra/laravel-enum       (Enum trait, Label, Description)
+├── stackra/laravel-event      (#[AsEvent] attribute)
 └── illuminate/* (Laravel 13)
 ```
 
@@ -702,7 +702,7 @@ listening to events and dispatching their own notifications.
 ```php
 // packages/invitation/src/Migrations/0001_01_01_000001_create_invitations_table.php
 
-use Pixielity\Invitation\Contracts\Data\InvitationInterface;
+use Stackra\Invitation\Contracts\Data\InvitationInterface;
 
 Schema::create(InvitationInterface::TABLE, function (Blueprint $table): void {
     $table->id();
@@ -747,30 +747,30 @@ Schema::create(InvitationInterface::TABLE, function (Blueprint $table): void {
 
 ### Files to Remove from `packages/family/`
 
-| File                                                            | Reason                                                                     |
-| --------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `src/Models/Invitation.php`                                     | Replaced by `Pixielity\Invitation\Models\Invitation`                       |
-| `src/Contracts/Data/InvitationInterface.php`                    | Replaced by `Pixielity\Invitation\Contracts\Data\InvitationInterface`      |
-| `src/Contracts/InvitationRepositoryInterface.php`               | Replaced by `Pixielity\Invitation\Contracts\InvitationRepositoryInterface` |
-| `src/Repositories/InvitationRepository.php`                     | Replaced by `Pixielity\Invitation\Repositories\InvitationRepository`       |
-| `src/Enums/InvitationStatus.php`                                | Replaced by `Pixielity\Invitation\Enums\InvitationStatus`                  |
-| `src/Events/InvitationSent.php`                                 | Replaced by `Pixielity\Invitation\Events\InvitationCreated`                |
-| `src/Events/InvitationAccepted.php`                             | Replaced by `Pixielity\Invitation\Events\InvitationAccepted`               |
-| `src/Migrations/0001_01_01_000002_create_invitations_table.php` | Replaced by invitation package migration                                   |
+| File                                                            | Reason                                                                   |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `src/Models/Invitation.php`                                     | Replaced by `Stackra\Invitation\Models\Invitation`                       |
+| `src/Contracts/Data/InvitationInterface.php`                    | Replaced by `Stackra\Invitation\Contracts\Data\InvitationInterface`      |
+| `src/Contracts/InvitationRepositoryInterface.php`               | Replaced by `Stackra\Invitation\Contracts\InvitationRepositoryInterface` |
+| `src/Repositories/InvitationRepository.php`                     | Replaced by `Stackra\Invitation\Repositories\InvitationRepository`       |
+| `src/Enums/InvitationStatus.php`                                | Replaced by `Stackra\Invitation\Enums\InvitationStatus`                  |
+| `src/Events/InvitationSent.php`                                 | Replaced by `Stackra\Invitation\Events\InvitationCreated`                |
+| `src/Events/InvitationAccepted.php`                             | Replaced by `Stackra\Invitation\Events\InvitationAccepted`               |
+| `src/Migrations/0001_01_01_000002_create_invitations_table.php` | Replaced by invitation package migration                                 |
 
 **Validates: Requirement 12.1**
 
 ### Files to Modify in `packages/family/`
 
-**`composer.json`** — Add `"pixielity/laravel-invitation": "@dev"` to `require`.
+**`composer.json`** — Add `"stackra/laravel-invitation": "@dev"` to `require`.
 
 **Validates: Requirement 12.2**
 
 **`src/Models/FamilyAccount.php`** — Implement
-`Pixielity\Invitation\Contracts\InvitableInterface`:
+`Stackra\Invitation\Contracts\InvitableInterface`:
 
 ```php
-use Pixielity\Invitation\Contracts\InvitableInterface;
+use Stackra\Invitation\Contracts\InvitableInterface;
 
 class FamilyAccount extends Model implements FamilyAccountInterface, InvitableInterface
 {
@@ -794,8 +794,8 @@ class FamilyAccount extends Model implements FamilyAccountInterface, InvitableIn
     public function invitations(): MorphMany
     {
         return $this->morphMany(
-            \Pixielity\Invitation\Models\Invitation::class,
-            \Pixielity\Invitation\Contracts\Data\InvitationInterface::REL_INVITABLE,
+            \Stackra\Invitation\Models\Invitation::class,
+            \Stackra\Invitation\Contracts\Data\InvitationInterface::REL_INVITABLE,
         );
     }
 }
@@ -807,7 +807,7 @@ class FamilyAccount extends Model implements FamilyAccountInterface, InvitableIn
 `InvitationRepositoryInterface` with `InvitationServiceInterface`:
 
 ```php
-use Pixielity\Invitation\Contracts\InvitationServiceInterface;
+use Stackra\Invitation\Contracts\InvitationServiceInterface;
 
 class FamilyAccountService extends Service implements FamilyAccountServiceInterface
 {

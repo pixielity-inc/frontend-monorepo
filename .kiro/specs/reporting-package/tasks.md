@@ -1,22 +1,22 @@
-# Implementation Plan: Reporting Package (`pixielity/laravel-reporting`)
+# Implementation Plan: Reporting Package (`stackra/laravel-reporting`)
 
 ## Overview
 
 Incremental implementation of the reporting package at `packages/reporting/`
-under namespace `Pixielity\Reporting`. Each task builds on the previous,
-starting with foundational types (DTOs, enums, exceptions, attributes), then
-contracts and registry, then services, then API/commands, and finally MNGO
-report definitions. All ES access goes through the search package's connection —
-no direct ES dependency.
+under namespace `Stackra\Reporting`. Each task builds on the previous, starting
+with foundational types (DTOs, enums, exceptions, attributes), then contracts
+and registry, then services, then API/commands, and finally MNGO report
+definitions. All ES access goes through the search package's connection — no
+direct ES dependency.
 
 ## Tasks
 
 - [x] 1. Scaffold package structure, config, and service provider
   - [x] 1.1 Create `packages/reporting/composer.json` with dependencies on
-        `pixielity/laravel-framework`, `pixielity/laravel-search`,
-        `pixielity/laravel-import-export`, `pixielity/laravel-discovery`,
-        `pixielity/laravel-tenancy`; PSR-4 autoload from `src/` under
-        `Pixielity\Reporting`
+        `stackra/laravel-framework`, `stackra/laravel-search`,
+        `stackra/laravel-import-export`, `stackra/laravel-discovery`,
+        `stackra/laravel-tenancy`; PSR-4 autoload from `src/` under
+        `Stackra\Reporting`
     - Create `module.json` with name `Reporting`, alias, version, active flag
     - Create directory structure: `Attributes/`, `Compiler/`, `Commands/`,
       `Concerns/`, `Contracts/`, `Controllers/`, `Data/`, `Enums/`, `Events/`,

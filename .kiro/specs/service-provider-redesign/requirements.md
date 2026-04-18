@@ -2,14 +2,14 @@
 
 ## Introduction
 
-Redesign the Pixielity service provider package (`packages/service-provider/`)
-to replace property/flag-based configuration with PHP 8.5 attributes. The
-current package at `.docs/ServiceProvider/` uses ~20 concern traits with boolean
-flags (`$loadMigrations`, `$loadTranslations`, etc.) and runtime reflection for
+Redesign the Stackra service provider package (`packages/service-provider/`) to
+replace property/flag-based configuration with PHP 8.5 attributes. The current
+package at `.docs/ServiceProvider/` uses ~20 concern traits with boolean flags
+(`$loadMigrations`, `$loadTranslations`, etc.) and runtime reflection for
 attribute reading. The redesigned package uses `composer-attribute-collector`
 (`Attributes::forClass()`) for cached attribute reading with zero runtime
-reflection in hot paths, `pixielity/laravel-discovery` for auto-discovery, and
-is fully Octane-safe. The `ProvidesServices` trait is retained for composition
+reflection in hot paths, `stackra/laravel-discovery` for auto-discovery, and is
+fully Octane-safe. The `ProvidesServices` trait is retained for composition
 flexibility, and all concern traits are consolidated into fewer, cohesive
 traits.
 
@@ -17,7 +17,7 @@ traits.
 
 - **Service_Provider**: The base abstract class or trait composition that
   extends Laravel's `Illuminate\Support\ServiceProvider` and provides automatic
-  resource loading, discovery, and lifecycle management for Pixielity packages.
+  resource loading, discovery, and lifecycle management for Stackra packages.
 - **ProvidesServices_Trait**: The composition trait that bundles all concern
   traits, allowing classes that extend a different base to gain full service
   provider functionality.
@@ -33,7 +33,7 @@ traits.
   `composer-attribute-collector` library accessed via `Attributes::forClass()`
   that provides build-time cached attribute reading with zero runtime
   reflection.
-- **Discovery_Package**: The `pixielity/laravel-discovery` package that provides
+- **Discovery_Package**: The `stackra/laravel-discovery` package that provides
   attribute-based auto-discovery of classes (commands, controllers, middleware,
   listeners, seeders) using cached composer data.
 - **Octane_Safe**: A design constraint requiring no static mutable state across
@@ -60,7 +60,7 @@ need `$moduleName` and `$moduleNamespace` string properties.
 #### Acceptance Criteria
 
 1. WHEN a service provider class is decorated with
-   `#[Module(name: 'Tenancy', namespace: 'Pixielity\\Tenancy')]`, THE
+   `#[Module(name: 'Tenancy', namespace: 'Stackra\\Tenancy')]`, THE
    Attribute_Collector SHALL read the Module_Attribute via
    `Attributes::forClass()` and make the module name and namespace available to
    all concern traits.
@@ -123,15 +123,15 @@ runtime reflection overhead during request handling.
 3. WHEN the Attribute_Collector cache is stale or missing, THE Service_Provider
    SHALL fall back to reading attributes via reflection and log a warning.
 4. THE Service_Provider SHALL not use
-   `Pixielity\Support\Reflection::getAttributes()` for reading service provider
+   `Stackra\Support\Reflection::getAttributes()` for reading service provider
    configuration attributes.
 
 ### Requirement 4: Discovery-Based Auto-Registration
 
 **User Story:** As a package developer, I want all discoverable resources
 (commands, controllers, middleware, listeners, seeders) to be found via
-`pixielity/laravel-discovery`, so that I get consistent, cached discovery
-without manual registration.
+`stackra/laravel-discovery`, so that I get consistent, cached discovery without
+manual registration.
 
 #### Acceptance Criteria
 
@@ -248,7 +248,7 @@ so that other parts of the application can react to module lifecycle changes.
 5. THE Lifecycle_Event_Enum SHALL be a backed string enum with cases:
    REGISTERING='module.registering', REGISTERED='module.registered',
    BOOTING='module.booting', BOOTED='module.booted'.
-6. THE Lifecycle_Event_Enum SHALL use the `Pixielity\Enum\Enum` trait for enum
+6. THE Lifecycle_Event_Enum SHALL use the `Stackra\Enum\Enum` trait for enum
    utility methods.
 
 ### Requirement 9: Resource Loading from Module Path
@@ -288,7 +288,7 @@ system, so that users can customize module resources.
 
 1. WHEN publishables loading is enabled, THE Service_Provider SHALL register the
    module's `resources/` directory as publishable to
-   `public/pixielity/{module_slug}/{asset_version}/` tagged as
+   `public/stackra/{module_slug}/{asset_version}/` tagged as
    `{module_slug}-assets`.
 2. WHEN publishables loading is enabled, THE Service_Provider SHALL register the
    module's `config/*.php` files as publishable tagged as
@@ -306,7 +306,7 @@ system, so that users can customize module resources.
 
 **User Story:** As a package developer, I want to use the `ProvidesServices`
 trait when I need to extend a different base class, so that I get full service
-provider functionality without extending the Pixielity base ServiceProvider.
+provider functionality without extending the Stackra base ServiceProvider.
 
 #### Acceptance Criteria
 
@@ -385,7 +385,7 @@ consistent naming without magic strings.
 3. THE Service_Provider package SHALL define constants for publishing tags:
    TAG_ASSETS='assets', TAG_CONFIG='config', TAG_VIEWS='views', TAG_LANG='lang'.
 4. THE Service_Provider package SHALL define a path prefix constant:
-   PATH_PREFIX='pixielity'.
+   PATH_PREFIX='stackra'.
 
 ### Requirement 15: Deferred Loading Support
 

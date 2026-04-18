@@ -3,8 +3,8 @@
 ## Overview
 
 The `framework/src/Indexer/` sub-package provides the pure PHP foundation layer
-for all indexing operations in the Pixielity monorepo. It lives at
-`packages/framework/src/Indexer/` under the namespace `Pixielity\Indexer`,
+for all indexing operations in the Stackra monorepo. It lives at
+`packages/framework/src/Indexer/` under the namespace `Stackra\Indexer`,
 following the same structural pattern as `Aop/`, `Compiler/`, `Event/`, and
 other framework sub-packages.
 
@@ -12,7 +12,7 @@ This sub-package owns the attribute definitions, contracts, traits, enums,
 events, DTOs, and compile-time registry that the `search` package and
 `reporting` package build on top of. It has **zero Elasticsearch dependency** —
 all ES-specific implementations live in the search package
-(`pixielity/laravel-search`).
+(`stackra/laravel-search`).
 
 ### Key Design Decisions
 
@@ -40,7 +40,7 @@ all ES-specific implementations live in the search package
 5. **ElasticLens Patterns Adapted** — `Indexable` trait (model concern),
    `RoutesToIndex` trait (repository concern), observer chain registration,
    `excludeIndex()` override, `toIndexableArray()` document building — all
-   adapted from ElasticLens to use Pixielity attributes and Discovery instead of
+   adapted from ElasticLens to use Stackra attributes and Discovery instead of
    config-based field maps.
 
 6. **Interface-First** — `IndexerInterface`, `IndexManagerInterface`,
@@ -299,7 +299,7 @@ implementation.
 #### `IndexerInterface`
 
 ```php
-#[Bind('Pixielity\Search\Services\SearchIndexer')]
+#[Bind('Stackra\Search\Services\SearchIndexer')]
 interface IndexerInterface
 {
     public function index(object $model): void;
@@ -312,7 +312,7 @@ interface IndexerInterface
 #### `IndexManagerInterface`
 
 ```php
-#[Bind('Pixielity\Search\Services\SearchIndexManager')]
+#[Bind('Stackra\Search\Services\SearchIndexManager')]
 interface IndexManagerInterface
 {
     public function createIndex(string $entityClass, ?int $tenantKey = null): void;
@@ -327,7 +327,7 @@ interface IndexManagerInterface
 #### `RecordBuilderInterface`
 
 ```php
-#[Bind('Pixielity\Search\Services\SearchRecordBuilder')]
+#[Bind('Stackra\Search\Services\SearchRecordBuilder')]
 interface RecordBuilderInterface
 {
     public function build(string $entityClass, int|string $id): array;

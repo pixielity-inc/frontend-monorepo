@@ -3,10 +3,10 @@
 ## Overview
 
 The Framework Response sub-package (`packages/framework/src/Response/`) provides
-a unified, fluent API response system for the Pixielity framework under
-namespace `Pixielity\Response`. It replaces the legacy standalone Response
-package (`.docs/Response/`) by integrating directly into the framework monorepo
-as a sub-package following the same pattern as `Routing`, `Container`, etc.
+a unified, fluent API response system for the Stackra framework under namespace
+`Stackra\Response`. It replaces the legacy standalone Response package
+(`.docs/Response/`) by integrating directly into the framework monorepo as a
+sub-package following the same pattern as `Routing`, `Container`, etc.
 
 The system follows a layered architecture:
 
@@ -311,7 +311,7 @@ sequenceDiagram
 ### Contracts
 
 All contracts reside in the shared contracts package at
-`Pixielity\Contracts\Framework\Response`. Each contract defines the public API
+`Stackra\Contracts\Framework\Response`. Each contract defines the public API
 that the Response sub-package's concrete classes implement. The `#[Bind]`
 attribute on each implementation points back to these contracts for automatic
 container resolution.
@@ -327,7 +327,7 @@ an HTTP response when returned from a controller.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 use Illuminate\Contracts\Support\Responsable;
 
@@ -344,7 +344,7 @@ use Illuminate\Contracts\Support\Responsable;
  *
  * @template TData The type of data payload this builder carries.
  *
- * @see \Pixielity\Response\Builders\Response The concrete implementation.
+ * @see \Stackra\Response\Builders\Response The concrete implementation.
  */
 interface ResponseBuilder extends Responsable
 {
@@ -636,7 +636,7 @@ delegates to the renderer, and returns a Symfony HTTP response.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 use Illuminate\Contracts\Support\Responsable;
 
@@ -657,7 +657,7 @@ use Illuminate\Contracts\Support\Responsable;
  *
  * @template TData The type of data payload.
  *
- * @see \Pixielity\Response\Http\ApiResponse The concrete implementation.
+ * @see \Stackra\Response\Http\ApiResponse The concrete implementation.
  */
 interface ApiResponse extends Responsable
 {
@@ -824,7 +824,7 @@ checks each renderer against the client's Accept header.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 /**
  * Contract for content renderers.
@@ -845,8 +845,8 @@ namespace Pixielity\Contracts\Framework\Response;
  *
  * @template TData The type of data this renderer can handle.
  *
- * @see \Pixielity\Response\Attributes\AsRenderer Discovery attribute.
- * @see \Pixielity\Response\Resolvers\DefaultRendererResolver Content negotiation.
+ * @see \Stackra\Response\Attributes\AsRenderer Discovery attribute.
+ * @see \Stackra\Response\Resolvers\DefaultRendererResolver Content negotiation.
  */
 interface Renderer
 {
@@ -898,7 +898,7 @@ fallback.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 use Illuminate\Http\Request;
 
@@ -917,7 +917,7 @@ use Illuminate\Http\Request;
  * Renderers are auto-registered via #[AsRenderer] discovery at boot time.
  * Custom renderers can also be registered manually via register().
  *
- * @see \Pixielity\Response\Resolvers\DefaultRendererResolver The concrete implementation.
+ * @see \Stackra\Response\Resolvers\DefaultRendererResolver The concrete implementation.
  */
 interface RendererResolver
 {
@@ -974,7 +974,7 @@ hold no mutable request state.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 /**
  * Contract for response presets.
@@ -991,7 +991,7 @@ namespace Pixielity\Contracts\Framework\Response;
  *   - AdminPreset:  JSON, relaxed headers, debug on in non-prod, pretty-printed
  *   - MobilePreset: JSON, minimal headers, 5min cache, compact output, no debug
  *
- * @see \Pixielity\Response\Attributes\AsPreset Discovery attribute.
+ * @see \Stackra\Response\Attributes\AsPreset Discovery attribute.
  */
 interface Preset
 {
@@ -1058,7 +1058,7 @@ automatically — controllers never need to touch it.
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 /**
  * Contract for request-scoped response context.
@@ -1077,7 +1077,7 @@ namespace Pixielity\Contracts\Framework\Response;
  * Controllers can also set custom context data via set()/merge() for
  * advanced use cases (e.g., adding tenant context, feature flags).
  *
- * @see \Pixielity\Response\Services\ResponseContextManager The concrete implementation.
+ * @see \Stackra\Response\Services\ResponseContextManager The concrete implementation.
  */
 interface ResponseContext
 {
@@ -1194,7 +1194,7 @@ the renderer wants to add (e.g., charset, cache directives).
 
 declare(strict_types=1);
 
-namespace Pixielity\Contracts\Framework\Response;
+namespace Stackra\Contracts\Framework\Response;
 
 /**
  * Value object holding the output of a Renderer.
@@ -1210,7 +1210,7 @@ namespace Pixielity\Contracts\Framework\Response;
  *
  * Immutable via `final readonly` — once created, the result cannot be modified.
  *
- * @see \Pixielity\Contracts\Framework\Response\Renderer::render()
+ * @see \Stackra\Contracts\Framework\Response\Renderer::render()
  */
 final readonly class RendererResult
 {
@@ -1246,7 +1246,7 @@ negotiation ordering (higher = preferred).
 
 declare(strict_types=1);
 
-namespace Pixielity\Response\Attributes;
+namespace Stackra\Response\Attributes;
 
 use Attribute;
 
@@ -1269,8 +1269,8 @@ use Attribute;
  *   #[AsRenderer(priority: 50)]
  *   class JsonRenderer implements Renderer { ... }
  *
- * @see \Pixielity\Contracts\Framework\Response\Renderer The contract renderers implement.
- * @see \Pixielity\Response\Resolvers\DefaultRendererResolver Where renderers are registered.
+ * @see \Stackra\Contracts\Framework\Response\Renderer The contract renderers implement.
+ * @see \Stackra\Response\Resolvers\DefaultRendererResolver Where renderers are registered.
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class AsRenderer
@@ -1295,7 +1295,7 @@ class name is used.
 
 declare(strict_types=1);
 
-namespace Pixielity\Response\Attributes;
+namespace Stackra\Response\Attributes;
 
 use Attribute;
 
@@ -1313,8 +1313,8 @@ use Attribute;
  *   #[AsPreset(name: 'api')]
  *   class ApiPreset implements Preset { ... }
  *
- * @see \Pixielity\Contracts\Framework\Response\Preset The contract presets implement.
- * @see \Pixielity\Response\Factories\ResponseFactory Where presets are used.
+ * @see \Stackra\Contracts\Framework\Response\Preset The contract presets implement.
+ * @see \Stackra\Response\Factories\ResponseFactory Where presets are used.
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class AsPreset
@@ -1343,22 +1343,22 @@ delegates to ApiResponse when Laravel calls `toResponse()`.
 
 declare(strict_types=1);
 
-namespace Pixielity\Response\Builders;
+namespace Stackra\Response\Builders;
 
 use Illuminate\Container\Attributes\Scoped;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
-use Pixielity\Container\Attributes\Bind;
-use Pixielity\Contracts\Framework\Response\Preset;
-use Pixielity\Contracts\Framework\Response\Renderer;
-use Pixielity\Contracts\Framework\Response\ResponseBuilder as ResponseBuilderContract;
-use Pixielity\Response\Concerns\HasLinks;
-use Pixielity\Response\Concerns\HasMeta;
-use Pixielity\Response\Concerns\HasPagination;
-use Pixielity\Response\Concerns\ResolvesLazyData;
-use Pixielity\Response\Http\ApiResponse;
+use Stackra\Container\Attributes\Bind;
+use Stackra\Contracts\Framework\Response\Preset;
+use Stackra\Contracts\Framework\Response\Renderer;
+use Stackra\Contracts\Framework\Response\ResponseBuilder as ResponseBuilderContract;
+use Stackra\Response\Concerns\HasLinks;
+use Stackra\Response\Concerns\HasMeta;
+use Stackra\Response\Concerns\HasPagination;
+use Stackra\Response\Concerns\ResolvesLazyData;
+use Stackra\Response\Http\ApiResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
@@ -1462,17 +1462,17 @@ Symfony HTTP response.
 
 declare(strict_types=1);
 
-namespace Pixielity\Response\Http;
+namespace Stackra\Response\Http;
 
 use Illuminate\Container\Attributes\Scoped;
 use Illuminate\Pipeline\Pipeline;
-use Pixielity\Container\Attributes\Bind;
-use Pixielity\Contracts\Framework\Response\ApiResponse as ApiResponseContract;
-use Pixielity\Contracts\Framework\Response\RendererResolver;
-use Pixielity\Contracts\Framework\Response\ResponseContext;
-use Pixielity\Response\Concerns\HasLinks;
-use Pixielity\Response\Concerns\HasMeta;
-use Pixielity\Response\Concerns\ResolvesLazyData;
+use Stackra\Container\Attributes\Bind;
+use Stackra\Contracts\Framework\Response\ApiResponse as ApiResponseContract;
+use Stackra\Contracts\Framework\Response\RendererResolver;
+use Stackra\Contracts\Framework\Response\ResponseContext;
+use Stackra\Response\Concerns\HasLinks;
+use Stackra\Response\Concerns\HasMeta;
+use Stackra\Response\Concerns\ResolvesLazyData;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
@@ -1933,7 +1933,7 @@ The canonical response payload produced by `ApiResponse::buildPayload()`:
 
 ```
 packages/framework/src/Response/
-├── composer.json                    # pixielity/laravel-response
+├── composer.json                    # stackra/laravel-response
 ├── module.json                      # name: Response, alias: response
 ├── phpunit.xml
 ├── README.md

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the design for `Pixielity\Tenancy`, a highly structured,
+This document describes the design for `Stackra\Tenancy`, a highly structured,
 interface-driven, attribute-heavy single-database multi-tenancy Laravel 13
 package for a POS/venue management system. The package uses `tenant_id` column
 scoping (no separate databases per tenant) and is designed for a headless API
@@ -34,7 +34,7 @@ audit logging, subscription management, and health checks.
    each with interface and `#[Bind]`.
 6. **Event-driven bootstrapper lifecycle** — Tenant initialization/teardown
    fires events that trigger bootstrappers. Bootstrappers are auto-discovered
-   via `#[AsBootstrapper]` attribute from `pixielity/laravel-discovery`.
+   via `#[AsBootstrapper]` attribute from `stackra/laravel-discovery`.
 7. **Resolver chain with caching** — Multiple identification strategies
    evaluated in priority order. Resolved tenants are cached.
 8. **Key-value stores for settings/metadata** — Dedicated `tenant_settings` and
@@ -45,9 +45,9 @@ audit logging, subscription management, and health checks.
    transitions.
 10. **Audit logging via spatie/laravel-activitylog** — All tenant operations are
     automatically logged with tenant-scoped tags.
-11. **Feature flags via pixielity/laravel-feature-flags** — Built on Laravel
+11. **Feature flags via stackra/laravel-feature-flags** — Built on Laravel
     Pennant, scoped to tenant with repository pattern and helper functions.
-12. **Health checks via pixielity/laravel-health** — Tenant-scoped health checks
+12. **Health checks via stackra/laravel-health** — Tenant-scoped health checks
     with `#[AsHealthCheck]` attribute discovery.
 13. **Model Organization** — Each model has `Contracts/`, `Traits/ModelName/`
     with AccessorsTrait, RelationsTrait, ScopesTrait.
@@ -133,7 +133,7 @@ graph TB
 
     subgraph "Cross-Cutting Concerns"
         AL[ActivityLog - spatie/laravel-activitylog]
-        FF[Feature Flags - pixielity/laravel-feature-flags]
+        FF[Feature Flags - stackra/laravel-feature-flags]
         PEN[Laravel Pennant Scope → tenant]
     end
 ```
@@ -163,7 +163,7 @@ graph TB
 ### Contracts with `#[Bind]` Attributes
 
 ```php
-namespace Pixielity\Tenancy\Contracts;
+namespace Stackra\Tenancy\Contracts;
 
 use Illuminate\Container\Attributes\Bind;
 use Illuminate\Container\Attributes\Singleton;
@@ -342,12 +342,12 @@ interface TenantDataImportServiceInterface
 ### TenancyManager (Singleton)
 
 ```php
-namespace Pixielity\Tenancy;
+namespace Stackra\Tenancy;
 
 use Illuminate\Support\Traits\Macroable;
-use Pixielity\Tenancy\Contracts\TenancyManagerInterface;
-use Pixielity\Tenancy\Contracts\TenantInterface;
-use Pixielity\Tenancy\Contracts\TenancyBootstrapperInterface;
+use Stackra\Tenancy\Contracts\TenancyManagerInterface;
+use Stackra\Tenancy\Contracts\TenantInterface;
+use Stackra\Tenancy\Contracts\TenancyBootstrapperInterface;
 
 class TenancyManager implements TenancyManagerInterface
 {
@@ -769,7 +769,7 @@ Migration uses `TenantSubscriptionInterface::ATTR_*` constants.
 #### Tenant Model (Laravel 13 Attributes)
 
 ```php
-namespace Pixielity\Tenancy\Models\Tenant;
+namespace Stackra\Tenancy\Models\Tenant;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
@@ -779,11 +779,11 @@ use Laravel\Pennant\Concerns\HasFeatures;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\ModelStates\HasStates;
-use Pixielity\Tenancy\Models\Tenant\Contracts\TenantInterface;
-use Pixielity\Tenancy\Models\Tenant\Traits\Tenant\AccessorsTrait;
-use Pixielity\Tenancy\Models\Tenant\Traits\Tenant\RelationsTrait;
-use Pixielity\Tenancy\Models\Tenant\Traits\Tenant\ScopesTrait;
-use Pixielity\Tenancy\Models\States\Tenant\TenantState;
+use Stackra\Tenancy\Models\Tenant\Contracts\TenantInterface;
+use Stackra\Tenancy\Models\Tenant\Traits\Tenant\AccessorsTrait;
+use Stackra\Tenancy\Models\Tenant\Traits\Tenant\RelationsTrait;
+use Stackra\Tenancy\Models\Tenant\Traits\Tenant\ScopesTrait;
+use Stackra\Tenancy\Models\States\Tenant\TenantState;
 
 #[Table('tenants')]
 #[Unguarded]
@@ -798,9 +798,9 @@ class Tenant extends Model implements TenantInterface
     use ScopesTrait;
 
     protected $dispatchesEvents = [
-        'created' => \Pixielity\Tenancy\Events\TenantCreated::class,
-        'updated' => \Pixielity\Tenancy\Events\TenantUpdated::class,
-        'deleted' => \Pixielity\Tenancy\Events\TenantDeleted::class,
+        'created' => \Stackra\Tenancy\Events\TenantCreated::class,
+        'updated' => \Stackra\Tenancy\Events\TenantUpdated::class,
+        'deleted' => \Stackra\Tenancy\Events\TenantDeleted::class,
     ];
 
     protected function casts(): array
@@ -834,7 +834,7 @@ class Tenant extends Model implements TenantInterface
 #### TenantInterface with ATTR\_\* Constants
 
 ```php
-namespace Pixielity\Tenancy\Models\Tenant\Contracts;
+namespace Stackra\Tenancy\Models\Tenant\Contracts;
 
 interface TenantInterface
 {
@@ -854,16 +854,16 @@ interface TenantInterface
 #### TenantDomain Model
 
 ```php
-namespace Pixielity\Tenancy\Models\TenantDomain;
+namespace Stackra\Tenancy\Models\TenantDomain;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Model;
-use Pixielity\Tenancy\Models\TenantDomain\Contracts\TenantDomainInterface;
-use Pixielity\Tenancy\Models\TenantDomain\Traits\TenantDomain\AccessorsTrait;
-use Pixielity\Tenancy\Models\TenantDomain\Traits\TenantDomain\RelationsTrait;
-use Pixielity\Tenancy\Models\TenantDomain\Traits\TenantDomain\ScopesTrait;
-use Pixielity\Tenancy\Exceptions\DomainOccupiedByOtherTenantException;
+use Stackra\Tenancy\Models\TenantDomain\Contracts\TenantDomainInterface;
+use Stackra\Tenancy\Models\TenantDomain\Traits\TenantDomain\AccessorsTrait;
+use Stackra\Tenancy\Models\TenantDomain\Traits\TenantDomain\RelationsTrait;
+use Stackra\Tenancy\Models\TenantDomain\Traits\TenantDomain\ScopesTrait;
+use Stackra\Tenancy\Exceptions\DomainOccupiedByOtherTenantException;
 
 #[Table('tenant_domains')]
 #[Unguarded]
@@ -902,12 +902,12 @@ class TenantDomain extends Model implements TenantDomainInterface
 #### TenantSetting Model
 
 ```php
-namespace Pixielity\Tenancy\Models\TenantSetting;
+namespace Stackra\Tenancy\Models\TenantSetting;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Model;
-use Pixielity\Tenancy\Models\TenantSetting\Contracts\TenantSettingInterface;
+use Stackra\Tenancy\Models\TenantSetting\Contracts\TenantSettingInterface;
 
 #[Table('tenant_settings')]
 #[Unguarded]
@@ -921,14 +921,14 @@ class TenantSetting extends Model implements TenantSettingInterface
 #### TenantSubscription Model with State Machine
 
 ```php
-namespace Pixielity\Tenancy\Models\TenantSubscription;
+namespace Stackra\Tenancy\Models\TenantSubscription;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStates\HasStates;
-use Pixielity\Tenancy\Models\TenantSubscription\Contracts\TenantSubscriptionInterface;
-use Pixielity\Tenancy\Models\States\Subscription\SubscriptionState;
+use Stackra\Tenancy\Models\TenantSubscription\Contracts\TenantSubscriptionInterface;
+use Stackra\Tenancy\Models\States\Subscription\SubscriptionState;
 
 #[Table('tenant_subscriptions')]
 #[Unguarded]
@@ -956,7 +956,7 @@ class TenantSubscription extends Model implements TenantSubscriptionInterface
 #### TenantState (Abstract Base)
 
 ```php
-namespace Pixielity\Tenancy\Models\States\Tenant;
+namespace Stackra\Tenancy\Models\States\Tenant;
 
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
@@ -979,7 +979,7 @@ abstract class TenantState extends State
 #### SubscriptionState (Abstract Base)
 
 ```php
-namespace Pixielity\Tenancy\Models\States\Subscription;
+namespace Stackra\Tenancy\Models\States\Subscription;
 
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
@@ -1005,11 +1005,11 @@ abstract class SubscriptionState extends State
 
 ```php
 // Bootstrapper discovery
-namespace Pixielity\Tenancy\Bootstrappers;
+namespace Stackra\Tenancy\Bootstrappers;
 
-use Pixielity\Discovery\Attributes\AsBootstrapper;
-use Pixielity\Tenancy\Contracts\TenancyBootstrapperInterface;
-use Pixielity\Tenancy\Contracts\TenantInterface;
+use Stackra\Discovery\Attributes\AsBootstrapper;
+use Stackra\Tenancy\Contracts\TenancyBootstrapperInterface;
+use Stackra\Tenancy\Contracts\TenantInterface;
 
 #[AsBootstrapper]
 class RateLimitBootstrapper implements TenancyBootstrapperInterface
@@ -1043,7 +1043,7 @@ class TelescopeTags implements FeatureInterface { /* ... */ }
 class InitializeTenancyByHeader extends IdentificationMiddleware { /* ... */ }
 
 // Health check discovery
-use Pixielity\Health\Attributes\AsHealthCheck;
+use Stackra\Health\Attributes\AsHealthCheck;
 
 #[AsHealthCheck]
 class TenantDatabaseCheck extends Check
@@ -1112,10 +1112,10 @@ class TenantRepository implements TenantRepositoryInterface
 ### TenantBlueprint Macro
 
 ```php
-namespace Pixielity\Tenancy\Schema;
+namespace Stackra\Tenancy\Schema;
 
 use Illuminate\Database\Schema\Blueprint;
-use Pixielity\Tenancy\Models\Tenant\Contracts\TenantInterface;
+use Stackra\Tenancy\Models\Tenant\Contracts\TenantInterface;
 
 class TenantBlueprint
 {
@@ -1137,13 +1137,13 @@ class TenantBlueprint
 ### EnsureTenantIsActive Middleware
 
 ```php
-namespace Pixielity\Tenancy\Middleware;
+namespace Stackra\Tenancy\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Pixielity\Tenancy\Models\States\Tenant\ActiveState;
-use Pixielity\Tenancy\Models\States\Tenant\SuspendedState;
-use Pixielity\Tenancy\Models\States\Tenant\DeletedState;
+use Stackra\Tenancy\Models\States\Tenant\ActiveState;
+use Stackra\Tenancy\Models\States\Tenant\SuspendedState;
+use Stackra\Tenancy\Models\States\Tenant\DeletedState;
 
 class EnsureTenantIsActive
 {
@@ -1179,13 +1179,13 @@ class EnsureTenantIsActive
 ### CacheWarmingBootstrapper
 
 ```php
-namespace Pixielity\Tenancy\Bootstrappers;
+namespace Stackra\Tenancy\Bootstrappers;
 
-use Pixielity\Discovery\Attributes\AsBootstrapper;
-use Pixielity\Tenancy\Contracts\TenancyBootstrapperInterface;
-use Pixielity\Tenancy\Contracts\TenantInterface;
-use Pixielity\Tenancy\Contracts\TenantSettingRepositoryInterface;
-use Pixielity\Tenancy\Contracts\TenantMetadataRepositoryInterface;
+use Stackra\Discovery\Attributes\AsBootstrapper;
+use Stackra\Tenancy\Contracts\TenancyBootstrapperInterface;
+use Stackra\Tenancy\Contracts\TenantInterface;
+use Stackra\Tenancy\Contracts\TenantSettingRepositoryInterface;
+use Stackra\Tenancy\Contracts\TenantMetadataRepositoryInterface;
 
 #[AsBootstrapper]
 class CacheWarmingBootstrapper implements TenancyBootstrapperInterface
@@ -1221,17 +1221,17 @@ class CacheWarmingBootstrapper implements TenancyBootstrapperInterface
 ### Service Provider with HasDiscovery
 
 ```php
-namespace Pixielity\Tenancy\Providers;
+namespace Stackra\Tenancy\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Pixielity\Tenancy\Concerns\HasDiscovery;
-use Pixielity\Tenancy\Events\TenancyInitialized;
-use Pixielity\Tenancy\Events\TenancyEnded;
-use Pixielity\Tenancy\Listeners\BootstrapTenancy;
-use Pixielity\Tenancy\Listeners\RevertToCentralContext;
-use Pixielity\Tenancy\Schema\TenantBlueprint;
+use Stackra\Tenancy\Concerns\HasDiscovery;
+use Stackra\Tenancy\Events\TenancyInitialized;
+use Stackra\Tenancy\Events\TenancyEnded;
+use Stackra\Tenancy\Listeners\BootstrapTenancy;
+use Stackra\Tenancy\Listeners\RevertToCentralContext;
+use Stackra\Tenancy\Schema\TenantBlueprint;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -1283,29 +1283,29 @@ class TenancyServiceProvider extends ServiceProvider
 ```php
 return [
     'models' => [
-        'tenant' => \Pixielity\Tenancy\Models\Tenant\Tenant::class,
-        'domain' => \Pixielity\Tenancy\Models\TenantDomain\TenantDomain::class,
-        'setting' => \Pixielity\Tenancy\Models\TenantSetting\TenantSetting::class,
-        'metadata' => \Pixielity\Tenancy\Models\TenantMetadata\TenantMetadata::class,
-        'subscription' => \Pixielity\Tenancy\Models\TenantSubscription\TenantSubscription::class,
-        'impersonation_token' => \Pixielity\Tenancy\Models\ImpersonationToken::class,
+        'tenant' => \Stackra\Tenancy\Models\Tenant\Tenant::class,
+        'domain' => \Stackra\Tenancy\Models\TenantDomain\TenantDomain::class,
+        'setting' => \Stackra\Tenancy\Models\TenantSetting\TenantSetting::class,
+        'metadata' => \Stackra\Tenancy\Models\TenantMetadata\TenantMetadata::class,
+        'subscription' => \Stackra\Tenancy\Models\TenantSubscription\TenantSubscription::class,
+        'impersonation_token' => \Stackra\Tenancy\Models\ImpersonationToken::class,
         'tenant_key_column' => 'tenant_id',
     ],
 
     'identification' => [
         'resolvers' => [
-            \Pixielity\Tenancy\Resolvers\HeaderResolver::class => [
+            \Stackra\Tenancy\Resolvers\HeaderResolver::class => [
                 'header' => 'X-Tenant-ID',
                 'cache' => false,
                 'cache_ttl' => 3600,
                 'cache_store' => null,
             ],
-            \Pixielity\Tenancy\Resolvers\DomainResolver::class => [
+            \Stackra\Tenancy\Resolvers\DomainResolver::class => [
                 'cache' => true,
                 'cache_ttl' => 3600,
                 'cache_store' => null,
             ],
-            \Pixielity\Tenancy\Resolvers\SubdomainResolver::class => [
+            \Stackra\Tenancy\Resolvers\SubdomainResolver::class => [
                 'cache' => true,
                 'cache_ttl' => 3600,
                 'cache_store' => null,

@@ -1,9 +1,9 @@
-# Requirements Document — Search Package (`pixielity/laravel-search`)
+# Requirements Document — Search Package (`stackra/laravel-search`)
 
 ## Introduction
 
-The `pixielity/laravel-search` package provides the Elasticsearch implementation
-layer for the Pixielity monorepo. It builds on top of the framework Indexer
+The `stackra/laravel-search` package provides the Elasticsearch implementation
+layer for the Stackra monorepo. It builds on top of the framework Indexer
 sub-package (`packages/framework/src/Indexer/`) which owns the pure PHP
 foundation: attributes (`#[Indexed]`, `#[EmbedOne]`, `#[EmbedMany]`,
 `#[Aggregatable]`, `#[UseIndex]`), contracts (`IndexerInterface`,
@@ -140,8 +140,8 @@ packages/reporting/             ← Reporting package (separate spec — uses In
 ### Requirement 1: Package Scaffolding and Service Provider
 
 **User Story:** As a developer, I want the search package to follow the standard
-Pixielity package layout, so that it integrates seamlessly with the monorepo
-build system and module discovery.
+Stackra package layout, so that it integrates seamlessly with the monorepo build
+system and module discovery.
 
 #### Acceptance Criteria
 
@@ -150,13 +150,13 @@ build system and module discovery.
    `#[LoadsResources(migrations: true, config: true, routes: true, commands: true, publishables: true)]`.
 2. THE Search_Service_Provider SHALL implement `HasBindings` and register
    bindings for `SearchManagerInterface`, and any package-local interfaces.
-3. THE package SHALL use the namespace `Pixielity\Search` with PSR-4 autoloading
+3. THE package SHALL use the namespace `Stackra\Search` with PSR-4 autoloading
    from `src/`.
-4. THE package SHALL declare `pixielity/laravel-framework` (for Indexer
+4. THE package SHALL declare `stackra/laravel-framework` (for Indexer
    sub-package attributes, contracts, traits, enums, registry),
    `pdphilip/elasticsearch: ^5.0` (ES Eloquent driver),
-   `pixielity/laravel-discovery`, `pixielity/laravel-crud`,
-   `pixielity/laravel-database`, and `pixielity/laravel-tenancy` as composer
+   `stackra/laravel-discovery`, `stackra/laravel-crud`,
+   `stackra/laravel-database`, and `stackra/laravel-tenancy` as composer
    dependencies.
 5. THE package SHALL NOT depend on `laravel/scout`,
    `meilisearch/meilisearch-php`, `pdphilip/elasticlens`,
@@ -177,7 +177,7 @@ to Elasticsearch via `pdphilip/elasticsearch`.
 #### Acceptance Criteria
 
 1. THE `Indexer` class SHALL implement
-   `Pixielity\Indexer\Contracts\IndexerInterface` from the framework Indexer
+   `Stackra\Indexer\Contracts\IndexerInterface` from the framework Indexer
    sub-package.
 2. THE `Indexer` class SHALL be bound to `IndexerInterface` via
    `#[Bind(Indexer::class)]` on the interface (already declared in the
@@ -197,7 +197,7 @@ to Elasticsearch via `pdphilip/elasticsearch`.
 7. THE `Indexer` SHALL resolve the correct tenant-scoped or global index name
    from the framework's `IndexerRegistry` for all operations.
 8. THE `Indexer` SHALL reside in `packages/search/src/Services/Indexer.php`
-   under the namespace `Pixielity\Search\Services`.
+   under the namespace `Stackra\Search\Services`.
 
 ### Requirement 3: IndexManager Implementation (IndexManagerInterface)
 
@@ -208,8 +208,8 @@ deleted, rebuilt, and inspected programmatically.
 #### Acceptance Criteria
 
 1. THE `IndexManager` class SHALL implement
-   `Pixielity\Indexer\Contracts\IndexManagerInterface` from the framework
-   Indexer sub-package.
+   `Stackra\Indexer\Contracts\IndexManagerInterface` from the framework Indexer
+   sub-package.
 2. THE `IndexManager` class SHALL be bound to `IndexManagerInterface` via
    `#[Bind(IndexManager::class)]` on the interface (already declared in the
    framework).
@@ -236,7 +236,7 @@ deleted, rebuilt, and inspected programmatically.
    lifecycle operation.
 8. THE `IndexManager` SHALL reside in
    `packages/search/src/Services/IndexManager.php` under the namespace
-   `Pixielity\Search\Services`.
+   `Stackra\Search\Services`.
 
 ### Requirement 4: RecordBuilder Implementation (RecordBuilderInterface)
 
@@ -247,8 +247,8 @@ into ES documents with embedded relationship data flattened.
 #### Acceptance Criteria
 
 1. THE `RecordBuilder` class SHALL implement
-   `Pixielity\Indexer\Contracts\RecordBuilderInterface` from the framework
-   Indexer sub-package.
+   `Stackra\Indexer\Contracts\RecordBuilderInterface` from the framework Indexer
+   sub-package.
 2. THE `RecordBuilder` class SHALL be bound to `RecordBuilderInterface` via
    `#[Bind(RecordBuilder::class)]` on the interface (already declared in the
    framework).
@@ -269,11 +269,11 @@ into ES documents with embedded relationship data flattened.
    method SHALL build the document without persisting to ES, for validation and
    debugging.
 8. THE `RecordBuilder` SHALL follow the ElasticLens
-   `RecordBuilder`/`RecordMapper` pattern adapted to Pixielity conventions
+   `RecordBuilder`/`RecordMapper` pattern adapted to Stackra conventions
    (attributes instead of manual `fieldMap()` methods).
 9. THE `RecordBuilder` SHALL reside in
    `packages/search/src/Services/RecordBuilder.php` under the namespace
-   `Pixielity\Search\Services`.
+   `Stackra\Search\Services`.
 
 ### Requirement 5: Observer Chains for Embedded Model Sync
 
@@ -305,7 +305,7 @@ results stay in sync without manual re-indexing.
 7. ALL observer dispatches SHALL be queued jobs
    (`IndexBuildJob`/`IndexDeleteJob`) to ensure non-blocking request handling.
 8. THE observer classes SHALL reside in `packages/search/src/Observers/` under
-   the namespace `Pixielity\Search\Observers`.
+   the namespace `Stackra\Search\Observers`.
 
 ### Requirement 6: SearchBootstrapper (#[AsBootstrapper])
 
@@ -330,7 +330,7 @@ are transparently tenant-isolated.
    this is handled by the `IndexerRegistry`'s `isTenantScoped` flag).
 6. THE `SearchBootstrapper` SHALL reside in
    `packages/search/src/Bootstrappers/SearchBootstrapper.php` under the
-   namespace `Pixielity\Search\Bootstrappers`.
+   namespace `Stackra\Search\Bootstrappers`.
 
 ### Requirement 7: SearchManager Service
 
@@ -368,7 +368,7 @@ full-text search, filtering, sorting, geo-search, highlighting, and fallback.
    and registered as `#[Scoped]` for Octane safety.
 8. THE `SearchManager` SHALL reside in
    `packages/search/src/Services/SearchManager.php` under the namespace
-   `Pixielity\Search\Services`.
+   `Stackra\Search\Services`.
 
 ### Requirement 8: Unified Search API (GET /api/search)
 
@@ -541,7 +541,7 @@ retried on failure.
 7. ALL jobs SHALL resolve the correct tenant-scoped or global index name based
    on the entity's `isTenantScoped` flag from the framework's `IndexerRegistry`.
 8. THE job classes SHALL reside in `packages/search/src/Jobs/` under the
-   namespace `Pixielity\Search\Jobs`.
+   namespace `Stackra\Search\Jobs`.
 
 ### Requirement 15: Artisan Commands (search:index, search:flush, search:rebuild, search:status)
 
@@ -572,7 +572,7 @@ maintenance.
 7. THE `search:rebuild` command SHALL dispatch `BulkIndexJob`s in chunks for all
    records of the target entity, using the configured queue.
 8. THE command classes SHALL reside in `packages/search/src/Commands/` under the
-   namespace `Pixielity\Search\Commands`.
+   namespace `Stackra\Search\Commands`.
 
 ### Requirement 16: Tenant Lifecycle Listeners
 
@@ -591,7 +591,7 @@ removed, so that tenant search infrastructure is managed automatically.
 3. THE tenant lifecycle listeners SHALL read the list of tenant-scoped entities
    from the framework's `IndexerRegistry::tenantScoped()` method.
 4. THE listeners SHALL reside in `packages/search/src/Listeners/` under the
-   namespace `Pixielity\Search\Listeners`.
+   namespace `Stackra\Search\Listeners`.
 
 ### Requirement 17: SQL LIKE Fallback
 
@@ -642,7 +642,7 @@ infrastructure, so that monitoring systems can detect Elasticsearch issues.
    vs database records for each indexed entity (ElasticLens LensState pattern).
 7. THE `SearchHealthCheck` SHALL reside in
    `packages/search/src/HealthChecks/SearchHealthCheck.php` under the namespace
-   `Pixielity\Search\HealthChecks`.
+   `Stackra\Search\HealthChecks`.
 
 ### Requirement 19: Domain Events (#[AsEvent])
 
@@ -663,12 +663,12 @@ notifications.
    `#[AsEvent]` when the system switches to SQL LIKE fallback mode, containing
    the error reason.
 4. ALL events SHALL be `final readonly` DTOs carrying scalar values (not model
-   instances) following the Pixielity event convention.
+   instances) following the Stackra event convention.
 5. THE package SHALL NOT redefine the `DocumentIndexed` event — that event is
    owned by the framework Indexer sub-package and dispatched by the `Indexer`
    implementation after successful indexing.
 6. THE event classes SHALL reside in `packages/search/src/Events/` under the
-   namespace `Pixielity\Search\Events`.
+   namespace `Stackra\Search\Events`.
 
 ### Requirement 20: Search Analytics
 
@@ -718,7 +718,7 @@ that are not already provided by the framework Indexer sub-package.
    reporting and the framework's `BuildState` enum for document build state
    tracking.
 4. THE enum classes SHALL reside in `packages/search/src/Enums/` under the
-   namespace `Pixielity\Search\Enums`.
+   namespace `Stackra\Search\Enums`.
 
 ### Requirement 22: Configuration
 

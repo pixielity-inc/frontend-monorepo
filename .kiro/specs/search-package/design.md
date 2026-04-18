@@ -1,9 +1,9 @@
-# Design Document — Search Package (`pixielity/laravel-search`)
+# Design Document — Search Package (`stackra/laravel-search`)
 
 ## Overview
 
-The `pixielity/laravel-search` package is the Elasticsearch implementation layer
-for the Pixielity monorepo. It implements the three framework Indexer contracts
+The `stackra/laravel-search` package is the Elasticsearch implementation layer
+for the Stackra monorepo. It implements the three framework Indexer contracts
 (`IndexerInterface`, `IndexManagerInterface`, `RecordBuilderInterface`) using
 `pdphilip/elasticsearch` v5 as the ES Eloquent driver, and provides the full
 search orchestration layer: unified cross-entity search, entity-specific search,
@@ -30,7 +30,7 @@ analytics.
    base + embedded models. `BaseModelObserver` dispatches `IndexBuildJob` on
    save/delete. `EmbeddedModelTrigger` traverses relationship chains to rebuild
    parent documents. `SearchRecordBuilder` builds ES documents from model +
-   embeds. All adapted to use Pixielity attributes and Discovery instead of
+   embeds. All adapted to use Stackra attributes and Discovery instead of
    config-based field maps.
 
 4. **Index-Per-Tenant via setIndexPrefix()** — `SearchBootstrapper` calls
@@ -255,7 +255,7 @@ sequenceDiagram
 #### `SearchIndexer` — implements `IndexerInterface`
 
 Resides at `packages/search/src/Services/SearchIndexer.php` under
-`Pixielity\Search\Services`.
+`Stackra\Search\Services`.
 
 ```php
 #[Scoped]
@@ -313,7 +313,7 @@ class SearchIndexer implements IndexerInterface
 #### `SearchIndexManager` — implements `IndexManagerInterface`
 
 Resides at `packages/search/src/Services/SearchIndexManager.php` under
-`Pixielity\Search\Services`.
+`Stackra\Search\Services`.
 
 ```php
 #[Scoped]
@@ -398,7 +398,7 @@ class SearchIndexManager implements IndexManagerInterface
 #### `SearchRecordBuilder` — implements `RecordBuilderInterface`
 
 Resides at `packages/search/src/Services/SearchRecordBuilder.php` under
-`Pixielity\Search\Services`.
+`Stackra\Search\Services`.
 
 Adapted from ElasticLens `RecordBuilder`/`RecordMapper` pattern. Uses
 `IndexerRegistry` for config instead of `IndexConfig`.
@@ -452,7 +452,7 @@ class SearchRecordBuilder implements RecordBuilderInterface
 ### SearchManager Service
 
 Resides at `packages/search/src/Services/SearchManager.php` under
-`Pixielity\Search\Services`.
+`Stackra\Search\Services`.
 
 ```php
 #[Bind(SearchManagerInterface::class)]
@@ -1355,11 +1355,11 @@ record should have `is_zero_result` set to `true`. _For any_ search result where
 
 ### Property 18: Package events are final readonly DTOs with scalar properties
 
-_For any_ event class in the `Pixielity\Search\Events` namespace
-(`IndexCreated`, `IndexRebuilt`, `IndexFlushed`, `IndexDeleted`,
-`SearchPerformed`, `SearchFallbackActivated`), the class should be
-`final readonly` and all constructor parameters should be scalar types, enum
-types, or nullable scalar types.
+_For any_ event class in the `Stackra\Search\Events` namespace (`IndexCreated`,
+`IndexRebuilt`, `IndexFlushed`, `IndexDeleted`, `SearchPerformed`,
+`SearchFallbackActivated`), the class should be `final readonly` and all
+constructor parameters should be scalar types, enum types, or nullable scalar
+types.
 
 **Validates: Requirements 19.4**
 
